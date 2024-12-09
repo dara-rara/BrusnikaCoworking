@@ -2,6 +2,8 @@ package com.example.BrusnikaCoworking.adapter.web.auth;
 
 import com.example.BrusnikaCoworking.adapter.web.auth.dto.*;
 import com.example.BrusnikaCoworking.domain.user.UserEntity;
+import com.example.BrusnikaCoworking.exception.EmailRegisteredException;
+import com.example.BrusnikaCoworking.exception.LinkExpiredException;
 import com.example.BrusnikaCoworking.service.AuthService;
 import com.example.BrusnikaCoworking.service.UserService;
 import lombok.AccessLevel;
@@ -22,25 +24,36 @@ public class AuthController {
     private final UserService userService;
 
     @PostMapping("/registration")
-    public ResponseEntity<?> signUp(@RequestBody LogupUser request) throws Exception {
-        if (userService.usernameExists(request.username())) {
-            return ResponseEntity.badRequest()
-                    .body(new MessageResponse("Такой email уже существует!"));
+    public ResponseEntity<?> signUp(@RequestBody LogupUser request) {
+        try {
+            if (userService.validEmail(request.getUsername())) {
+                return ResponseEntity.ok(authService.signUp(request));
+            }
+            throw new Exception();
+        } catch (Exception e) {
+            throw new EmailRegisteredException("Email error");
         }
-        return ResponseEntity.ok(authService.signUp(request));
+    }
+
+    @PostMapping("/confirm")
+    public ResponseEntity<?> confirm(@RequestBody MessageResponse data) {
+        try {
+            return ResponseEntity.ok(authService.confirmRegistration(data.message()));
+        } catch (Exception e) {
+            throw new LinkExpiredException("The link is not valid");
+        }
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> signIn(@RequestBody LoginUser request) {
         try {
             if (!userService.usernameExists(request.username())) {
-                return ResponseEntity.badRequest()
-                        .body(new MessageResponse("Такой email не существует!"));
+                throw new EmailRegisteredException("Email: %s not registered".formatted(request.username()));
             }
             return ResponseEntity.ok(authService.signIn(request));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body(new MessageResponse("Неправильно набран пароль!"));
+                    .body(new MessageResponse("The password you selected is incorrect"));
         }
     }
 
@@ -50,7 +63,7 @@ public class AuthController {
             var response = authService.getNewAccessToken(token.token());
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.status(403).body(new MessageResponse("Refresh token не валиден!"));
+            return ResponseEntity.status(403).body(new MessageResponse("the refresh token is not valid"));
         }
     }
 

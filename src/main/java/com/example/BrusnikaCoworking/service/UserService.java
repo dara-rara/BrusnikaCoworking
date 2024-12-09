@@ -23,13 +23,13 @@ public class UserService implements UserDetailsService{
     private final PasswordEncoder passwordEncoder;
 
     public UserEntity createUser(LogupUser registrationRequest) {
-        if (usernameExists(registrationRequest.username())) {
-            throw new UsernameNotFoundException(registrationRequest.username());
+        if (usernameExists(registrationRequest.getUsername())) {
+            throw new UsernameNotFoundException(registrationRequest.getUsername());
         }
         var newUser = new UserEntity();
-        newUser.setUsername(registrationRequest.username());
-        newUser.setRealname(registrationRequest.realname());
-        newUser.setPassword(passwordEncoder.encode(registrationRequest.password()));
+        newUser.setUsername(registrationRequest.getUsername());
+        newUser.setRealname(registrationRequest.getRealname());
+        newUser.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
         newUser.setStatus(Status.UNBLOCK);
         newUser.setRole(Role.USER);
         return userRepository.save(newUser);
@@ -45,7 +45,13 @@ public class UserService implements UserDetailsService{
 
     public UserEntity getByUsername(String username) {
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден"));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+
+    public boolean validEmail(String username) {
+        var domen = username.split("@");
+        return !usernameExists(username.toLowerCase())
+                && (domen[1].equals("urfu.me") || domen[1].equals("at.urfu.ru"));
     }
 
     @Override

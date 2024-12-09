@@ -6,6 +6,7 @@ import com.example.BrusnikaCoworking.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -21,6 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
+@EnableAsync
 @EnableWebSecurity
 @EnableMethodSecurity
 @RequiredArgsConstructor
@@ -35,7 +37,8 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/Brusnika/registration", "/Brusnika/login", "/Brusnika/refresh").permitAll()
+                        .requestMatchers("/Brusnika/registration", "/Brusnika/confirm",
+                                "/Brusnika/login", "/Brusnika/refresh").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider())

@@ -22,3 +22,37 @@ spring:
     password: ${POSTGRES_PASSWORD:qaz%123%}
     driver-class-name: org.postgresql.Driver
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: brusnikacoworking@gmail.com
+    password: jubd fbby uzmk hvwb
+    properties:
+      mail:
+        smtp:
+          auth: true
+        smtp.starttls.enable: true
+  kafka:
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      bootstrap-servers: localhost:9092
+      properties:
+        spring:
+          json:
+            add:
+              type:
+                headers: false
+    consumer:
+      bootstrap-servers: localhost:9092
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
+      properties:
+        spring:
+          json:
+            add:
+              type:
+                headers: false
+server:
+  frontend-url: http://localhost:8080 #нужен front
