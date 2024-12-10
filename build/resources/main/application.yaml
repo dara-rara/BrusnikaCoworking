@@ -55,4 +55,4 @@ spring:
               type:
                 headers: false
 server:
-  frontend-url: http://localhost:8080 #нужен front
+  frontend-url: http://localhost:5173 #нужен front
