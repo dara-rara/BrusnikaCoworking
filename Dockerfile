@@ -1,4 +1,4 @@
 FROM openjdk:17
 ARG JAR_FILE=build/libs/*.jar
-COPY /build/libs/BrusnikaCoworking-*-SNAPSHOT.jar /app/app.jar
+COPY /build/libs/ ./
 ENTRYPOINT ["java","-jar","/app.jar"]
