@@ -69,7 +69,11 @@ public class AuthController {
 
     @GetMapping("/status")
     public ResponseEntity<?> getStatus(@AuthenticationPrincipal UserEntity user) {
-        return ResponseEntity.ok(new StatusResponse(user.getRole()));
+        try{
+            return ResponseEntity.ok(new StatusResponse(user.getRole()));
+        } catch (Exception e) {
+            return ResponseEntity.status(401).body(new MessageResponse("the access token is not valid"));
+        }
     }
 
     @GetMapping("/test")
