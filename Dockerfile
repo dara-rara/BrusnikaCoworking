@@ -11,4 +11,4 @@ COPY . /app
 EXPOSE 80
 
 # Run the application
-CMD ["java", "-jar", "/app/app.jar"]
+CMD ["java", "-jar", "/app.jar"]
