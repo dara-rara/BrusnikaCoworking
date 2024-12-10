@@ -17,9 +17,9 @@ spring:
       ddl-auto: update
 
   datasource:
-    url: jdbc:postgresql://${PGHOST:localhost}:${PGPORT:5432}/${POSTGRES_DB:brusnika}
+    url: jdbc:postgresql://${PGHOST:localhost}:${PGPORT:6432}/${POSTGRES_DB:brusnika}
     username: ${POSTGRES_USER:postgres}
-    password: ${POSTGRES_PASSWORD:qaz%123%}
+    password: ${POSTGRES_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 

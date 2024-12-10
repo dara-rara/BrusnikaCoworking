@@ -38,7 +38,7 @@ public class SecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/Brusnika/registration", "/Brusnika/confirm",
-                                "/Brusnika/login", "/Brusnika/refresh").permitAll()
+                                "/Brusnika/login", "/Brusnika/refresh", "/Brusnika/status").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider())
