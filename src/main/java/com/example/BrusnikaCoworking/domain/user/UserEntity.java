@@ -33,12 +33,11 @@ public class UserEntity implements UserDetails {
     @Column(name = "password", nullable = false)
     private String password;
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
-    private Status status;
+    @Column(name = "status_block", nullable = false)
+    private StatusBlock statusBlock;
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private Role role;
-
 
 
     @Override
@@ -53,7 +52,7 @@ public class UserEntity implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return status.name().equals("UNBLOCK") ? true : false;
+        return statusBlock.name().equals("UNBLOCK") ? true : false;
     }
 
     @Override

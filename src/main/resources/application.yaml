@@ -2,11 +2,11 @@ token:
   aes: yfUlESNWLkXxc+zPosFMFTqIALPaeiHvayLwJjKy9w0=
   signing:
     keyAccess: 53A73E5F1C4E0A2D3B5F2D784E6A1B423D6F247D1F6E5C3A596D635A75327855
-#    timeAccess: 7200000
-    timeAccess: 120000 #2 минуты
+    timeAccess: 7200000
+    #timeAccess: 120000 #2 минуты
     keyRefresh: 53A73E5F1C4E0A2D3B5F2D784E6A1B423D6F247D1F6E5C3A596D635A7532785553A73E5F1C4E0A2D3B5F2D784E6A1B423D6F247D1F6E5C3A596D635A75327855
-#    timeRefresh: 2592000000
-    timeRefresh: 300000 #5 минут
+    timeRefresh: 2592000000
+    #timeRefresh: 300000 #5 минут
 
 spring:
   application:

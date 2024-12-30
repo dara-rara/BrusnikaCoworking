@@ -1,9 +1,9 @@
 package com.example.BrusnikaCoworking.service;
 
-import com.example.BrusnikaCoworking.domain.user.UserEntity;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

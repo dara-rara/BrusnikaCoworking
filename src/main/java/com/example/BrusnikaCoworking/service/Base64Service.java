@@ -3,12 +3,17 @@ package com.example.BrusnikaCoworking.service;
 import com.example.BrusnikaCoworking.exception.Base64OperationException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Base64;
 
 @Service
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class Base64Service {
     private final ObjectMapper objectMapper;
 

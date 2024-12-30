@@ -1,4 +1,4 @@
-package com.example.BrusnikaCoworking.config;
+package com.example.BrusnikaCoworking.config.kafka;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;

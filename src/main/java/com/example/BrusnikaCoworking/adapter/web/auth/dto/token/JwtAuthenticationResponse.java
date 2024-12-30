@@ -1,4 +1,4 @@
-package com.example.BrusnikaCoworking.adapter.web.auth.dto;
+package com.example.BrusnikaCoworking.adapter.web.auth.dto.token;
 
 import com.example.BrusnikaCoworking.domain.user.Role;
 

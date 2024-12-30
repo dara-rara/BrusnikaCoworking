@@ -1,9 +1,12 @@
 package com.example.BrusnikaCoworking.service;
 
 import com.example.BrusnikaCoworking.adapter.web.auth.dto.*;
+import com.example.BrusnikaCoworking.adapter.web.auth.dto.mail.KafkaMailMessage;
+import com.example.BrusnikaCoworking.adapter.web.auth.dto.mail.NewPassword;
+import com.example.BrusnikaCoworking.adapter.web.auth.dto.mail.UpdatePassword;
+import com.example.BrusnikaCoworking.adapter.web.auth.dto.token.JwtAuthenticationResponse;
 import com.example.BrusnikaCoworking.config.jwt.JwtService;
 import com.example.BrusnikaCoworking.config.kafka.KafkaProducer;
-import com.example.BrusnikaCoworking.domain.user.UserEntity;
 import com.example.BrusnikaCoworking.exception.EmailRegisteredException;
 import com.example.BrusnikaCoworking.exception.LinkExpiredException;
 import lombok.RequiredArgsConstructor;
@@ -11,10 +14,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class AuthService {
 
@@ -35,8 +40,48 @@ public class AuthService {
     @Value("${token.signing.timeRefresh}")
     private Long jwtSigningTimeRefresh;
 
-    public static final String EMAIL_TOPIC = "email_message";
+    public static final String EMAIL_TOPIC_REG = "email_message_registration";
+    public static final String EMAIL_TOPIC_PAS = "email_message_password";
 
+    //Обновление пароля
+    public MessageResponse updatePassword(UpdatePassword updatePassword) {
+        try {
+            if (!userService.usernameExists(updatePassword.getUsername())) {
+                throw new EmailRegisteredException("email: %s not found".formatted(updatePassword.getUsername()));
+            }
+
+            var dataToSend = base64Service.encode(updatePassword);
+            kafkaProducer.produce(EMAIL_TOPIC_PAS, new KafkaMailMessage(updatePassword.getUsername(), dataToSend));
+            return new MessageResponse("ok");
+        } catch (Exception e) {
+            return new MessageResponse(e.getMessage());
+        }
+    }
+
+    //Подтверждение изменения пароля через почту
+    public JwtAuthenticationResponse confirmPassword(NewPassword newPassword) throws Exception{
+        var passwordDTO = base64Service.decode(newPassword.data(), UpdatePassword.class);
+
+        if (passwordDTO.getTime().isBefore(LocalDateTime.now().minusDays(1))) {
+            throw new LinkExpiredException("The link has expired");
+        }
+
+        if (!userService.usernameExists(passwordDTO.getUsername())) {
+            throw new EmailRegisteredException("email: %s not found".formatted(passwordDTO.getUsername()));
+        }
+
+        var user = userService.updatePasswordEmail(
+                userService.getByUsername(passwordDTO.getUsername()),
+                newPassword.password());
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                user.getUsername(),
+                newPassword.password()
+        ));
+        var jwtAccess = jwtService.generateToken(user, jwtSigningKeyAccess, jwtSigningTimeAccess);
+        var jwtRefresh = jwtService.generateToken(user, jwtSigningKeyRefresh, jwtSigningTimeRefresh);
+        var encryptToken = tokenService.editToken(jwtRefresh);
+        return new JwtAuthenticationResponse(jwtAccess, encryptToken, user.getRole());
+    }
 
     //Регистрация пользователя
     public MessageResponse signUp(LogupUser request) {
@@ -46,7 +91,7 @@ public class AuthService {
             }
 
             var dataToSend = base64Service.encode(request);
-            kafkaProducer.produce(EMAIL_TOPIC, new KafkaMailMessage(request.getUsername(), dataToSend));
+            kafkaProducer.produce(EMAIL_TOPIC_REG, new KafkaMailMessage(request.getUsername(), dataToSend));
             return new MessageResponse("ok");
         } catch (Exception e) {
             return new MessageResponse(e.getMessage());

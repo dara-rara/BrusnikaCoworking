@@ -1,6 +1,6 @@
 package com.example.BrusnikaCoworking.listener;
 
-import com.example.BrusnikaCoworking.adapter.web.auth.dto.KafkaMailMessage;
+import com.example.BrusnikaCoworking.adapter.web.auth.dto.mail.KafkaMailMessage;
 import com.example.BrusnikaCoworking.service.MailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,16 +10,17 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class MailListener {
+public class MailPasswordListener {
     private final MailService mailService;
 
     @KafkaListener(
-            topics = "email_message", groupId = "some"
+            topics = "email_message_password", groupId = "some"
     )
     void listen(
             KafkaMailMessage kafkaMailMessage
     ) {
         log.info("email message: {} ", kafkaMailMessage);
-        mailService.send(kafkaMailMessage, MessageMode.EMAIL_VERIFICATION);
+        mailService.send(kafkaMailMessage, MessageMode.PASSWORD_UPDATE);
     }
+
 }

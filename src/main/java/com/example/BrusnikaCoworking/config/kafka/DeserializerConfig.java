@@ -1,4 +1,4 @@
-package com.example.BrusnikaCoworking.config;
+package com.example.BrusnikaCoworking.config.kafka;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
