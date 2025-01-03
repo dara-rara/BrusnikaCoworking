@@ -3,6 +3,7 @@ package com.example.BrusnikaCoworking.exception.handler;
 import com.example.BrusnikaCoworking.exception.Base64OperationException;
 import com.example.BrusnikaCoworking.exception.EmailRegisteredException;
 import com.example.BrusnikaCoworking.exception.LinkExpiredException;
+import com.example.BrusnikaCoworking.exception.ReservalExistException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,11 @@ public class GlobalHandler {
     @ExceptionHandler(LinkExpiredException.class)
     public ResponseEntity<ProblemDetail> handle(LinkExpiredException e) {
         return withDetails.apply(HttpStatus.NOT_FOUND, e);
+    }
+
+    @ExceptionHandler(ReservalExistException.class)
+    public ResponseEntity<ProblemDetail> handle(ReservalExistException e) {
+        return withDetails.apply(HttpStatus.BAD_REQUEST, e);
     }
 
     private final BiFunction<HttpStatus, RuntimeException, ResponseEntity<ProblemDetail>>

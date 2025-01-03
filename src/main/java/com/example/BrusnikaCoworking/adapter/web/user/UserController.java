@@ -7,7 +7,7 @@ import com.example.BrusnikaCoworking.adapter.web.user.dto.profile.EditRealname;
 import com.example.BrusnikaCoworking.adapter.web.user.dto.reserval.DateAndTime;
 import com.example.BrusnikaCoworking.adapter.web.user.dto.reserval.ReservalForm;
 import com.example.BrusnikaCoworking.domain.user.UserEntity;
-import com.example.BrusnikaCoworking.service.ProfileService;
+import com.example.BrusnikaCoworking.service.ProfileNotificationService;
 import com.example.BrusnikaCoworking.service.ReservalService;
 import com.example.BrusnikaCoworking.service.UserService;
 import lombok.AccessLevel;
@@ -27,12 +27,12 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 @RequestMapping(value = "/Brusnika/user/", produces = APPLICATION_JSON_VALUE)
 public class UserController {
     private final ReservalService reservalService;
-    private final ProfileService profileService;
+    private final ProfileNotificationService profileNotificationService;
     private final UserService userService;
 
     @GetMapping("/profile")
     public ResponseEntity<?> getProfile(@AuthenticationPrincipal UserEntity user) {
-        return ResponseEntity.ok(profileService.getProfile(user));
+        return ResponseEntity.ok(profileNotificationService.getProfile(user));
     }
 
     @PostMapping("/updatePassword")
@@ -51,7 +51,7 @@ public class UserController {
     @GetMapping("/groupReserval/{id}")
     public ResponseEntity<?> confirmGroupReserval(@PathVariable Long id) {
         try {
-            return ResponseEntity.ok(profileService.confirmGroupReserval(id));
+            return ResponseEntity.ok(profileNotificationService.confirmGroupReserval(id));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
         }
@@ -59,7 +59,7 @@ public class UserController {
 
     @GetMapping("/notifications")
     public ResponseEntity<?> getAllNotification(@AuthenticationPrincipal UserEntity user) {
-        return ResponseEntity.ok(profileService.allNotification(user));
+        return ResponseEntity.ok(profileNotificationService.getListsNotificationAndReserval(user));
     }
 
     @PostMapping("/freeTables")
@@ -79,7 +79,7 @@ public class UserController {
                 return ResponseEntity.badRequest().body(new MessageResponse("The table is occupied"));
             return ResponseEntity.ok().body(new MessageResponse("Reserval created"));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Not valid data"));
+            return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
         }
     }
 

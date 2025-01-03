@@ -23,9 +23,12 @@ public class TaskEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_task;
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_reserval", nullable = false)
     private ReservalEntity reserval;
     @Column(name = "send_time", nullable = false)
     private LocalDateTime sendTime;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", nullable = false)
+    private Type type;
 }

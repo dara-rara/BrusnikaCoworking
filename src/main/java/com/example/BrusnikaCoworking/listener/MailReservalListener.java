@@ -10,17 +10,17 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class MailRegistrationListener {
+public class MailReservalListener {
     private final MailService mailService;
 
     @KafkaListener(
-            topics = "email_message_registration", groupId = "some"
+            topics = "email_message_reserval", groupId = "some"
     )
     void listen(
             KafkaMailMessage kafkaMailMessage
     ) {
         log.info("email message: {} ", kafkaMailMessage);
-        mailService.send(kafkaMailMessage, MessageMode.USER_VERIFICATION);
+        mailService.send(kafkaMailMessage, MessageMode.RESERVAL_CONFIRMATION);
     }
 
 }

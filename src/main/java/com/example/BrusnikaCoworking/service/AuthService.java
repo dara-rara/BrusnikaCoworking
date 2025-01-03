@@ -40,10 +40,10 @@ public class AuthService {
     @Value("${token.signing.timeRefresh}")
     private Long jwtSigningTimeRefresh;
 
-    public static final String EMAIL_TOPIC_REG = "email_message_registration";
-    public static final String EMAIL_TOPIC_PAS = "email_message_password";
+    private static final String EMAIL_TOPIC_REG = "email_message_registration";
+    private static final String EMAIL_TOPIC_PAS = "email_message_password";
 
-    //Обновление пароля
+    //Восстановление пароля
     public MessageResponse updatePassword(UpdatePassword updatePassword) {
         try {
             if (!userService.usernameExists(updatePassword.getUsername())) {
@@ -89,7 +89,6 @@ public class AuthService {
             if (userService.usernameExists(request.getUsername())) {
                 throw new EmailRegisteredException("email: %s registered yet".formatted(request.getUsername()));
             }
-
             var dataToSend = base64Service.encode(request);
             kafkaProducer.produce(EMAIL_TOPIC_REG, new KafkaMailMessage(request.getUsername(), dataToSend));
             return new MessageResponse("ok");

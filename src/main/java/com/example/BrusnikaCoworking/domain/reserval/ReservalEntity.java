@@ -40,14 +40,9 @@ public class ReservalEntity {
     @Temporal(TemporalType.DATE)
     @Column(name = "date", nullable = false)
     private LocalDate date;
-    @Column(name = "code")
-    private String code;
     @Enumerated(EnumType.STRING)
     @Column(name = "state_reserval", nullable = false)
-    private State stateReserval;//активная, подтвержденная или отмененная бронь
-    @Enumerated(EnumType.STRING)
-    @Column(name = "state_code", nullable = false)
-    private State stateCode; //подтверждение брони с помощью кода
+    private State stateReserval;//активная, подтвержденная, неподтвержденная или отмененная бронь
     @Enumerated(EnumType.STRING)
     @Column(name = "state_group", nullable = false)
     private State stateGroup;//наличие группы(при наличии группы нужно подтвержденние)

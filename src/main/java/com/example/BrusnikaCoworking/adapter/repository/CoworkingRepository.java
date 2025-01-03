@@ -25,6 +25,8 @@ public interface CoworkingRepository extends JpaRepository<CoworkingEntity,Long>
             "    OR :time2 BETWEEN r.time_start AND r.time_end)\n" +
             "    OR (:time1 < r.time_start AND :time2 > r.time_end))\n" +
             ") ORDER BY c.number ASC", nativeQuery = true)
-    List<Integer> findByNotReservalTable(@Param("date") Date date, @Param("time1") Date time1, @Param("time2") Date time2);
+    List<Integer> findByNotReservalTable(@Param("date") Date date,
+                                         @Param("time1") Date time1,
+                                         @Param("time2") Date time2);
 }
 

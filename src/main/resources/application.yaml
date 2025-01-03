@@ -26,8 +26,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: brusnikacoworking@gmail.com
-    password: jubd fbby uzmk hvwb
+    username: coworking.brusnika@gmail.com
+    password: cgbd ywxl rvpg fdqn
     properties:
       mail:
         smtp:
@@ -55,4 +55,5 @@ spring:
               type:
                 headers: false
 server:
-  frontend-url: http://localhost:5173 #нужен front
+  frontend-url: http://localhost:5173 #нужен base front
+  notification-url: /notification #нужен на раздел уведомлений
