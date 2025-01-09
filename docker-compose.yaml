@@ -39,14 +39,15 @@ services:
       - postgres
       - kafka
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
-      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
-      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:5173}
-      NOTIFICATION_URL: ${NOTIFICATION_URL:-/notification}
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+
     ports:
-      - "8080:8080"  # Порт для внешнего доступа
+      - "8080:8080"
     networks:
       - app-network
 

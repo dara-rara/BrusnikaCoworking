@@ -17,7 +17,7 @@ spring:
       ddl-auto: update
 
   datasource:
-    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:postgres}
+    url: jdbc:postgresql://${POSTGRES_HOST:postgres}:${POSTGRES_PORT:5432}/${POSTGRES_DB:postgres}
     username: ${POSTGRES_USER:postgres}
     password: ${POSTGRES_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
@@ -60,3 +60,4 @@ spring:
 server:
   frontend-url: ${FRONTEND_URL:http://localhost:5173} #нужен base front
   notification-url: ${NOTIFICATION_URL:/notification} #нужен на раздел уведомлений
+  port: 8000
