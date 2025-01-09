@@ -1,6 +1,5 @@
 package com.example.BrusnikaCoworking.adapter.web.user;
 
-import com.example.BrusnikaCoworking.adapter.web.auth.dto.MessageResponse;
 import com.example.BrusnikaCoworking.adapter.web.auth.dto.StatusResponse;
 import com.example.BrusnikaCoworking.adapter.web.user.dto.profile.EditPassword;
 import com.example.BrusnikaCoworking.adapter.web.user.dto.profile.EditRealname;
@@ -45,16 +44,23 @@ public class UserController {
     public ResponseEntity<?> updateRealname(@AuthenticationPrincipal UserEntity user,
                                             @RequestBody EditRealname editRealname) {
         userService.updateRealname(user, editRealname.realname());
-        return ResponseEntity.ok(new MessageResponse("Profile edit"));
+        return ResponseEntity.ok(profileNotificationService.getProfile(user));
     }
 
     @GetMapping("/groupReserval/{id}")
     public ResponseEntity<?> confirmGroupReserval(@PathVariable Long id) {
-        try {
-            return ResponseEntity.ok(profileNotificationService.confirmGroupReserval(id));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
-        }
+        return ResponseEntity.ok(profileNotificationService.confirmGroupReserval(id));
+    }
+
+    @GetMapping("/cancel/{id}")
+    public ResponseEntity<?> cancelReserval(@PathVariable Long id, @AuthenticationPrincipal UserEntity user) {
+        reservalService.cancelReserval(id);
+        return ResponseEntity.ok(profileNotificationService.getListsNotificationAndReserval(user));
+    }
+
+    @GetMapping("/group/{username}")
+    public ResponseEntity<?> getUserGroupReserval(@PathVariable String username) {
+        return ResponseEntity.ok(userService.getUser(username));
     }
 
     @GetMapping("/notifications")
@@ -64,23 +70,13 @@ public class UserController {
 
     @PostMapping("/freeTables")
     public ResponseEntity<?> getFreeTables(@RequestBody DateAndTime dateAndTime) {
-        try {
-            return ResponseEntity.ok(reservalService.getFreeTables(dateAndTime));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Not valid data"));
-        }
+        return ResponseEntity.ok(reservalService.getFreeTables(dateAndTime));
     }
 
     @PostMapping("/reserval")
     public ResponseEntity<?> createReserval(@RequestBody ReservalForm form,
                                             @AuthenticationPrincipal UserEntity user) {
-        try {
-            if (!reservalService.createReserval(form, user))
-                return ResponseEntity.badRequest().body(new MessageResponse("The table is occupied"));
-            return ResponseEntity.ok().body(new MessageResponse("Reserval created"));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
-        }
+        return ResponseEntity.ok().body(reservalService.createReserval(form, user));
     }
 
     @GetMapping("/status")

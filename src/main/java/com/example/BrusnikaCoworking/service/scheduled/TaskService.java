@@ -29,7 +29,7 @@ public class TaskService {
     }
 
     public void scheduleNotificationMemento(ReservalEntity reserval, LocalDateTime reservalTime) {
-        var sendTime = reservalTime.minusMinutes(60 * 24); // Уведомление за день до бронирования
+        var sendTime = reservalTime.minusDays(1); // Уведомление за день до бронирования
         var task = new TaskEntity();
         task.setReserval(reserval);
         task.setSendTime(sendTime);

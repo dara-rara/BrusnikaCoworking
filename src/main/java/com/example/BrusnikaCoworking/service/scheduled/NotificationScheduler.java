@@ -1,13 +1,14 @@
 package com.example.BrusnikaCoworking.service.scheduled;
 
-import com.example.BrusnikaCoworking.adapter.repository.NotificationRepository;
-import com.example.BrusnikaCoworking.adapter.repository.ReservalRepository;
-import com.example.BrusnikaCoworking.adapter.repository.TaskRepository;
+import com.example.BrusnikaCoworking.adapter.repository.*;
 import com.example.BrusnikaCoworking.adapter.web.auth.dto.mail.KafkaMailMessage;
 import com.example.BrusnikaCoworking.config.kafka.KafkaProducer;
 import com.example.BrusnikaCoworking.domain.notification.NotificationEntity;
 import com.example.BrusnikaCoworking.domain.notification.Type;
+import com.example.BrusnikaCoworking.domain.reserval.CodeEntity;
+import com.example.BrusnikaCoworking.domain.reserval.ReservalEntity;
 import com.example.BrusnikaCoworking.domain.reserval.State;
+import com.example.BrusnikaCoworking.domain.user.UserEntity;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -20,6 +21,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 @Transactional
@@ -29,14 +31,16 @@ public class NotificationScheduler {
     private final TaskRepository taskRepository;
     private final ReservalRepository reservalRepository;
     private final NotificationRepository notificationRepository;
+    private final UserRepository userRepository;
+    private final CodeRepository codeRepository;
     private final KafkaProducer kafkaProducer;
     private static final String EMAIL_TOPIC_R = "email_message_reserval";
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
 
     @Async("taskExecutor")
     @Transactional(rollbackFor = Exception.class, timeout = 30) // Тайм-аут 30 секунд
-    @Scheduled(fixedRate = 60000) // Запуск каждую минуту
-    public void createNotificationsAsyncCode() {
+    @Scheduled(fixedRate = 60000 * 5) // Запуск каждые 5 минут
+    public void createNotificationsCode() {
         try {
             var now = LocalDateTime.now();
             var tasks = taskRepository.findBySendTimeLessThanEqualAndType(now, Type.CODE); // Получаем задачи
@@ -57,10 +61,10 @@ public class NotificationScheduler {
                 taskIdsToDelete.add(task.getId_task()); // Добавляем задачу для удаления
             }
 
-            // Пакетное сохранение уведомлений
+            // Пакетное сохранение
             notificationRepository.saveAll(notifications);
 
-            // Пакетное удаление задач
+            // Пакетное удаление
             taskRepository.deleteAllById(taskIdsToDelete);
         } catch (Exception e) {
             // Логирование исключения
@@ -71,8 +75,8 @@ public class NotificationScheduler {
 
     @Async("taskExecutor")
     @Transactional(rollbackFor = Exception.class, timeout = 30) // Тайм-аут 30 секунд
-    @Scheduled(cron = "0 0 */6 * * *") // Запуск каждые 6 часов
-    public void createNotificationsAsyncMemento() {
+    @Scheduled(cron = "0 0 */5 * * *") // Запуск каждые 5 часов
+    public void createNotificationsMemento() {
         try {
             var now = LocalDateTime.now();
             var tasks = taskRepository.findBySendTimeLessThanEqualAndType(now, Type.MEMENTO); // Получаем задачи с типом NOTIFICATION
@@ -88,8 +92,121 @@ public class NotificationScheduler {
                 }
                 taskIdsToDelete.add(task.getId_task()); // Добавляем задачу для удаления
             }
-            // Пакетное удаление задач
+            // Пакетное удаление
             taskRepository.deleteAllById(taskIdsToDelete);
+        } catch (Exception e) {
+            // Логирование исключения
+            System.err.println(e.getMessage());
+            throw e; // Повторное выбрасывание исключения для отката транзакции
+        }
+    }
+
+    @Async("taskExecutor")
+    @Transactional(rollbackFor = Exception.class, timeout = 30) // Тайм-аут 30 секунд
+    @Scheduled(cron = "0 0 */3 * * *") // Запуск каждые 3 часов
+    public void checkReservationsCreated24HoursAgoWithStateGroupTrue() {
+        try {
+            var twentyFourHoursAgo = LocalDateTime.now().minusHours(24);
+            var reservals =
+                    reservalRepository.findBySendTimeBeforeAndStateGroup(twentyFourHoursAgo, State.TRUE);
+
+            for (var item : reservals) {
+                // Логика обработки бронирований
+                item.setStateReserval(State.FALSE);
+                item.setStateGroup(State.UNCONFIRMED);
+                reservalRepository.save(item);
+            }
+
+        } catch (Exception e) {
+            // Логирование исключения
+            System.err.println(e.getMessage());
+            throw e; // Повторное выбрасывание исключения для отката транзакции
+        }
+    }
+
+    @Async("taskExecutor")
+    @Transactional(rollbackFor = Exception.class, timeout = 60) // Тайм-аут 60 секунд
+    @Scheduled(cron = "0 0 3 * * *") // Запуск каждый день в 03:00
+    public void checkUnconfirmedReservals() {
+        try {
+            var now = LocalDateTime.now();
+            var unconfirmedReservals =
+                    reservalRepository.findByStateReservalAndDateBeforeAndStateGroup(now.toLocalDate());
+            List<ReservalEntity> reservals = new ArrayList<>();
+            for (var reserval : unconfirmedReservals) {
+                var user = reserval.getUser();
+                user.setCountBlock(user.getCountBlock() + 1);
+                userRepository.save(user);
+                reserval.setStateReserval(State.UNCONFIRMED);
+                reservals.add(reserval);
+            }
+            // Пакетное сохранение
+            reservalRepository.saveAll(reservals);
+
+            //Проверка ложных приглашений других людей
+            var unconfirmedGroup =  reservalRepository.findByStateGroup(State.UNCONFIRMED);
+            for (var reserval : unconfirmedGroup) {
+                var user = reserval.getInvit();
+                user.setCountBlock(user.getCountBlock() + 1);
+                userRepository.save(user);
+                reserval.setStateGroup(State.VERIFIED);
+                reservals.add(reserval);
+            }
+            // Пакетное сохранение
+            reservalRepository.saveAll(reservals);
+
+        } catch (Exception e) {
+            // Логирование исключения
+            System.err.println(e.getMessage());
+            throw e; // Повторное выбрасывание исключения для отката транзакции
+        }
+    }
+
+    @Async("taskExecutor")
+    @Transactional(rollbackFor = Exception.class, timeout = 60) // Тайм-аут 60 секунд
+    @Scheduled(cron = "0 0 2 * * *") // Запуск каждый день в 02:00
+    public void getRandomCode() {
+        try {
+            var now = LocalDateTime.now();
+
+            var random = new Random();
+            var sb = new StringBuilder();
+            for (int i = 0; i < 8; i++) {
+                // Генерация случайного числа в диапазоне
+                var randomAscii = 33 + random.nextInt(126 - 33 + 1);
+                // Преобразуем число в символ и добавляем в код
+                sb.append((char) randomAscii);
+            }
+
+            var code = new CodeEntity();
+            code.setSendTime(now);
+            code.setCode(sb.toString());
+            codeRepository.save(code);
+
+        } catch (Exception e) {
+            // Логирование исключения
+            System.err.println(e.getMessage());
+            throw e; // Повторное выбрасывание исключения для отката транзакции
+        }
+    }
+
+    @Async("taskExecutor")
+    @Transactional(rollbackFor = Exception.class, timeout = 100) // Тайм-аут 100 секунд
+    @Scheduled(cron = "0 0 5 ? */5 SAT") // Запуск в 05:00 каждые 5 месяцев по субботам
+    public void deleteOldReservalsAndNotifications() {
+        try {
+            var fiveMonthsAgo = LocalDateTime.now().minusMonths(5); // Дата 5 месяцев назад
+            List<ReservalEntity> oldReservals = reservalRepository.findByDateBefore(fiveMonthsAgo.toLocalDate());
+            //при реальном использовании лучше делать через каскадное удалени,
+            //но там есть вопросы с конкуретным доступом к ReservalEntity, так как при создании уведомления,
+            //нужно менять сущность ReservalEntity(сохранять NotificationEntity в список ReservalEntity)
+            for (var reserval : oldReservals) {
+                // Удаляем связанные уведомления
+                notificationRepository.deleteByReserval(reserval);
+            }
+            reservalRepository.deleteAll(oldReservals);
+            notificationRepository.deleteBySendTimeBefore(fiveMonthsAgo);
+            codeRepository.deleteBySendTimeBefore(fiveMonthsAgo);
         } catch (Exception e) {
             // Логирование исключения
             System.err.println(e.getMessage());

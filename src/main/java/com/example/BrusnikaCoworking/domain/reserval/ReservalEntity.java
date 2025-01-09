@@ -1,6 +1,5 @@
 package com.example.BrusnikaCoworking.domain.reserval;
 
-import com.example.BrusnikaCoworking.domain.coworking.CoworkingEntity;
 import com.example.BrusnikaCoworking.domain.user.UserEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -10,6 +9,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.FieldNameConstants;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -31,6 +31,8 @@ public class ReservalEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_table", nullable = false)
     private CoworkingEntity table;
+    @Column(name = "send_time", nullable = false)
+    private LocalDateTime sendTime;
     @Temporal(TemporalType.TIME)
     @Column(name = "time_start", nullable = false)
     private LocalTime timeStart;
@@ -45,9 +47,8 @@ public class ReservalEntity {
     private State stateReserval;//активная, подтвержденная, неподтвержденная или отмененная бронь
     @Enumerated(EnumType.STRING)
     @Column(name = "state_group", nullable = false)
-    private State stateGroup;//наличие группы(при наличии группы нужно подтвержденние)
+    private State stateGroup;//наличие группы(при наличии группы нужно подтверждение)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_invit")
     private UserEntity invit;
-
 }

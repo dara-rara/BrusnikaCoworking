@@ -1,6 +1,7 @@
 package com.example.BrusnikaCoworking.service;
 
 import com.example.BrusnikaCoworking.adapter.web.auth.dto.mail.KafkaMailMessage;
+import com.example.BrusnikaCoworking.exception.InternalServerErrorException;
 import com.example.BrusnikaCoworking.listener.MessageMode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -108,7 +109,7 @@ public class MailService {
             log.info("email send, msg: {}, mode: {}", kafkaMailMessage, mode);
         } catch (Exception e) {
 //            log.error("send mail error : {}", e.getMessage());
-            log.error("send mail error: {}", e.getMessage(), e); // Логируем полный стектрейс
+            log.error("send mail error: {}", e.getMessage()); // Логируем полный стектрейс
         }
     }
 }

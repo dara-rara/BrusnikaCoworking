@@ -1,8 +1,7 @@
 package com.example.BrusnikaCoworking.service;
 
-import lombok.AccessLevel;
+import com.example.BrusnikaCoworking.exception.CodingException;
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,18 +18,26 @@ public class TokenService {
     @Value("${token.aes}")
     private String keyAES;
 
-    public String editToken(String newToken) throws Exception {
-        var decodedKey = Base64.getDecoder().decode(keyAES);
-        var secretKey = new SecretKeySpec(decodedKey, 0, decodedKey.length, "AES");
-        var encryptToken = encrypt(newToken, secretKey);
-        return encryptToken;
+    public String editToken(String newToken)  {
+        try {
+            var decodedKey = Base64.getDecoder().decode(keyAES);
+            var secretKey = new SecretKeySpec(decodedKey, 0, decodedKey.length, "AES");
+            var encryptToken = encrypt(newToken, secretKey);
+            return encryptToken;
+        } catch (Exception e) {
+            throw new CodingException("error in encrypt refresh token");
+        }
     }
 
-    public String getToken(String tokenDecrypt) throws Exception {
-        var decodedKey = Base64.getDecoder().decode(keyAES);
-        var secretKey = new SecretKeySpec(decodedKey, 0, decodedKey.length, "AES");
-        var decryptToken = decrypt(tokenDecrypt, secretKey);;
-        return decryptToken;
+    public String getToken(String tokenDecrypt) {
+        try {
+            var decodedKey = Base64.getDecoder().decode(keyAES);
+            var secretKey = new SecretKeySpec(decodedKey, 0, decodedKey.length, "AES");
+            var decryptToken = decrypt(tokenDecrypt, secretKey);;
+            return decryptToken;
+        } catch (Exception e) {
+            throw new CodingException("error in decrypt refresh token");
+        }
     }
 
     // Метод для шифрования строки

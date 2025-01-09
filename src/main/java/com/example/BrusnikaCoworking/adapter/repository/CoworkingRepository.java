@@ -1,6 +1,6 @@
 package com.example.BrusnikaCoworking.adapter.repository;
 
-import com.example.BrusnikaCoworking.domain.coworking.CoworkingEntity;
+import com.example.BrusnikaCoworking.domain.reserval.CoworkingEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,7 +20,7 @@ public interface CoworkingRepository extends JpaRepository<CoworkingEntity,Long>
             "    SELECT r.id_table\n" +
             "    FROM Reservals r\n" +
             "    WHERE r.date = :date\n" +
-            "    AND r.state_reserval = 'TRUE'\n" +
+            "    AND (r.state_reserval = 'TRUE' OR r.state_reserval = 'ADMIN')\n" +
             "    AND ((:time1 BETWEEN r.time_start AND r.time_end\n" +
             "    OR :time2 BETWEEN r.time_start AND r.time_end)\n" +
             "    OR (:time1 < r.time_start AND :time2 > r.time_end))\n" +

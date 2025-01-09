@@ -1,44 +1,68 @@
 package com.example.BrusnikaCoworking.exception.handler;
 
-import com.example.BrusnikaCoworking.exception.Base64OperationException;
-import com.example.BrusnikaCoworking.exception.EmailRegisteredException;
-import com.example.BrusnikaCoworking.exception.LinkExpiredException;
-import com.example.BrusnikaCoworking.exception.ReservalExistException;
+import com.example.BrusnikaCoworking.adapter.web.auth.dto.MessageResponse;
+import com.example.BrusnikaCoworking.exception.*;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.util.function.BiFunction;
 
 
 @RestControllerAdvice
 public class GlobalHandler {
 
-    @ExceptionHandler(Base64OperationException.class)
-    public ResponseEntity<ProblemDetail> handle(Base64OperationException e) {
-        return withDetails.apply(HttpStatus.INTERNAL_SERVER_ERROR, e);
+    @ExceptionHandler(CodingException.class)
+    public ResponseEntity<MessageResponse> handle(CodingException ex) {
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new MessageResponse(ex.getMessage()));
     }
 
-    @ExceptionHandler(EmailRegisteredException.class)
-    public ResponseEntity<ProblemDetail> handle(EmailRegisteredException e) {
-        return withDetails.apply(HttpStatus.BAD_REQUEST, e);
+    @ExceptionHandler(EmailException.class)
+    public ResponseEntity<MessageResponse> handle(EmailException ex) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new MessageResponse(ex.getMessage()));
+    }
+
+    @ExceptionHandler(PasswordException.class)
+    public ResponseEntity<MessageResponse> handle(PasswordException ex) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new MessageResponse(ex.getMessage()));
+    }
+
+    @ExceptionHandler(ResourceException.class)
+    public ResponseEntity<MessageResponse> handle(ResourceException ex) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new MessageResponse(ex.getMessage()));
     }
 
     @ExceptionHandler(LinkExpiredException.class)
-    public ResponseEntity<ProblemDetail> handle(LinkExpiredException e) {
-        return withDetails.apply(HttpStatus.NOT_FOUND, e);
+    public ResponseEntity<MessageResponse> handle(LinkExpiredException ex) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new MessageResponse(ex.getMessage()));
     }
 
-    @ExceptionHandler(ReservalExistException.class)
-    public ResponseEntity<ProblemDetail> handle(ReservalExistException e) {
-        return withDetails.apply(HttpStatus.BAD_REQUEST, e);
+    @ExceptionHandler(ReservalException.class)
+    public ResponseEntity<MessageResponse> handle(ReservalException ex) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new MessageResponse(ex.getMessage()));
     }
 
-    private final BiFunction<HttpStatus, RuntimeException, ResponseEntity<ProblemDetail>>
-            withDetails = (status, ex) -> {
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(status, ex.getMessage());
-        return new ResponseEntity<>(problemDetail, status);
-    };
+    @ExceptionHandler(InternalServerErrorException.class)
+    public ResponseEntity<MessageResponse> handle(InternalServerErrorException ex) {
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new MessageResponse(ex.getMessage()));
+    }
+
+//    private final BiFunction<HttpStatus, RuntimeException, ResponseEntity<ProblemDetail>>
+//            withDetails = (status, ex) -> {
+//        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(status, ex.getMessage());
+//        return new ResponseEntity<>(problemDetail, status);
+//    };
 }

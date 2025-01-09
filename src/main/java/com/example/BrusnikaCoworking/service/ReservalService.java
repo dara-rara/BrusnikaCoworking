@@ -3,6 +3,9 @@ package com.example.BrusnikaCoworking.service;
 import com.example.BrusnikaCoworking.adapter.repository.CoworkingRepository;
 import com.example.BrusnikaCoworking.adapter.repository.NotificationRepository;
 import com.example.BrusnikaCoworking.adapter.repository.ReservalRepository;
+import com.example.BrusnikaCoworking.adapter.web.admin.dto.reserval.Date;
+import com.example.BrusnikaCoworking.adapter.web.admin.dto.reserval.ReservalActiveDate;
+import com.example.BrusnikaCoworking.adapter.web.admin.dto.reserval.ReservalAdminForm;
 import com.example.BrusnikaCoworking.adapter.web.auth.dto.MessageResponse;
 import com.example.BrusnikaCoworking.adapter.web.auth.dto.mail.KafkaMailMessage;
 import com.example.BrusnikaCoworking.adapter.web.user.dto.reserval.DateAndTime;
@@ -14,8 +17,10 @@ import com.example.BrusnikaCoworking.domain.notification.Type;
 import com.example.BrusnikaCoworking.domain.reserval.ReservalEntity;
 import com.example.BrusnikaCoworking.domain.reserval.State;
 import com.example.BrusnikaCoworking.domain.user.UserEntity;
-import com.example.BrusnikaCoworking.exception.EmailRegisteredException;
-import com.example.BrusnikaCoworking.exception.ReservalExistException;
+import com.example.BrusnikaCoworking.exception.EmailException;
+import com.example.BrusnikaCoworking.exception.InternalServerErrorException;
+import com.example.BrusnikaCoworking.exception.ReservalException;
+import com.example.BrusnikaCoworking.exception.ResourceException;
 import com.example.BrusnikaCoworking.service.scheduled.TaskService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
@@ -46,7 +52,53 @@ public class ReservalService {
     private final UserService userService;
     private final KafkaProducer kafkaProducer;
     private static final String EMAIL_TOPIC_GR = "email_message_reserval_group";
+    private static final DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("HH:mm");
 
+    public void cancelReserval(Long id) {
+        var optional = reservalRepository.findById(id);
+        if (optional.isEmpty()) throw new ReservalException("reserval not found");
+        var reserval = optional.get();
+        var y = reserval.getUser();
+        var currentDate = LocalDate.now();
+        var currentTime = LocalTime.now();
+        if ((reserval.getDate().isEqual(currentDate) && reserval.getTimeStart().isBefore(currentTime))
+                || reserval.getDate().isBefore(currentDate))
+            throw new ReservalException("it is not possible to cancel during or after reserval");
+        reserval.setStateReserval(State.FALSE);
+    }
+
+    public void cancelReservalAdmin(Long id) {
+        var optional = reservalRepository.findById(id);
+        if (optional.isEmpty()) throw new ReservalException("reserval not found");
+        var reserval = optional.get();
+        var currentDate = LocalDate.now();
+        var currentTime = LocalTime.now();
+        if ((reserval.getDate().isEqual(currentDate) && reserval.getTimeStart().isBefore(currentTime))
+                || reserval.getDate().isBefore(currentDate))
+            throw new ReservalException("it is not possible to cancel during or after reserval");
+        reserval.setStateReserval(State.FALSE);
+    }
+
+    public List<ReservalActiveDate> reservalsActiveUserDate(Date date) {
+        List<ReservalActiveDate> reservals = new ArrayList<>();
+        var reservalsEntity =
+                reservalRepository.findByDateAndStateReservalOrderByTimeStart(
+                        LocalDate.parse(date.date(), formatterDate));
+        for (var item : reservalsEntity) {
+            var reserval = new ReservalActiveDate(
+                    item.getId_reserval(),
+                    item.getUser().getUsername(),
+                    item.getUser().getRealname(),
+                    DateTimeFormatter.ofPattern("dd.MM.YYYY").format(item.getDate()),
+                    DateTimeFormatter.ofPattern("HH:mm").format(item.getTimeStart()),
+                    DateTimeFormatter.ofPattern("HH:mm").format(item.getTimeEnd()),
+                    item.getTable().getNumber()
+            );
+            reservals.add(reserval);
+        }
+        return reservals;
+    }
 
     public List<ReservalActive> reservalsActiveUser(UserEntity user) {
         List<ReservalActive> reservals = new ArrayList<>();
@@ -66,14 +118,10 @@ public class ReservalService {
     }
 
     public void reservalGroupNotification(ReservalEntity reserval) {
-        try {
-            if (!reservalRepository.existsById(reserval.getId_reserval())) {
-                throw new EmailRegisteredException("reserval: %s not found".formatted(reserval.getId_reserval()));
-            }
-            kafkaProducer.produce(EMAIL_TOPIC_GR, new KafkaMailMessage(reserval.getUser().getUsername(), ""));
-        } catch (Exception e) {
-            log.error(e.getMessage());
+        if (!reservalRepository.existsById(reserval.getId_reserval())) {
+            throw new EmailException("reserval: %s not found".formatted(reserval.getId_reserval()));
         }
+        kafkaProducer.produce(EMAIL_TOPIC_GR, new KafkaMailMessage(reserval.getUser().getUsername(), ""));
     }
 
     public MessageResponse updateStateGroup(ReservalEntity reserval) {
@@ -83,36 +131,73 @@ public class ReservalService {
             return new MessageResponse("Reserval confirmed");
         }
         else if (reserval.getStateGroup().equals(State.CONFIRMED))
-            return new MessageResponse("The reserval has already been confirmed");
-        else return new MessageResponse("The reserval is not group");
+            throw new ResourceException("The reserval has already been confirmed");
+        else throw new ResourceException("The reserval is not group");
     }
 
-    public List<Integer> getFreeTables(DateAndTime dateAndTime) throws ParseException {
-        return coworkingRepository.findByNotReservalTable(
-                new SimpleDateFormat("dd.MM.yyyy").parse(dateAndTime.date()),
-                new SimpleDateFormat("HH:mm").parse(dateAndTime.timeStart()),
-                new SimpleDateFormat("HH:mm").parse(dateAndTime.timeEnd()));
+    public List<Integer> getFreeTables(DateAndTime dateAndTime) {
+        try {
+            return coworkingRepository.findByNotReservalTable(
+                    new SimpleDateFormat("dd.MM.yyyy").parse(dateAndTime.date()),
+                    new SimpleDateFormat("HH:mm").parse(dateAndTime.timeStart()),
+                    new SimpleDateFormat("HH:mm").parse(dateAndTime.timeEnd()));
+        } catch (Exception e) {
+            throw new ResourceException("Not valid date or time");
+        }
     }
 
-    //нужна проверка, чтоб пользователь не смог забронить дважды на одно и то же время
-    public boolean createReserval(ReservalForm form, UserEntity user) throws ParseException {
+    public MessageResponse createAdminReserval(ReservalAdminForm form, UserEntity user) {
+        var dateForm = new DateAndTime(form.date(), form.timeStart(), form.timeEnd());
+        var freeTables = getFreeTables(dateForm);
+        var now = LocalDateTime.now();
+        if (checkTable(form.tables(), freeTables)) {
+            for (var item : form.tables()) {
+                var table = coworkingRepository.findByNumber(item);
+                var reserval = new ReservalEntity();
+                reserval.setUser(user);
+                reserval.setTable(table);
+                reserval.setSendTime(now);
+                try {
+                    reserval.setTimeStart(LocalTime.parse(form.timeStart(), formatterTime));
+                    reserval.setTimeEnd(LocalTime.parse(form.timeEnd(), formatterTime));
+                    reserval.setDate(LocalDate.parse(form.date(), formatterDate));
+                } catch (Exception e) {
+                    throw new ResourceException("Not valid date or time");
+                }
+                reserval.setStateReserval(State.ADMIN);
+                reserval.setStateGroup(State.FALSE);
+                reservalRepository.save(reserval);
+            }
+            return new MessageResponse("Reserval created");
+        }
+        throw new ReservalException("The table is occupied");
+    }
+
+    public MessageResponse createReserval(ReservalForm form, UserEntity user) {
         var dateForm = new DateAndTime(form.date(), form.timeStart(), form.timeEnd());
         var freeTables = getFreeTables(dateForm);
         var i = 0;
+        var now = LocalDateTime.now();
+        if (form.tables().size() != form.usernames().size())
+            throw new ReservalException("the number of tables and users is not equal");
         if (checkTable(form.tables(), freeTables)) {
             for (var item : form.tables()) {
                 var table = coworkingRepository.findByNumber(item);
                 var reserval = new ReservalEntity();
                 var userReserval = userService.getByUsername(form.usernames().get(i));
-                if(checkReserval(dateForm, userReserval))
-                    throw new ReservalExistException("The user " + userReserval.getUsername() +
+                if (checkReserval(dateForm, userReserval))
+                    throw new ReservalException("The user " + userReserval.getUsername() +
                             " already has a reserval for this time");
                 reserval.setUser(userReserval);
                 reserval.setTable(table);
-                reserval.setTimeStart(LocalTime.parse(form.timeStart()));
-                reserval.setTimeEnd(LocalTime.parse(form.timeEnd()));
-                var date = new SimpleDateFormat("dd.MM.yyyy").parse(form.date());
-                reserval.setDate(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+                reserval.setSendTime(now);
+                try {
+                    reserval.setTimeStart(LocalTime.parse(form.timeStart(), formatterTime));
+                    reserval.setTimeEnd(LocalTime.parse(form.timeEnd(), formatterTime));
+                    reserval.setDate(LocalDate.parse(form.date(), formatterDate));
+                } catch (Exception e) {
+                    throw new ResourceException("Not valid date or time");
+                }
                 reserval.setStateReserval(State.TRUE);
                 if (form.usernames().size() > 1) {
                     if (user.getUsername().equals(form.usernames().get(i))) {
@@ -123,7 +208,7 @@ public class ReservalService {
                         reserval.setInvit(user);
                         reservalRepository.save(reserval);
                         var notification = new NotificationEntity();
-                        notification.setSendTime(LocalDateTime.of(reserval.getDate(), reserval.getTimeStart()));
+                        notification.setSendTime(now);
                         notification.setReserval(reserval);
                         notification.setUser(userReserval);
                         notification.setType(Type.GROUP);
@@ -141,18 +226,21 @@ public class ReservalService {
 
                 i++;
             }
-            return true;
+            return new MessageResponse("Reserval created");
         }
-        return false;
+        throw new ReservalException("The table is occupied");
     }
 
-    private boolean checkReserval(DateAndTime dateAndTime, UserEntity user) throws ParseException {
-
-        return !reservalRepository.findActiveReservalsInTimeRangeForUser(
-                new SimpleDateFormat("dd.MM.yyyy").parse(dateAndTime.date()),
-                new SimpleDateFormat("HH:mm").parse(dateAndTime.timeStart()),
-                new SimpleDateFormat("HH:mm").parse(dateAndTime.timeEnd()),
-                user.getId_user()).isEmpty();
+    private boolean checkReserval(DateAndTime dateAndTime, UserEntity user) {
+        try {
+            return !reservalRepository.findActiveReservalsInTimeRangeForUser(
+                    new SimpleDateFormat("dd.MM.yyyy").parse(dateAndTime.date()),
+                    new SimpleDateFormat("HH:mm").parse(dateAndTime.timeStart()),
+                    new SimpleDateFormat("HH:mm").parse(dateAndTime.timeEnd()),
+                    user.getId_user()).isEmpty();
+        } catch (Exception e) {
+            throw new ResourceException("Not valid date or time");
+        }
     }
 
     private boolean checkTable(List<Integer> table, List<Integer> freeTables) {

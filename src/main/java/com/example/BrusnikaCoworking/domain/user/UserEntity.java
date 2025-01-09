@@ -32,9 +32,11 @@ public class UserEntity implements UserDetails {
     private String realname;
     @Column(name = "password", nullable = false)
     private String password;
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status_block", nullable = false)
-    private StatusBlock statusBlock;
+    @Column(name = "count_block", nullable = false)
+    private Integer countBlock;
+//    @Enumerated(EnumType.STRING)
+//    @Column(name = "status_block", nullable = false)
+//    private StatusBlock statusBlock;
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private Role role;
@@ -52,7 +54,7 @@ public class UserEntity implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return statusBlock.name().equals("UNBLOCK") ? true : false;
+        return countBlock < 3 ? true : false;
     }
 
     @Override

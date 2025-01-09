@@ -4,5 +4,7 @@ public enum State {
     TRUE,
     FALSE,
     CONFIRMED,
-    UNCONFIRMED
+    UNCONFIRMED,
+    VERIFIED,
+    ADMIN
 }

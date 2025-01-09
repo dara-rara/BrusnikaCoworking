@@ -1,23 +1,22 @@
 package com.example.BrusnikaCoworking.service;
 
-import com.example.BrusnikaCoworking.exception.Base64OperationException;
+import com.example.BrusnikaCoworking.exception.CodingException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Base64;
 
 @Service
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
-public class Base64Service {
+public class CodingService {
     private final ObjectMapper objectMapper;
 
-    public Base64Service(
+
+    public CodingService(
             @Qualifier("customObjectMapper") ObjectMapper objectMapper
     ) {
         this.objectMapper = objectMapper;
@@ -33,7 +32,7 @@ public class Base64Service {
             return objectMapper.readValue(jsonData,to);
 
         } catch (Exception e) {
-            throw new Base64OperationException("Failed to decode or convert the data", e);
+            throw new CodingException("failed to decode or convert the data");
         }
     }
 
@@ -42,7 +41,7 @@ public class Base64Service {
         try {
             jsonData = objectMapper.writeValueAsString(t);
         } catch (JsonProcessingException e) {
-            throw new Base64OperationException(e.getMessage());
+            throw new CodingException(e.getMessage());
         }
         return Base64.getEncoder().encodeToString(jsonData.getBytes());
     }

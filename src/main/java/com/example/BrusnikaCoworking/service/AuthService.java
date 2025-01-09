@@ -7,12 +7,15 @@ import com.example.BrusnikaCoworking.adapter.web.auth.dto.mail.UpdatePassword;
 import com.example.BrusnikaCoworking.adapter.web.auth.dto.token.JwtAuthenticationResponse;
 import com.example.BrusnikaCoworking.config.jwt.JwtService;
 import com.example.BrusnikaCoworking.config.kafka.KafkaProducer;
-import com.example.BrusnikaCoworking.exception.EmailRegisteredException;
+import com.example.BrusnikaCoworking.exception.EmailException;
 import com.example.BrusnikaCoworking.exception.LinkExpiredException;
+import com.example.BrusnikaCoworking.exception.PasswordException;
+import com.example.BrusnikaCoworking.exception.ResourceException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,8 +29,9 @@ public class AuthService {
     private final UserService userService;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
-    private final Base64Service base64Service;
+    private final CodingService codingService;
     private final KafkaProducer kafkaProducer;
 
     @Value("${token.signing.keyAccess}")
@@ -45,29 +49,23 @@ public class AuthService {
 
     //Восстановление пароля
     public MessageResponse updatePassword(UpdatePassword updatePassword) {
-        try {
-            if (!userService.usernameExists(updatePassword.getUsername())) {
-                throw new EmailRegisteredException("email: %s not found".formatted(updatePassword.getUsername()));
-            }
-
-            var dataToSend = base64Service.encode(updatePassword);
-            kafkaProducer.produce(EMAIL_TOPIC_PAS, new KafkaMailMessage(updatePassword.getUsername(), dataToSend));
-            return new MessageResponse("ok");
-        } catch (Exception e) {
-            return new MessageResponse(e.getMessage());
+        if (!userService.usernameExists(updatePassword.getUsername())) {
+            throw new EmailException("email: %s not found".formatted(updatePassword.getUsername()));
         }
+        var dataToSend = codingService.encode(updatePassword);
+        kafkaProducer.produce(EMAIL_TOPIC_PAS, new KafkaMailMessage(updatePassword.getUsername(), dataToSend));
+        return new MessageResponse("ok");
     }
 
     //Подтверждение изменения пароля через почту
-    public JwtAuthenticationResponse confirmPassword(NewPassword newPassword) throws Exception{
-        var passwordDTO = base64Service.decode(newPassword.data(), UpdatePassword.class);
+    public JwtAuthenticationResponse confirmPassword(NewPassword newPassword) {
+        var passwordDTO = codingService.decode(newPassword.data(), UpdatePassword.class);
 
         if (passwordDTO.getTime().isBefore(LocalDateTime.now().minusDays(1))) {
-            throw new LinkExpiredException("The link has expired");
+            throw new LinkExpiredException("the link has expired");
         }
-
         if (!userService.usernameExists(passwordDTO.getUsername())) {
-            throw new EmailRegisteredException("email: %s not found".formatted(passwordDTO.getUsername()));
+            throw new EmailException("email: %s not found".formatted(passwordDTO.getUsername()));
         }
 
         var user = userService.updatePasswordEmail(
@@ -85,30 +83,38 @@ public class AuthService {
 
     //Регистрация пользователя
     public MessageResponse signUp(LogupUser request) {
-        try {
-            if (userService.usernameExists(request.getUsername())) {
-                throw new EmailRegisteredException("email: %s registered yet".formatted(request.getUsername()));
-            }
-            var dataToSend = base64Service.encode(request);
-            kafkaProducer.produce(EMAIL_TOPIC_REG, new KafkaMailMessage(request.getUsername(), dataToSend));
-            return new MessageResponse("ok");
-        } catch (Exception e) {
-            return new MessageResponse(e.getMessage());
+        request.setUsername(request.getUsername().toLowerCase());
+        if (!userService.validEmail(request.getUsername())) {
+            throw new EmailException("email: %s does not belong to urfu".formatted(request.getUsername()));
         }
+        if (userService.usernameExists(request.getUsername())) {
+            throw new EmailException("email: %s registered yet".formatted(request.getUsername()));
+        }
+        var dataToSend = codingService.encode(request);
+        kafkaProducer.produce(EMAIL_TOPIC_REG, new KafkaMailMessage(request.getUsername(), dataToSend));
+        return new MessageResponse("ok");
     }
 
     //Подтверждение регистрации через почту
-    public JwtAuthenticationResponse confirmRegistration(String hash) throws Exception {
-        var userDTO = base64Service.decode(hash, LogupUser.class);
+    public JwtAuthenticationResponse confirmRegistration(String hash) {
+        var userDTO = codingService.decode(hash, LogupUser.class);
 
         if (userDTO.getTime().isBefore(LocalDateTime.now().minusDays(1))) {
-            throw new LinkExpiredException("The link has expired");
+            throw new LinkExpiredException("the link has expired");
         }
+        if (userService.usernameExists(userDTO.getUsername())) {
+            throw new EmailException("email: %s registered yet".formatted(userDTO.getUsername()));
+        }
+
         var user = userService.createUser(userDTO);
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                user.getUsername(),
-                userDTO.getPassword()
-        ));
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                    userDTO.getUsername(),
+                    userDTO.getPassword()
+            ));
+        } catch (Exception e) {
+            throw new PasswordException("the password you selected is incorrect");
+        }
         var jwtAccess = jwtService.generateToken(user, jwtSigningKeyAccess, jwtSigningTimeAccess);
         var jwtRefresh = jwtService.generateToken(user, jwtSigningKeyRefresh, jwtSigningTimeRefresh);
         var encryptToken = tokenService.editToken(jwtRefresh);
@@ -116,12 +122,24 @@ public class AuthService {
     }
 
     //Аутентификация пользователя
-    public JwtAuthenticationResponse signIn(LoginUser request) throws Exception {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                request.username(),
-                request.password()
-        ));
-        var user = userService.loadUserByUsername(request.username());
+    public JwtAuthenticationResponse signIn(LoginUser request) {
+        request.setUsername(request.getUsername().toLowerCase());
+        if (!userService.usernameExists(request.getUsername())) {
+            throw new EmailException("email: %s not registered".formatted(request.getUsername()));
+        }
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                    request.getUsername(),
+                    request.getPassword()
+            ));
+        } catch (Exception e) {
+            if (!passwordEncoder.matches(request.getPassword(),
+                    userService.getByUsername(request.getUsername()).getPassword()))
+                throw new PasswordException("the password you selected is incorrect");
+            throw new ResourceException(e.getMessage());
+        }
+
+        var user = userService.loadUserByUsername(request.getUsername());
         var jwtAccess = jwtService.generateToken(user, jwtSigningKeyAccess, jwtSigningTimeAccess);
         var jwtRefresh = jwtService.generateToken(user, jwtSigningKeyRefresh, jwtSigningTimeRefresh);
         var encryptToken = tokenService.editToken(jwtRefresh);
@@ -129,7 +147,7 @@ public class AuthService {
     }
 
     //Генерация access token при валидном refresh token
-    public JwtAuthenticationResponse getNewAccessToken(String encryptToken) throws Exception {
+    public JwtAuthenticationResponse getNewAccessToken(String encryptToken) {
         var token = tokenService.getToken(encryptToken);
         var username = jwtService.extractUserName(token, jwtSigningKeyRefresh);
         var user = userService.loadUserByUsername(username);

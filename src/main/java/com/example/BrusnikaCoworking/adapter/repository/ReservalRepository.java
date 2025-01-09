@@ -8,12 +8,31 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
 @Repository
 public interface ReservalRepository extends JpaRepository<ReservalEntity,Long> {
     List<ReservalEntity> findByUserAndStateReservalOrderByDateDesc(UserEntity user, State stateReserval);
+    @Query(value = "SELECT * FROM reservals r " +
+            "WHERE r.date = :date " +
+            "AND (r.state_reserval = 'TRUE' OR r.state_reserval = 'ADMIN') " +
+            "ORDER BY r.time_start",
+            nativeQuery = true)
+    List<ReservalEntity> findByDateAndStateReservalOrderByTimeStart(
+            @Param("date") LocalDate date);
+    List<ReservalEntity> findByStateGroup(State stateGroup);
+    @Query(value = "SELECT * FROM reservals r " +
+            "WHERE r.state_reserval = 'TRUE' " +
+            "AND r.date < :date " +
+            "AND (r.state_group = 'FALSE' OR r.state_group = 'CONFIRMED')",
+            nativeQuery = true)
+    List<ReservalEntity> findByStateReservalAndDateBeforeAndStateGroup(
+            @Param("date") LocalDate date);
+    List<ReservalEntity> findByDateBefore(LocalDate date);
+    List<ReservalEntity> findBySendTimeBeforeAndStateGroup(LocalDateTime sendTime, State stateGroup);
 
     @Query(value = "SELECT r.id_reserval FROM Reservals r\n" +
             "WHERE r.date = :date\n" +

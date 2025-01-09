@@ -1,4 +1,4 @@
-package com.example.BrusnikaCoworking.domain.coworking;
+package com.example.BrusnikaCoworking.domain.reserval;
 
 import jakarta.persistence.*;
 import lombok.Getter;

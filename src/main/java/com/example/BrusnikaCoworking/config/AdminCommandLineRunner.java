@@ -2,9 +2,8 @@ package com.example.BrusnikaCoworking.config;
 
 import com.example.BrusnikaCoworking.adapter.repository.CoworkingRepository;
 import com.example.BrusnikaCoworking.adapter.repository.UserRepository;
-import com.example.BrusnikaCoworking.domain.coworking.CoworkingEntity;
+import com.example.BrusnikaCoworking.domain.reserval.CoworkingEntity;
 import com.example.BrusnikaCoworking.domain.user.Role;
-import com.example.BrusnikaCoworking.domain.user.StatusBlock;
 import com.example.BrusnikaCoworking.domain.user.UserEntity;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +30,8 @@ public class AdminCommandLineRunner implements CommandLineRunner {
             user.setRealname("admin");
             user.setPassword(passwordEncoder.encode("admin"));
             user.setRole(Role.ADMIN);
-            user.setStatusBlock(StatusBlock.UNBLOCK);
+            user.setCountBlock(0);
+//            user.setStatusBlock(StatusBlock.UNBLOCK);
             userRepository.save(user);
         }
         if (userRepository.findByUsername("user").isEmpty()) {
@@ -40,7 +40,8 @@ public class AdminCommandLineRunner implements CommandLineRunner {
             user.setRealname("user");
             user.setPassword(passwordEncoder.encode("user"));
             user.setRole(Role.USER);
-            user.setStatusBlock(StatusBlock.UNBLOCK);
+            user.setCountBlock(0);
+//            user.setStatusBlock(StatusBlock.BLOCK);
             userRepository.save(user);
         }
         if (coworkingRepository.count() == 0) {
