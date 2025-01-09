@@ -8,10 +8,10 @@ group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 
 java {
-//	sourceCompatibility = '17'
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
-	}
+	sourceCompatibility = '17'
+//	toolchain {
+//		languageVersion = JavaLanguageVersion.of(21)
+//	}
 }
 
 
@@ -50,7 +50,3 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
-
-//tasks.named('bootJar') {
-//	archiveFileName = 'app.jar'
-//}

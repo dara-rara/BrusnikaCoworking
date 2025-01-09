@@ -2,32 +2,29 @@ version: '3.9'
 services:
   postgres:
     image: postgres:13.3
-    ports:
-      - "6432:5432"
     environment:
       POSTGRES_DB: "postgres"
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "${POSTGRES_PORT:-6432}:5432" # Порт для локального использования
     networks:
-      - default
-    command: [ "postgres", "-c", "listen_addresses=*" ]
+      - app-network
+
   zookeeper:
     image: confluentinc/cp-zookeeper:7.0.1
-    networks:
-      - broker-kafka
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - app-network
+
   kafka:
     image: confluentinc/cp-kafka:7.0.1
-    networks:
-      - broker-kafka
     depends_on:
       - zookeeper
-    ports:
-      - "9092:9092"
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
@@ -35,10 +32,31 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-networks:
-  broker-kafka:
-    driver: bridge
+    ports:
+      - "9092:9092"  # Порт для локального использования
+    networks:
+      - app-network
 
+  app:
+    image: brusnika-coworking-app  # Имя вашего Docker-образа
+    depends_on:
+      - postgres
+      - kafka
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:postgres}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:postgres}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:postgres}
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      FRONTEND_URL: ${FRONTEND_URL:http://localhost:5173}
+      NOTIFICATION_URL: ${NOTIFICATION_URL:/notification}
+    ports:
+      - "8080:8080"  # Порт для локального использования
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
 
 # для запуска файла выполнить команду в терминале:
 # docker compose up -d

@@ -1,16 +1,14 @@
-# Use an official openjdk image as a parent image
-FROM openjdk:17-slim-buster
+# Используем базовый образ с Java 17
+FROM openjdk:17-jdk-alpine
 
-# Set the working directory in the container to /app
+# Устанавливаем рабочую директорию внутри контейнера
 WORKDIR /app
 
-# Copy the current directory contents into the container at /app
-COPY . /app
+# Копируем JAR-файл приложения в контейнер
+COPY build/libs/BrusnikaCoworking-0.0.1-SNAPSHOT.jar app.jar
 
-RUN ls -l
+# Открываем порт, на котором работает приложение
+EXPOSE 8080
 
-# Make port 80 available to the world outside this container
-EXPOSE 80
-
-# Run the application
-CMD ["java", "-jar", "/app.jar"]
+# Команда для запуска приложения
+ENTRYPOINT ["java", "-jar", "app.jar"]
