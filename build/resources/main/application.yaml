@@ -22,6 +22,8 @@ spring:
     password: ${POSTGRES_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+    initialization-mode: always
+    continue-on-error: true
 
   mail:
     host: smtp.gmail.com

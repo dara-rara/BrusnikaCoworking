@@ -9,7 +9,7 @@ services:
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
-      - "${POSTGRES_PORT:-6432}:5432" # Порт для локального использования
+      - "6432:5432" # Порт для локального использования
     networks:
       - app-network
 

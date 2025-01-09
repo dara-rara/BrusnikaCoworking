@@ -1,1 +1,2 @@
 CREATE DATABASE brusnika;
+GRANT ALL PRIVILEGES ON DATABASE brusnika TO postgres;
