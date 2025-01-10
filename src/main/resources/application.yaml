@@ -66,4 +66,4 @@ spring:
 server:
   frontend-url: http://localhost:5173 #нужен base front
   notification-url: /notification #нужен на раздел уведомлений
-#  port: 8000
+  port: 8080
