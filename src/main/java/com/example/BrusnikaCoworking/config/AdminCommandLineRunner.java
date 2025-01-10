@@ -24,9 +24,9 @@ public class AdminCommandLineRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        if (userRepository.findByUsername("admin").isEmpty()) {
+        if (userRepository.findByUsername("admin@urfu.me").isEmpty()) {
             var user = new UserEntity();
-            user.setUsername("admin");
+            user.setUsername("admin@urfu.me");
             user.setRealname("admin");
             user.setPassword(passwordEncoder.encode("admin"));
             user.setRole(Role.ADMIN);
@@ -34,9 +34,9 @@ public class AdminCommandLineRunner implements CommandLineRunner {
 //            user.setStatusBlock(StatusBlock.UNBLOCK);
             userRepository.save(user);
         }
-        if (userRepository.findByUsername("user").isEmpty()) {
+        if (userRepository.findByUsername("user@urfu.me").isEmpty()) {
             var user = new UserEntity();
-            user.setUsername("user");
+            user.setUsername("user@urfu.me");
             user.setRealname("user");
             user.setPassword(passwordEncoder.encode("user"));
             user.setRole(Role.USER);
