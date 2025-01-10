@@ -22,7 +22,6 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 @RequestMapping(value = "/Brusnika/auth/", produces = APPLICATION_JSON_VALUE)
 public class AuthController {
     private final AuthService authService;
-    private final UserService userService;
 
     @PostMapping("/registration")
     public ResponseEntity<?> signUp(@RequestBody LogupUser request) {
