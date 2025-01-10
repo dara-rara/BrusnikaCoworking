@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://postgres:5432/postgres # URL для подключения к PostgreSQL
+    username: postgres # Имя пользователя PostgreSQL
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    initialization-mode: always
+    continue-on-error: true
+  kafka:
+    bootstrap-servers: kafka:9092
+  consumer:
+    bootstrap-servers: kafka:9092
