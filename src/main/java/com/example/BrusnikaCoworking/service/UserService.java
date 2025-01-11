@@ -30,14 +30,13 @@ public class UserService implements UserDetailsService{
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public ScanUser getUser(String username) {
-        var user = getByUsername(username);
-        return new ScanUser(user.getId_user(), user.getUsername(), user.getRealname());
-    }
-
-    public UserBlock getBlockUser(String username) {
-        var user = getByUsername(username);
-        return new UserBlock(user.getId_user(), user.getUsername(), user.getRealname(), user.getCountBlock());
+    public List<UserBlock> getBlockUsers(String prefix, Long id) {
+        var entities = userRepository.findByEmailStartingWith(prefix.toLowerCase(), id);
+        List<UserBlock> users = new ArrayList<>();
+        for(var item : entities) {
+            users.add(new UserBlock(item.getId_user(), item.getUsername(), item.getRealname(), item.getCountBlock()));
+        }
+        return users;
     }
 
     public List<UserBlock> getListBlockUser() {
@@ -104,6 +103,15 @@ public class UserService implements UserDetailsService{
     public void updateRealname(UserEntity user, String realname) {
         user.setRealname(realname);
         userRepository.save(user);
+    }
+
+    public List<ScanUser> getUsers(String prefix, Long id) {
+        var entities = userRepository.findByEmailStartingWith(prefix.toLowerCase(), id);
+        List<ScanUser> users = new ArrayList<>();
+        for(var item : entities) {
+            users.add(new ScanUser(item.getId_user(), item.getUsername(), item.getRealname()));
+        }
+        return users;
     }
 
     public boolean usernameExists(String name) {

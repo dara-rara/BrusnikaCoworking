@@ -40,9 +40,10 @@ public class AdminController {
         return ResponseEntity.ok(reservalService.reservalsActiveUserDate(date));
     }
 
-    @GetMapping("/list/{username}")
-    public ResponseEntity<?> getUserGroupReserval(@PathVariable String username) {
-        return ResponseEntity.ok(userService.getBlockUser(username));
+    @GetMapping("/list/{prefix}")
+    public ResponseEntity<?> getUserGroupReserval(@PathVariable String prefix,
+                                                  @AuthenticationPrincipal UserEntity user) {
+        return ResponseEntity.ok(userService.getBlockUsers(prefix, user.getId_user()));
     }
 
     @GetMapping("/listBlock")

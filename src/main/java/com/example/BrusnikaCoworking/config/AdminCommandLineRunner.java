@@ -34,11 +34,11 @@ public class AdminCommandLineRunner implements CommandLineRunner {
 //            user.setStatusBlock(StatusBlock.UNBLOCK);
             userRepository.save(user);
         }
-        if (userRepository.findByUsername("user@urfu.me").isEmpty()) {
+        if (userRepository.findByUsername("user1@urfu.me").isEmpty()) {
             var user = new UserEntity();
-            user.setUsername("user@urfu.me");
-            user.setRealname("user");
-            user.setPassword(passwordEncoder.encode("user"));
+            user.setUsername("user1@urfu.me");
+            user.setRealname("user1");
+            user.setPassword(passwordEncoder.encode("user1"));
             user.setRole(Role.USER);
             user.setCountBlock(0);
 //            user.setStatusBlock(StatusBlock.BLOCK);

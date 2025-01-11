@@ -53,14 +53,16 @@ public class UserController {
     }
 
     @GetMapping("/cancel/{id}")
-    public ResponseEntity<?> cancelReserval(@PathVariable Long id, @AuthenticationPrincipal UserEntity user) {
+    public ResponseEntity<?> cancelReserval(@PathVariable Long id,
+                                            @AuthenticationPrincipal UserEntity user) {
         reservalService.cancelReserval(id);
         return ResponseEntity.ok(profileNotificationService.getListsNotificationAndReserval(user));
     }
 
-    @GetMapping("/group/{username}")
-    public ResponseEntity<?> getUserGroupReserval(@PathVariable String username) {
-        return ResponseEntity.ok(userService.getUser(username));
+    @GetMapping("/group/{prefix}")
+    public ResponseEntity<?> getUserGroupReserval(@PathVariable String prefix,
+                                                  @AuthenticationPrincipal UserEntity user) {
+        return ResponseEntity.ok(userService.getUsers(prefix, user.getId_user()));
     }
 
     @GetMapping("/notifications")
