@@ -68,9 +68,9 @@ public class UserController {
         return ResponseEntity.ok(profileNotificationService.getListsNotificationAndReserval(user));
     }
 
-    @PostMapping("/freeTables")
+    @PostMapping("/busyTables")
     public ResponseEntity<?> getFreeTables(@RequestBody DateAndTime dateAndTime) {
-        return ResponseEntity.ok(reservalService.getFreeTables(dateAndTime));
+        return ResponseEntity.ok(reservalService.getBusyTables(dateAndTime));
     }
 
     @PostMapping("/reserval")

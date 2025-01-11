@@ -16,7 +16,7 @@ public interface CoworkingRepository extends JpaRepository<CoworkingEntity,Long>
 
     @Query(value = "SELECT c.number\n" +
             "FROM Coworking c\n" +
-            "WHERE c.id_table NOT IN (\n" +
+            "WHERE c.id_table IN (\n" +
             "    SELECT r.id_table\n" +
             "    FROM Reservals r\n" +
             "    WHERE r.date = :date\n" +

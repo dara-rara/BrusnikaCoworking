@@ -80,9 +80,9 @@ public class AdminController {
         return ResponseEntity.ok(profileNotificationService.getProfile(user));
     }
 
-    @PostMapping("/freeTables")
+    @PostMapping("/busyTables")
     public ResponseEntity<?> getFreeTables(@RequestBody DateAndTime dateAndTime) {
-        return ResponseEntity.ok(reservalService.getFreeTables(dateAndTime));
+        return ResponseEntity.ok(reservalService.getBusyTables(dateAndTime));
     }
 
     @PostMapping("/reserval")

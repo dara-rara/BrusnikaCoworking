@@ -23,7 +23,7 @@ spring:
           unique_constraint_strategy: RECREATE_QUIETLY
 
   datasource:
-    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:postgres}
+    url: jdbc:postgresql://${PGHOST:localhost}:${PGPORT:5432}/${POSTGRES_DB:postgres}
     username: ${POSTGRES_USER:postgres}
     password: ${POSTGRES_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
@@ -66,4 +66,4 @@ spring:
 server:
   frontend-url: http://localhost:5173 #нужен base front
   notification-url: /notification #нужен на раздел уведомлений
-#  port: 8000
+  port: 8080

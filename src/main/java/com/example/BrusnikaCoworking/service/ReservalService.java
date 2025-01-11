@@ -135,7 +135,7 @@ public class ReservalService {
         else throw new ResourceException("The reserval is not group");
     }
 
-    public List<Integer> getFreeTables(DateAndTime dateAndTime) {
+    public List<Integer> getBusyTables(DateAndTime dateAndTime) {
         try {
             return coworkingRepository.findByNotReservalTable(
                     new SimpleDateFormat("dd.MM.yyyy").parse(dateAndTime.date()),
@@ -148,7 +148,7 @@ public class ReservalService {
 
     public MessageResponse createAdminReserval(ReservalAdminForm form, UserEntity user) {
         var dateForm = new DateAndTime(form.date(), form.timeStart(), form.timeEnd());
-        var freeTables = getFreeTables(dateForm);
+        var freeTables = getBusyTables(dateForm);
         var now = LocalDateTime.now();
         if (checkTable(form.tables(), freeTables)) {
             for (var item : form.tables()) {
@@ -175,7 +175,7 @@ public class ReservalService {
 
     public MessageResponse createReserval(ReservalForm form, UserEntity user) {
         var dateForm = new DateAndTime(form.date(), form.timeStart(), form.timeEnd());
-        var freeTables = getFreeTables(dateForm);
+        var freeTables = getBusyTables(dateForm);
         var i = 0;
         var now = LocalDateTime.now();
         if (form.tables().size() != form.usernames().size())
@@ -243,7 +243,7 @@ public class ReservalService {
         }
     }
 
-    private boolean checkTable(List<Integer> table, List<Integer> freeTables) {
-        return freeTables.containsAll(table);
+    private boolean checkTable(List<Integer> table, List<Integer> busyTable) {
+        return !busyTable.containsAll(table);
     }
 }
