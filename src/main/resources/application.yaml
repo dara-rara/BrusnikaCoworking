@@ -27,7 +27,7 @@ spring:
     time-zone: Asia/Yekaterinburg
 
   datasource:
-    url: jdbc:postgresql://${PGHOST:localhost}:${PGPORT:5432}/${POSTGRES_DB:postgres}
+    url: jdbc:postgresql://${PGHOST:localhost}:${PGPORT:6432}/${POSTGRES_DB:brusnika}
     username: ${POSTGRES_USER:postgres}
     password: ${POSTGRES_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
@@ -68,6 +68,7 @@ spring:
                 headers: false
 
 server:
-  frontend-url: https://brusnikacoworking.netlify.app #нужен base front
+#  frontend-url: https://brusnikacoworking.netlify.app #нужен base front
+  frontend-url: http://localhost:5173
   notification-url: /notification #нужен на раздел уведомлений
   port: 8080

@@ -8,6 +8,8 @@ import com.example.BrusnikaCoworking.adapter.web.user.dto.profile.EditPassword;
 import com.example.BrusnikaCoworking.adapter.web.user.dto.reserval.ScanUser;
 import com.example.BrusnikaCoworking.domain.user.Role;
 import com.example.BrusnikaCoworking.domain.user.UserEntity;
+import com.example.BrusnikaCoworking.exception.EmailException;
+import com.example.BrusnikaCoworking.exception.InternalServerErrorException;
 import com.example.BrusnikaCoworking.exception.PasswordException;
 import com.example.BrusnikaCoworking.exception.ResourceException;
 import lombok.AccessLevel;
@@ -68,22 +70,25 @@ public class UserService implements UserDetailsService{
 
     public UserEntity getUserId(Long id) {
         var user = userRepository.findById(id);
-        if (user.isEmpty()) throw new  ResourceException("User not found");
+        if (user.isEmpty()) throw new ResourceException("User not found");
         return user.get();
      }
 
     public UserEntity createUser(LogupUser registrationRequest) {
         if (usernameExists(registrationRequest.getUsername())) {
-            throw new UsernameNotFoundException(registrationRequest.getUsername());
+            throw new EmailException("email: %s registered yet".formatted(registrationRequest.getUsername()));
         }
         var newUser = new UserEntity();
         newUser.setUsername(registrationRequest.getUsername());
         newUser.setRealname(registrationRequest.getRealname());
         newUser.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
-//        newUser.setStatusBlock(StatusBlock.UNBLOCK);
         newUser.setCountBlock(0);
         newUser.setRole(Role.USER);
-        return userRepository.save(newUser);
+        try {
+            return userRepository.save(newUser);
+        } catch (Exception e) {
+            throw new InternalServerErrorException("Error datasource.");
+        }
     }
 
     public UserEntity updatePasswordEmail(UserEntity user, String password) {
