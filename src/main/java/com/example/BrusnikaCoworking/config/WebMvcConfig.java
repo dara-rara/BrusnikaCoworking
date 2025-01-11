@@ -13,7 +13,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 //                .allowedOrigins("http://localhost:5173")
                 .allowedOrigins("https://brusnikacoworking.netlify.app")
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
-                .allowedHeaders("Authorization", "Content-Type")
+                .allowedHeaders("*")
                 .allowCredentials(true);
     }
     //http для localhost, https для хостинга

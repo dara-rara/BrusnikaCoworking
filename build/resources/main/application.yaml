@@ -68,6 +68,6 @@ spring:
                 headers: false
 
 server:
-  frontend-url: http://localhost:5173 #нужен base front
+  frontend-url: https://brusnikacoworking.netlify.app #нужен base front
   notification-url: /notification #нужен на раздел уведомлений
   port: 8080
