@@ -49,6 +49,7 @@ public class AuthService {
 
     //Восстановление пароля
     public MessageResponse updatePassword(UpdatePassword updatePassword) {
+        updatePassword.setUsername(updatePassword.getUsername().toLowerCase());
         if (!userService.usernameExists(updatePassword.getUsername())) {
             throw new EmailException("email: %s not found".formatted(updatePassword.getUsername()));
         }

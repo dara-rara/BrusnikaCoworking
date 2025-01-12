@@ -9,6 +9,7 @@ import com.example.BrusnikaCoworking.domain.reserval.CodeEntity;
 import com.example.BrusnikaCoworking.domain.reserval.ReservalEntity;
 import com.example.BrusnikaCoworking.domain.reserval.State;
 import com.example.BrusnikaCoworking.domain.user.UserEntity;
+import com.example.BrusnikaCoworking.service.CodingService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -32,6 +33,7 @@ public class NotificationScheduler {
     private final ReservalRepository reservalRepository;
     private final NotificationRepository notificationRepository;
     private final UserRepository userRepository;
+    private final CodingService codingService;
     private final CodeRepository codeRepository;
     private final KafkaProducer kafkaProducer;
     private static final String EMAIL_TOPIC_R = "email_message_reserval";
@@ -167,22 +169,7 @@ public class NotificationScheduler {
     @Scheduled(cron = "0 0 2 * * *") // Запуск каждый день в 02:00
     public void getRandomCode() {
         try {
-            var now = LocalDateTime.now();
-
-            var random = new Random();
-            var sb = new StringBuilder();
-            for (int i = 0; i < 8; i++) {
-                // Генерация случайного числа в диапазоне
-                var randomAscii = 33 + random.nextInt(126 - 33 + 1);
-                // Преобразуем число в символ и добавляем в код
-                sb.append((char) randomAscii);
-            }
-
-            var code = new CodeEntity();
-            code.setSendTime(now);
-            code.setCode(sb.toString());
-            codeRepository.save(code);
-
+            codingService.getCodeForReserval();
         } catch (Exception e) {
             // Логирование исключения
             System.err.println(e.getMessage());

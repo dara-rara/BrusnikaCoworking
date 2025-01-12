@@ -33,6 +33,12 @@ public class ProfileNotificationService {
     private final ReservalService reservalService;
     private final CodeRepository codeRepository;
 
+    public MessageResponse confirmReservalCode(Long id, MessageResponse response) {
+        var notification = notificationRepository.findById(id)
+                .orElseThrow(() -> new ResourceException("notification not found"));
+        return reservalService.updateStateCode(notification.getReserval(), response);
+    }
+
     public Profile getProfile(UserEntity user) {
          return new Profile(user.getUsername(), user.getRealname());
     }

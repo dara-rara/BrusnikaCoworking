@@ -46,10 +46,10 @@ public class AdminController {
         return ResponseEntity.ok(userService.getBlockUsers(prefix, user.getId_user()));
     }
 
-    @GetMapping("/listBlock")
-    public ResponseEntity<?> getUserBlock() {
-        return ResponseEntity.ok(userService.getListBlockUser());
-    }
+//    @GetMapping("/listBlock")
+//    public ResponseEntity<?> getUserBlock() {
+//        return ResponseEntity.ok(userService.getListBlockUser());
+//    }
 
     @GetMapping("/block/{id}")
     public ResponseEntity<?> block(@PathVariable Long id) {

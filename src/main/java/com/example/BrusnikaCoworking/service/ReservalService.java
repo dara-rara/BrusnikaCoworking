@@ -1,5 +1,6 @@
 package com.example.BrusnikaCoworking.service;
 
+import com.example.BrusnikaCoworking.adapter.repository.CodeRepository;
 import com.example.BrusnikaCoworking.adapter.repository.CoworkingRepository;
 import com.example.BrusnikaCoworking.adapter.repository.NotificationRepository;
 import com.example.BrusnikaCoworking.adapter.repository.ReservalRepository;
@@ -51,6 +52,7 @@ public class ReservalService {
     private final TaskService taskService;
     private final UserService userService;
     private final KafkaProducer kafkaProducer;
+    private final CodeRepository codeRepository;
     private static final String EMAIL_TOPIC_GR = "email_message_reserval_group";
     private static final DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("HH:mm");
@@ -59,7 +61,6 @@ public class ReservalService {
         var optional = reservalRepository.findById(id);
         if (optional.isEmpty()) throw new ReservalException("reserval not found");
         var reserval = optional.get();
-        var y = reserval.getUser();
         var currentDate = LocalDate.now();
         var currentTime = LocalTime.now();
         if ((reserval.getDate().isEqual(currentDate) && reserval.getTimeStart().isBefore(currentTime))
@@ -122,6 +123,27 @@ public class ReservalService {
             throw new EmailException("reserval: %s not found".formatted(reserval.getId_reserval()));
         }
         kafkaProducer.produce(EMAIL_TOPIC_GR, new KafkaMailMessage(reserval.getUser().getUsername(), ""));
+    }
+
+    public MessageResponse updateStateCode(ReservalEntity reserval, MessageResponse response) {
+        var opt = codeRepository.findTopByOrderBySendTimeDesc();
+        String code = null;
+        if (opt.isPresent()) code = opt.get().getCode();
+        var now = LocalDateTime.now();
+        if (reserval.getStateReserval().equals(State.TRUE)){
+            if (now.toLocalTime().isBefore(reserval.getTimeEnd())
+                    && reserval.getDate().isEqual(now.toLocalDate())) {
+                if (code.equals(response.message())) {
+                    reserval.setStateReserval(State.CONFIRMED);
+                    reservalRepository.save(reserval);
+                    return new MessageResponse("Reserval confirmed");
+                }
+                throw new ResourceException("The code is incorrect");
+            }
+            throw new ResourceException("The reserval has ended");
+        } else if (reserval.getStateReserval().equals(State.CONFIRMED))
+            throw new ResourceException("The reserval has already been confirmed");
+        throw new ResourceException("The reserval was cancelled");
     }
 
     public MessageResponse updateStateGroup(ReservalEntity reserval) {

@@ -5,6 +5,7 @@ import com.example.BrusnikaCoworking.adapter.repository.UserRepository;
 import com.example.BrusnikaCoworking.domain.reserval.CoworkingEntity;
 import com.example.BrusnikaCoworking.domain.user.Role;
 import com.example.BrusnikaCoworking.domain.user.UserEntity;
+import com.example.BrusnikaCoworking.service.CodingService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -21,6 +22,7 @@ public class AdminCommandLineRunner implements CommandLineRunner {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final CoworkingRepository coworkingRepository;
+    private final CodingService codingService;
 
     @Override
     public void run(String... args) {
@@ -44,6 +46,7 @@ public class AdminCommandLineRunner implements CommandLineRunner {
 //            user.setStatusBlock(StatusBlock.BLOCK);
             userRepository.save(user);
         }
+
         if (coworkingRepository.count() == 0) {
             for (var i = 0; i < 24; i++) {
                 var table = new CoworkingEntity();
@@ -51,5 +54,6 @@ public class AdminCommandLineRunner implements CommandLineRunner {
                 coworkingRepository.save(table);
             }
         }
+        codingService.getCodeForReserval();
     }
 }

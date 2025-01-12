@@ -1,5 +1,6 @@
 package com.example.BrusnikaCoworking.adapter.web.user;
 
+import com.example.BrusnikaCoworking.adapter.web.auth.dto.MessageResponse;
 import com.example.BrusnikaCoworking.adapter.web.auth.dto.StatusResponse;
 import com.example.BrusnikaCoworking.adapter.web.user.dto.profile.EditPassword;
 import com.example.BrusnikaCoworking.adapter.web.user.dto.profile.EditRealname;
@@ -50,6 +51,11 @@ public class UserController {
     @GetMapping("/groupReserval/{id}")
     public ResponseEntity<?> confirmGroupReserval(@PathVariable Long id) {
         return ResponseEntity.ok(profileNotificationService.confirmGroupReserval(id));
+    }
+
+    @PostMapping("/codeReserval/{id}")
+    public ResponseEntity<?> confirmCodeReserval(@PathVariable Long id, @RequestBody MessageResponse response) {
+        return ResponseEntity.ok(profileNotificationService.confirmReservalCode(id, response));
     }
 
     @GetMapping("/cancel/{id}")
