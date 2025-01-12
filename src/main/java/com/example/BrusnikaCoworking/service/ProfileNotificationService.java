@@ -17,9 +17,12 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -47,8 +50,44 @@ public class ProfileNotificationService {
     }
 
     public NotificationAndReserval getListsNotificationAndReserval (UserEntity user) {
+        var  notifications = allNotification(user);
+        var categories = categorizeNotifications(notifications);
         return new NotificationAndReserval(reservalService.reservalsActiveUser(user),
-                allNotification(user));
+                categories.get("today"), categories.get("last7Days"),
+                categories.get("lastMonth"), categories.get("older"));
+    }
+
+    public Map<String, List<NotificationForm>> categorizeNotifications(List<NotificationForm> notifications) {
+        var now = LocalDateTime.now();
+
+        Map<String, List<NotificationForm>> categorizedNotifications = new HashMap<>();
+        categorizedNotifications.put("today", new ArrayList<>());
+        categorizedNotifications.put("last7Days", new ArrayList<>());
+        categorizedNotifications.put("lastMonth", new ArrayList<>());
+        categorizedNotifications.put("older", new ArrayList<>());
+
+        for (var notification : notifications) {
+            // Преобразуем строку timeSend в LocalDateTime
+            var formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+            var notificationTime = LocalDateTime.parse(notification.timeSend(), formatter);
+
+            // Определяем, в какую категорию попадает уведомление
+            if (notificationTime.toLocalDate().isEqual(now.toLocalDate())) {
+                // Уведомления за сегодня
+                categorizedNotifications.get("today").add(notification);
+            } else if (notificationTime.isAfter(now.minusDays(7)) && notificationTime.isBefore(now)) {
+                // Уведомления за последние 7 дней
+                categorizedNotifications.get("last7Days").add(notification);
+            } else if (notificationTime.isAfter(now.minusMonths(1)) && notificationTime.isBefore(now)) {
+                // Уведомления за последний месяц
+                categorizedNotifications.get("lastMonth").add(notification);
+            } else {
+                // Все остальные уведомления
+                categorizedNotifications.get("older").add(notification);
+            }
+        }
+
+        return categorizedNotifications;
     }
 
     public List<NotificationForm> allNotification (UserEntity user) {
