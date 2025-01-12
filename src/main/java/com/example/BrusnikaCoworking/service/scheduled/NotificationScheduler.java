@@ -192,11 +192,11 @@ public class NotificationScheduler {
 
     @Async("taskExecutor")
     @Transactional(rollbackFor = Exception.class, timeout = 100) // Тайм-аут 100 секунд
-    @Scheduled(cron = "0 0 5 ? */5 SAT") // Запуск в 05:00 каждые 5 месяцев по субботам
+    @Scheduled(cron = "0 0 1 ? */5 SAT") // Запуск в 05:00 каждый месяц по субботам
     public void deleteOldReservalsAndNotifications() {
         try {
-            var fiveMonthsAgo = LocalDateTime.now().minusMonths(5); // Дата 5 месяцев назад
-            List<ReservalEntity> oldReservals = reservalRepository.findByDateBefore(fiveMonthsAgo.toLocalDate());
+            var MonthAgo = LocalDateTime.now().minusMonths(1); // Дата 5 месяцев назад
+            List<ReservalEntity> oldReservals = reservalRepository.findByDateBefore(MonthAgo.toLocalDate());
             //при реальном использовании лучше делать через каскадное удалени,
             //но там есть вопросы с конкуретным доступом к ReservalEntity, так как при создании уведомления,
             //нужно менять сущность ReservalEntity(сохранять NotificationEntity в список ReservalEntity)
@@ -205,8 +205,8 @@ public class NotificationScheduler {
                 notificationRepository.deleteByReserval(reserval);
             }
             reservalRepository.deleteAll(oldReservals);
-            notificationRepository.deleteBySendTimeBefore(fiveMonthsAgo);
-            codeRepository.deleteBySendTimeBefore(fiveMonthsAgo);
+            notificationRepository.deleteBySendTimeBefore(MonthAgo);
+            codeRepository.deleteBySendTimeBefore(MonthAgo);
         } catch (Exception e) {
             // Логирование исключения
             System.err.println(e.getMessage());

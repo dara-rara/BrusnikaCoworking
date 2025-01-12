@@ -54,7 +54,7 @@ public class ProfileNotificationService {
         var categories = categorizeNotifications(notifications);
         return new NotificationAndReserval(reservalService.reservalsActiveUser(user),
                 categories.get("today"), categories.get("last7Days"),
-                categories.get("lastMonth"), categories.get("older"));
+                categories.get("lastMonth"));
     }
 
     public Map<String, List<NotificationForm>> categorizeNotifications(List<NotificationForm> notifications) {
@@ -64,7 +64,6 @@ public class ProfileNotificationService {
         categorizedNotifications.put("today", new ArrayList<>());
         categorizedNotifications.put("last7Days", new ArrayList<>());
         categorizedNotifications.put("lastMonth", new ArrayList<>());
-        categorizedNotifications.put("older", new ArrayList<>());
 
         for (var notification : notifications) {
             // Преобразуем строку timeSend в LocalDateTime
@@ -78,12 +77,9 @@ public class ProfileNotificationService {
             } else if (notificationTime.isAfter(now.minusDays(7)) && notificationTime.isBefore(now)) {
                 // Уведомления за последние 7 дней
                 categorizedNotifications.get("last7Days").add(notification);
-            } else if (notificationTime.isAfter(now.minusMonths(1)) && notificationTime.isBefore(now)) {
+            } else {
                 // Уведомления за последний месяц
                 categorizedNotifications.get("lastMonth").add(notification);
-            } else {
-                // Все остальные уведомления
-                categorizedNotifications.get("older").add(notification);
             }
         }
 

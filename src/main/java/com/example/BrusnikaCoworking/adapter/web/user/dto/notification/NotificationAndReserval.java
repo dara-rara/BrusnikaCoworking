@@ -5,6 +5,5 @@ import java.util.List;
 public record NotificationAndReserval (List<ReservalActive> reservals,
                                        List<NotificationForm> todayNotifications,
                                        List<NotificationForm> last7DaysNotifications,
-                                       List<NotificationForm> lastMonthNotifications,
-                                       List<NotificationForm> olderNotifications){
+                                       List<NotificationForm> lastMonthNotifications){
 }
