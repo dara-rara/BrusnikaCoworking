@@ -45,33 +45,33 @@ spring:
         smtp:
           auth: true
         smtp.starttls.enable: true
-kafka:
-  producer:
-    key-serializer: org.apache.kafka.common.serialization.StringSerializer
-    value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-    bootstrap-servers: ${KAFKA_BOOTSTRAP:localhost}:9092
-    properties:
-      spring:
-        json:
-          add:
-            type:
-              headers: false
-  consumer:
-    bootstrap-servers: ${KAFKA_BOOTSTRAP:localhost}:9092
-    key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-    value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
-    properties:
-      spring:
-        json:
-          add:
-            type:
-              headers: false
-#      # Увеличение таймаутов
-#      socket.connection.setup.timeout.ms: 30000
-#      request.timeout.ms: 60000
-#      session.timeout.ms: 30000
-#      fetch.max.wait.ms: 500
-#      heartbeat.interval.ms: 3000
+  kafka:
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      bootstrap-servers: ${KAFKA_BOOTSTRAP:localhost}:9092
+      properties:
+        spring:
+          json:
+            add:
+              type:
+                headers: false
+    consumer:
+      bootstrap-servers: ${KAFKA_BOOTSTRAP:localhost}:9092
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
+      properties:
+        spring:
+          json:
+            add:
+              type:
+                headers: false
+      # Увеличение таймаутов
+      socket.connection.setup.timeout.ms: 30000
+      request.timeout.ms: 60000
+      session.timeout.ms: 30000
+      fetch.max.wait.ms: 500
+      heartbeat.interval.ms: 3000
 
 server:
   frontend-url: https://brusnikacoworking.netlify.app #нужен base front
