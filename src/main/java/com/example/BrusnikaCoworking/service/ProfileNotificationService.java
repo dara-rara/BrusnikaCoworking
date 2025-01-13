@@ -98,15 +98,17 @@ public class ProfileNotificationService {
         for(var item : notificationsEntity) {
             var reserval = item.getReserval();
             var invit = "";
-            var state = false;
+            var state = State.FALSE;
             if (item.getType().equals(Type.CODE)) {
                 //чтобы была возможность подтвердить бронь кодом
-                if (reserval.getStateReserval().equals(State.TRUE)) state = true;
+                if (reserval.getStateReserval().equals(State.CONFIRMED)) state = State.CONFIRMED;
+                else if (reserval.getStateReserval().equals(State.TRUE)) state = State.TRUE;
             }
             else if (item.getType().equals(Type.GROUP)) {
                 invit = reserval.getInvit().getUsername();
                 //чтобы была возможность подтвердить бронь при приглашении
-                if (reserval.getStateGroup().equals(State.TRUE)) state = true;
+                if (reserval.getStateGroup().equals(State.CONFIRMED)) state = State.CONFIRMED;
+                else if (reserval.getStateGroup().equals(State.TRUE)) state = State.TRUE;
             }
 
             var form = new NotificationForm(

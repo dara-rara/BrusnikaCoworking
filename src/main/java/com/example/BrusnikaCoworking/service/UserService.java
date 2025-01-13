@@ -70,7 +70,7 @@ public class UserService implements UserDetailsService{
 
     public UserEntity getUserId(Long id) {
         var user = userRepository.findById(id);
-        if (user.isEmpty()) throw new ResourceException("User not found");
+        if (user.isEmpty()) throw new ResourceException("user not found");
         return user.get();
      }
 
@@ -87,7 +87,7 @@ public class UserService implements UserDetailsService{
         try {
             return userRepository.save(newUser);
         } catch (Exception e) {
-            throw new InternalServerErrorException("Error datasource.");
+            throw new InternalServerErrorException("error datasource");
         }
     }
 

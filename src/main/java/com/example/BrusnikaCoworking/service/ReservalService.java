@@ -57,7 +57,7 @@ public class ReservalService {
     private static final DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("HH:mm");
 
-    public void cancelReserval(Long id) {
+    public MessageResponse cancelReserval(Long id) {
         var optional = reservalRepository.findById(id);
         if (optional.isEmpty()) throw new ReservalException("reserval not found");
         var reserval = optional.get();
@@ -67,6 +67,7 @@ public class ReservalService {
                 || reserval.getDate().isBefore(currentDate))
             throw new ReservalException("it is not possible to cancel during or after reserval");
         reserval.setStateReserval(State.FALSE);
+        return new MessageResponse("reserval cancelled");
     }
 
     public void cancelReservalAdmin(Long id) {
@@ -136,25 +137,25 @@ public class ReservalService {
                 if (code.equals(response.message())) {
                     reserval.setStateReserval(State.CONFIRMED);
                     reservalRepository.save(reserval);
-                    return new MessageResponse("Reserval confirmed");
+                    return new MessageResponse("reserval confirmed");
                 }
-                throw new ResourceException("The code is incorrect");
+                throw new ResourceException("the code is incorrect");
             }
-            throw new ResourceException("The reserval has ended");
+            throw new ResourceException("the reserval has ended");
         } else if (reserval.getStateReserval().equals(State.CONFIRMED))
-            throw new ResourceException("The reserval has already been confirmed");
-        throw new ResourceException("The reserval was cancelled");
+            throw new ResourceException("the reserval has already been confirmed");
+        throw new ResourceException("the reserval was cancelled");
     }
 
     public MessageResponse updateStateGroup(ReservalEntity reserval) {
         if (reserval.getStateGroup().equals(State.TRUE)) {
             reserval.setStateGroup(State.CONFIRMED);
             reservalRepository.save(reserval);
-            return new MessageResponse("Reserval confirmed");
+            return new MessageResponse("reserval confirmed");
         }
         else if (reserval.getStateGroup().equals(State.CONFIRMED))
-            throw new ResourceException("The reserval has already been confirmed");
-        else throw new ResourceException("The reserval is not group");
+            throw new ResourceException("the reserval has already been confirmed");
+        else throw new ResourceException("the reserval is not group");
     }
 
     public List<Integer> getBusyTables(DateAndTime dateAndTime) {
@@ -164,7 +165,7 @@ public class ReservalService {
                     new SimpleDateFormat("HH:mm").parse(dateAndTime.timeStart()),
                     new SimpleDateFormat("HH:mm").parse(dateAndTime.timeEnd()));
         } catch (Exception e) {
-            throw new ResourceException("Not valid date or time");
+            throw new ResourceException("not valid date or time");
         }
     }
 
@@ -184,15 +185,15 @@ public class ReservalService {
                     reserval.setTimeEnd(LocalTime.parse(form.timeEnd(), formatterTime));
                     reserval.setDate(LocalDate.parse(form.date(), formatterDate));
                 } catch (Exception e) {
-                    throw new ResourceException("Not valid date or time");
+                    throw new ResourceException("not valid date or time");
                 }
                 reserval.setStateReserval(State.ADMIN);
                 reserval.setStateGroup(State.FALSE);
                 reservalRepository.save(reserval);
             }
-            return new MessageResponse("Reserval created");
+            return new MessageResponse("reserval created");
         }
-        throw new ReservalException("The table is occupied");
+        throw new ReservalException("the table is occupied");
     }
 
     public MessageResponse createReserval(ReservalForm form, UserEntity user) {
@@ -208,7 +209,7 @@ public class ReservalService {
                 var reserval = new ReservalEntity();
                 var userReserval = userService.getByUsername(form.usernames().get(i));
                 if (checkReserval(dateForm, userReserval))
-                    throw new ReservalException("The user " + userReserval.getUsername() +
+                    throw new ReservalException("the user " + userReserval.getUsername() +
                             " already has a reserval for this time");
                 reserval.setUser(userReserval);
                 reserval.setTable(table);
@@ -218,7 +219,7 @@ public class ReservalService {
                     reserval.setTimeEnd(LocalTime.parse(form.timeEnd(), formatterTime));
                     reserval.setDate(LocalDate.parse(form.date(), formatterDate));
                 } catch (Exception e) {
-                    throw new ResourceException("Not valid date or time");
+                    throw new ResourceException("not valid date or time");
                 }
                 reserval.setStateReserval(State.TRUE);
                 if (form.usernames().size() > 1) {
@@ -248,9 +249,9 @@ public class ReservalService {
 
                 i++;
             }
-            return new MessageResponse("Reserval created");
+            return new MessageResponse("reserval created");
         }
-        throw new ReservalException("The table is occupied");
+        throw new ReservalException("the table is occupied");
     }
 
     private boolean checkReserval(DateAndTime dateAndTime, UserEntity user) {
@@ -261,7 +262,7 @@ public class ReservalService {
                     new SimpleDateFormat("HH:mm").parse(dateAndTime.timeEnd()),
                     user.getId_user()).isEmpty();
         } catch (Exception e) {
-            throw new ResourceException("Not valid date or time");
+            throw new ResourceException("not valid date or time");
         }
     }
 

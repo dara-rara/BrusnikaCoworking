@@ -55,7 +55,7 @@ public class AuthService {
         }
         var dataToSend = codingService.encode(updatePassword);
         kafkaProducer.produce(EMAIL_TOPIC_PAS, new KafkaMailMessage(updatePassword.getUsername(), dataToSend));
-        return new MessageResponse("ok");
+        return new MessageResponse("password updated");
     }
 
     //Подтверждение изменения пароля через почту
@@ -93,7 +93,7 @@ public class AuthService {
         }
         var dataToSend = codingService.encode(request);
         kafkaProducer.produce(EMAIL_TOPIC_REG, new KafkaMailMessage(request.getUsername(), dataToSend));
-        return new MessageResponse("ok");
+        return new MessageResponse("link sent");
     }
 
     //Подтверждение регистрации через почту

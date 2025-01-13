@@ -1,6 +1,7 @@
 package com.example.BrusnikaCoworking.adapter.web.user.dto.notification;
 
 import com.example.BrusnikaCoworking.domain.notification.Type;
+import com.example.BrusnikaCoworking.domain.reserval.State;
 
 public record NotificationForm (Long id,
                                 String dateReserval,
@@ -9,6 +10,6 @@ public record NotificationForm (Long id,
                                 Integer table,
                                 String timeSend,
                                 Type type,
-                                Boolean state,
+                                State state,
                                 String invit){
 }
