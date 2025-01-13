@@ -49,7 +49,7 @@ kafka:
   producer:
     key-serializer: org.apache.kafka.common.serialization.StringSerializer
     value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-    bootstrap-servers: ${KAFKA_BOOTSTRAP:localhost:9092}
+    bootstrap-servers: ${KAFKA_BOOTSTRAP:localhost}:9092
     properties:
       spring:
         json:
@@ -57,7 +57,7 @@ kafka:
             type:
               headers: false
   consumer:
-    bootstrap-servers: ${KAFKA_BOOTSTRAP:localhost:9092}
+    bootstrap-servers: ${KAFKA_BOOTSTRAP:localhost}:9092
     key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
     value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
     properties:
