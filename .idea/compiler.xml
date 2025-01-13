@@ -11,6 +11,6 @@
         <module name="BrusnikaCoworking.main" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="21" />
+    <bytecodeTargetLevel target="17" />
   </component>
 </project>
