@@ -59,15 +59,13 @@ kafka:
   consumer:
     bootstrap-servers: ${KAFKA_BOOTSTRAP:localhost}:9092
     key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-    value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+    value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
     properties:
       spring:
         json:
           add:
             type:
               headers: false
-          trusted:
-            packages: '*'  # Разрешить десериализацию всех пакетов
       # Увеличение таймаутов
       socket.connection.setup.timeout.ms: 30000
       request.timeout.ms: 60000
