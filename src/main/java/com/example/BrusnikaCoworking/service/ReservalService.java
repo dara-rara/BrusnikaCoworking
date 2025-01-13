@@ -104,8 +104,10 @@ public class ReservalService {
 
     public List<ReservalActive> reservalsActiveUser(UserEntity user) {
         List<ReservalActive> reservals = new ArrayList<>();
+        var now = LocalDateTime.now();
         var reservalsEntity =
-                reservalRepository.findByUserAndStateReservalOrderByDateDesc(user, State.TRUE);
+                reservalRepository.findByUserAndStateReservalAndDateAfterOrTimeEndAfter(
+                        user.getId_user(), now.toLocalDate(), now.toLocalTime());
         for (var item : reservalsEntity) {
             var reserval = new ReservalActive(
                     item.getId_reserval(),

@@ -10,12 +10,22 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
 @Repository
 public interface ReservalRepository extends JpaRepository<ReservalEntity,Long> {
-    List<ReservalEntity> findByUserAndStateReservalOrderByDateDesc(UserEntity user, State stateReserval);
+    @Query(value = "SELECT * FROM Reservals r " +
+            "WHERE r.id_user = :user " +
+            "AND r.state_reserval = 'TRUE' " +
+            "AND (r.date > :date OR (r.date = :date AND r.time_end > :timeEnd)) " +
+            "ORDER BY r.date, r.time_start",
+            nativeQuery = true)
+    List<ReservalEntity> findByUserAndStateReservalAndDateAfterOrTimeEndAfter(
+            @Param("user") Long user,
+            @Param("date") LocalDate date,
+            @Param("timeEnd") LocalTime timeEnd);
     @Query(value = "SELECT * FROM reservals r " +
             "WHERE r.date = :date " +
             "AND (r.state_reserval = 'TRUE' OR r.state_reserval = 'ADMIN') " +

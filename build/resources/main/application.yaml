@@ -27,7 +27,7 @@ spring:
     time-zone: Asia/Yekaterinburg
 
   datasource:
-    url: jdbc:postgresql://${PGHOST:localhost}:${PGPORT:6432}/${POSTGRES_DB:brusnika}
+    url: jdbc:postgresql://${PGHOST:localhost}:${PGPORT:6432}/${POSTGRES_DB:brusnika}?options=-c%20TimeZone=Asia/Yekaterinburg
     username: ${POSTGRES_USER:postgres}
     password: ${POSTGRES_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
@@ -45,29 +45,27 @@ spring:
         smtp:
           auth: true
         smtp.starttls.enable: true
-kafka:
-  producer:
-    key-serializer: org.apache.kafka.common.serialization.StringSerializer
-    value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-    bootstrap-servers: ${KAFKA_BOOTSTRAP:localhost:9092}
-    properties:
-      spring:
-        json:
-          add:
-            type:
-              headers: false
-  consumer:
-    bootstrap-servers: ${KAFKA_BOOTSTRAP:localhost:9092}
-    key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-    value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-    properties:
-      spring:
-        json:
-          add:
-            type:
-              headers: false
-          trusted:
-            packages: '*'  # Разрешить десериализацию всех пакетов
+  kafka:
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      bootstrap-servers: ${KAFKA_BOOTSTRAP:localhost}:9092
+      properties:
+        spring:
+          json:
+            add:
+              type:
+                headers: false
+    consumer:
+      bootstrap-servers: ${KAFKA_BOOTSTRAP:localhost}:9092
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
+      properties:
+        spring:
+          json:
+            add:
+              type:
+                headers: false
       # Увеличение таймаутов
       socket.connection.setup.timeout.ms: 30000
       request.timeout.ms: 60000
