@@ -17,6 +17,7 @@ import com.example.BrusnikaCoworking.domain.notification.NotificationEntity;
 import com.example.BrusnikaCoworking.domain.notification.Type;
 import com.example.BrusnikaCoworking.domain.reserval.ReservalEntity;
 import com.example.BrusnikaCoworking.domain.reserval.State;
+import com.example.BrusnikaCoworking.domain.user.Role;
 import com.example.BrusnikaCoworking.domain.user.UserEntity;
 import com.example.BrusnikaCoworking.exception.EmailException;
 import com.example.BrusnikaCoworking.exception.InternalServerErrorException;
@@ -57,10 +58,13 @@ public class ReservalService {
     private static final DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("HH:mm");
 
-    public MessageResponse cancelReserval(Long id) {
+    public MessageResponse cancelReserval(Long id, UserEntity user) {
         var optional = reservalRepository.findById(id);
         if (optional.isEmpty()) throw new ReservalException("reserval not found");
         var reserval = optional.get();
+        if (!(reserval.getUser().getUsername().equals(user.getUsername())
+                || user.getRole().equals(Role.ADMIN)))
+            throw new ResourceException("no rights to cancel a reserval");
         var currentDate = LocalDate.now();
         var currentTime = LocalTime.now();
         if ((reserval.getDate().isEqual(currentDate) && reserval.getTimeStart().isBefore(currentTime))
@@ -69,6 +73,8 @@ public class ReservalService {
         reserval.setStateReserval(State.FALSE);
         return new MessageResponse("reserval cancelled");
     }
+
+
 
     public void cancelReservalAdmin(Long id) {
         var optional = reservalRepository.findById(id);
@@ -83,23 +89,27 @@ public class ReservalService {
     }
 
     public List<ReservalActiveDate> reservalsActiveUserDate(Date date) {
-        List<ReservalActiveDate> reservals = new ArrayList<>();
-        var reservalsEntity =
-                reservalRepository.findByDateAndStateReservalOrderByTimeStart(
-                        LocalDate.parse(date.date(), formatterDate));
-        for (var item : reservalsEntity) {
-            var reserval = new ReservalActiveDate(
-                    item.getId_reserval(),
-                    item.getUser().getUsername(),
-                    item.getUser().getRealname(),
-                    DateTimeFormatter.ofPattern("dd.MM.YYYY").format(item.getDate()),
-                    DateTimeFormatter.ofPattern("HH:mm").format(item.getTimeStart()),
-                    DateTimeFormatter.ofPattern("HH:mm").format(item.getTimeEnd()),
-                    item.getTable().getNumber()
-            );
-            reservals.add(reserval);
+        try {
+            List<ReservalActiveDate> reservals = new ArrayList<>();
+            var reservalsEntity =
+                    reservalRepository.findByDateAndStateReservalOrderByTimeStart(
+                            LocalDate.parse(date.date(), formatterDate));
+            for (var item : reservalsEntity) {
+                var reserval = new ReservalActiveDate(
+                        item.getId_reserval(),
+                        item.getUser().getUsername(),
+                        item.getUser().getRealname(),
+                        DateTimeFormatter.ofPattern("dd.MM.YYYY").format(item.getDate()),
+                        DateTimeFormatter.ofPattern("HH:mm").format(item.getTimeStart()),
+                        DateTimeFormatter.ofPattern("HH:mm").format(item.getTimeEnd()),
+                        item.getTable().getNumber()
+                );
+                reservals.add(reserval);
+            }
+            return reservals;
+        } catch (Exception e) {
+            throw new ResourceException("not valid date");
         }
-        return reservals;
     }
 
     public List<ReservalActive> reservalsActiveUser(UserEntity user) {

@@ -62,9 +62,10 @@ public class UserController {
         return ResponseEntity.ok(profileNotificationService.confirmReservalCode(id, response));
     }
 
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
     @GetMapping("/cancel/{id}")
-    public ResponseEntity<?> cancelReserval(@PathVariable Long id) {
-        return ResponseEntity.ok(reservalService.cancelReserval(id));
+    public ResponseEntity<?> cancelReserval(@PathVariable Long id, @AuthenticationPrincipal UserEntity user) {
+        return ResponseEntity.ok(reservalService.cancelReserval(id, user));
     }
 
     @PreAuthorize("hasAuthority('USER')")
