@@ -6,6 +6,7 @@ import com.example.BrusnikaCoworking.adapter.web.auth.dto.LogupUser;
 import com.example.BrusnikaCoworking.adapter.web.auth.dto.MessageResponse;
 import com.example.BrusnikaCoworking.adapter.web.user.dto.profile.EditPassword;
 import com.example.BrusnikaCoworking.adapter.web.user.dto.reserval.ScanUser;
+import com.example.BrusnikaCoworking.domain.reserval.State;
 import com.example.BrusnikaCoworking.domain.user.Role;
 import com.example.BrusnikaCoworking.domain.user.UserEntity;
 import com.example.BrusnikaCoworking.exception.EmailException;
@@ -36,36 +37,46 @@ public class UserService implements UserDetailsService{
         var entities = userRepository.findByEmailStartingWith(prefix.toLowerCase(), id);
         List<UserBlock> users = new ArrayList<>();
         for(var item : entities) {
-            users.add(new UserBlock(item.getId_user(), item.getUsername(), item.getRealname(), item.getCountBlock()));
+            var state = State.TRUE;
+            if(item.getCountBlock() > 2) state=State.FALSE;
+            users.add(new UserBlock(
+                    item.getId_user(),
+                    item.getUsername(),
+                    item.getRealname(),
+                    item.getCountBlock(),
+                    state
+                    ));
         }
         return users;
     }
 
-    public List<UserBlock> getListBlockUser() {
-        var users = userRepository.findByCountBlockGreaterThan(2);
-        List<UserBlock> list = new ArrayList<>();
-        for (var item : users) {
-           var form = new UserBlock(
-                   item.getId_user(),
-                   item.getUsername(),
-                   item.getRealname(),
-                   item.getCountBlock()
-           );
-           list.add(form);
-        }
-        return list;
-    }
+//    public List<UserBlock> getListBlockUser() {
+//        var users = userRepository.findByCountBlockGreaterThan(2);
+//        List<UserBlock> list = new ArrayList<>();
+//        for (var item : users) {
+//           var form = new UserBlock(
+//                   item.getId_user(),
+//                   item.getUsername(),
+//                   item.getRealname(),
+//                   item.getCountBlock()
+//           );
+//           list.add(form);
+//        }
+//        return list;
+//    }
 
-    public void createBlock(Long id) {
+    public MessageResponse createBlock(Long id) {
         var user = getUserId(id);
         user.setCountBlock(3);
         userRepository.save(user);
+        return new MessageResponse("user blocked");
     }
 
-    public void createUnblock(Long id) {
+    public MessageResponse createUnblock(Long id) {
         var user = getUserId(id);
         user.setCountBlock(0);
         userRepository.save(user);
+        return new MessageResponse("user unblocked");
     }
 
     public UserEntity getUserId(Long id) {

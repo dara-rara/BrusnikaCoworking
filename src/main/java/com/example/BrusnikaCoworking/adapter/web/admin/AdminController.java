@@ -53,15 +53,14 @@ public class AdminController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/block/{id}")
     public ResponseEntity<?> block(@PathVariable Long id) {
-        userService.createBlock(id);
-        return ResponseEntity.ok(userService.getListBlockUser());
+        return ResponseEntity.ok(userService.createBlock(id));
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/unblock/{id}")
     public ResponseEntity<?> unblock(@PathVariable Long id) {
-        userService.createUnblock(id);
-        return ResponseEntity.ok(userService.getListBlockUser());
+
+        return ResponseEntity.ok(userService.createUnblock(id));
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
