@@ -95,6 +95,7 @@ public class ProfileNotificationService {
 
     public List<NotificationForm> allNotification (UserEntity user) {
         List<NotificationForm> notifications = new ArrayList<>();
+        var now = LocalDateTime.now();
         var notificationsEntity = notificationRepository.findByUserOrderBySendTimeDesc(user);
         for(var item : notificationsEntity) {
             var reserval = item.getReserval();
@@ -103,7 +104,9 @@ public class ProfileNotificationService {
             if (item.getType().equals(Type.CODE)) {
                 //чтобы была возможность подтвердить бронь кодом
                 if (reserval.getStateReserval().equals(State.CONFIRMED)) state = State.CONFIRMED;
-                else if (reserval.getStateReserval().equals(State.TRUE)) state = State.TRUE;
+                else if (reserval.getStateReserval().equals(State.TRUE)
+                        && (now.toLocalTime().isBefore(reserval.getTimeEnd())
+                        && reserval.getDate().isEqual(now.toLocalDate()))) state = State.TRUE;
             }
             else if (item.getType().equals(Type.GROUP)) {
                 invit = reserval.getInvit().getUsername();
