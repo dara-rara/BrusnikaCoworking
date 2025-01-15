@@ -67,7 +67,7 @@ public class UserService implements UserDetailsService{
 
     public MessageResponse createBlock(Long id) {
         var user = getUserId(id);
-        user.setCountBlock(3);
+        user.setCountBlock(5);
         userRepository.save(user);
         return new MessageResponse("user blocked");
     }

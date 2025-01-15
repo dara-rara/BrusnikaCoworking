@@ -54,7 +54,7 @@ public class UserEntity implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return countBlock < 3 ? true : false;
+        return countBlock < 5 ? true : false;
     }
 
     @Override
