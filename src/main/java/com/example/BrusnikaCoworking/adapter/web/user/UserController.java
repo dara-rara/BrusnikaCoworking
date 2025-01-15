@@ -4,6 +4,7 @@ import com.example.BrusnikaCoworking.adapter.web.auth.dto.MessageResponse;
 import com.example.BrusnikaCoworking.adapter.web.auth.dto.StatusResponse;
 import com.example.BrusnikaCoworking.adapter.web.user.dto.profile.EditPassword;
 import com.example.BrusnikaCoworking.adapter.web.user.dto.profile.EditRealname;
+import com.example.BrusnikaCoworking.adapter.web.user.dto.reserval.Code;
 import com.example.BrusnikaCoworking.adapter.web.user.dto.reserval.DateAndTime;
 import com.example.BrusnikaCoworking.adapter.web.user.dto.reserval.ReservalForm;
 import com.example.BrusnikaCoworking.domain.user.UserEntity;
@@ -58,7 +59,7 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping("/codeReserval/{id}")
-    public ResponseEntity<?> confirmCodeReserval(@PathVariable Long id, @RequestBody MessageResponse response) {
+    public ResponseEntity<?> confirmCodeReserval(@PathVariable Long id, @RequestBody Code response) {
         return ResponseEntity.ok(profileNotificationService.confirmReservalCode(id, response));
     }
 

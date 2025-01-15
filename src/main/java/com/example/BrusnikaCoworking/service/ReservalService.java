@@ -9,6 +9,7 @@ import com.example.BrusnikaCoworking.adapter.web.admin.dto.reserval.ReservalActi
 import com.example.BrusnikaCoworking.adapter.web.admin.dto.reserval.ReservalAdminForm;
 import com.example.BrusnikaCoworking.adapter.web.auth.dto.MessageResponse;
 import com.example.BrusnikaCoworking.adapter.web.auth.dto.mail.KafkaMailMessage;
+import com.example.BrusnikaCoworking.adapter.web.user.dto.reserval.Code;
 import com.example.BrusnikaCoworking.adapter.web.user.dto.reserval.DateAndTime;
 import com.example.BrusnikaCoworking.adapter.web.user.dto.notification.ReservalActive;
 import com.example.BrusnikaCoworking.adapter.web.user.dto.reserval.ReservalForm;
@@ -138,7 +139,7 @@ public class ReservalService {
         kafkaProducer.produce(EMAIL_TOPIC_GR, new KafkaMailMessage(reserval.getUser().getUsername(), ""));
     }
 
-    public MessageResponse updateStateCode(ReservalEntity reserval, MessageResponse response) {
+    public MessageResponse updateStateCode(ReservalEntity reserval, Code response) {
         var opt = codeRepository.findTopByOrderBySendTimeDesc();
         String code = null;
         if (opt.isPresent()) code = opt.get().getCode();
@@ -146,7 +147,7 @@ public class ReservalService {
         if (reserval.getStateReserval().equals(State.TRUE)){
             if (now.toLocalTime().isBefore(reserval.getTimeEnd())
                     && reserval.getDate().isEqual(now.toLocalDate())) {
-                if (code.equals(response.message())) {
+                if (code.equals(response.code())) {
                     reserval.setStateReserval(State.CONFIRMED);
                     reservalRepository.save(reserval);
                     return new MessageResponse("reserval confirmed");

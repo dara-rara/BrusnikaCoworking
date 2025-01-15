@@ -7,6 +7,7 @@ import com.example.BrusnikaCoworking.adapter.web.auth.dto.MessageResponse;
 import com.example.BrusnikaCoworking.adapter.web.user.dto.notification.NotificationAndReserval;
 import com.example.BrusnikaCoworking.adapter.web.user.dto.profile.Profile;
 import com.example.BrusnikaCoworking.adapter.web.user.dto.notification.NotificationForm;
+import com.example.BrusnikaCoworking.adapter.web.user.dto.reserval.Code;
 import com.example.BrusnikaCoworking.domain.notification.Type;
 import com.example.BrusnikaCoworking.domain.reserval.State;
 import com.example.BrusnikaCoworking.domain.user.UserEntity;
@@ -33,7 +34,7 @@ public class ProfileNotificationService {
     private final ReservalService reservalService;
     private final CodeRepository codeRepository;
 
-    public MessageResponse confirmReservalCode(Long id, MessageResponse response) {
+    public MessageResponse confirmReservalCode(Long id, Code response) {
         var notification = notificationRepository.findById(id)
                 .orElseThrow(() -> new ResourceException("notification not found"));
         return reservalService.updateStateCode(notification.getReserval(), response);
