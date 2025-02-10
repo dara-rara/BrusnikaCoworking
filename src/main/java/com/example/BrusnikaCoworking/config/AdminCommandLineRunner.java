@@ -40,9 +40,9 @@ public class AdminCommandLineRunner implements CommandLineRunner {
             var user = new UserEntity();
             user.setUsername("user@urfu.me");
             user.setRealname("user");
-            user.setPassword(passwordEncoder.encode("123123"));
+            user.setPassword(passwordEncoder.encode("111111"));
             user.setRole(Role.USER);
-            user.setCountBlock(3);
+            user.setCountBlock(0);
 //            user.setStatusBlock(StatusBlock.BLOCK);
             userRepository.save(user);
         }
