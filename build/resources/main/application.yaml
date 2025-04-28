@@ -9,8 +9,8 @@ token:
     #timeRefresh: 300000 #5 минут
 
 spring:
-#  profiles:
-#    active: prod
+  profiles:
+    active: dev
   application:
     name: BrusnikaCoworking
   jpa:
@@ -25,15 +25,15 @@ spring:
           unique_constraint_strategy: RECREATE_QUIETLY
   jackson:
     time-zone: Asia/Yekaterinburg
-
-  datasource:
-    url: jdbc:postgresql://${PGHOST:localhost}:${PGPORT:6432}/${POSTGRES_DB:brusnika}?options=-c%20TimeZone=Asia/Yekaterinburg
-    username: ${POSTGRES_USER:postgres}
-    password: ${POSTGRES_PASSWORD:postgres}
-    driver-class-name: org.postgresql.Driver
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-    initialization-mode: always
-    continue-on-error: true
+#
+#  datasource:
+#    url: jdbc:postgresql://${PGHOST:localhost}:${PGPORT:6432}/${POSTGRES_DB:brusnika}?options=-c%20TimeZone=Asia/Yekaterinburg
+#    username: ${POSTGRES_USER:postgres}
+#    password: ${POSTGRES_PASSWORD:postgres}
+#    driver-class-name: org.postgresql.Driver
+#    database-platform: org.hibernate.dialect.PostgreSQLDialect
+#    initialization-mode: always
+#    continue-on-error: true
 
   mail:
     host: smtp.gmail.com
@@ -78,3 +78,7 @@ server:
 #  frontend-url: http://localhost:5173
   notification-url: /notification #нужен на раздел уведомлений
   port: 8080
+
+# для запуска файла выполнить команду в терминале:
+# docker compose up -d
+# docker-compose restart
