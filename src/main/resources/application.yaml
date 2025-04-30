@@ -77,7 +77,7 @@ server:
   frontend-url: https://brusnikacoworking.netlify.app #нужен base front
 #  frontend-url: http://localhost:5173
   notification-url: /notification #нужен на раздел уведомлений
-  port: 8080
+#  port: 8080
 
 # для запуска файла выполнить команду в терминале:
 # docker compose up -d
