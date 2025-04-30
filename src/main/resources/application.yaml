@@ -31,8 +31,8 @@ spring:
         validator.apply_to_ddl: false
         # Пропускаем проверку некоторых constraints
         jakarta.persistence.validation.mode: none
-  jackson:
-    time-zone: Asia/Yekaterinburg
+#  jackson:
+#    time-zone: Asia/Yekaterinburg
 
   datasource:
     url: jdbc:postgresql://${PGHOST:localhost}:${PGPORT:6432}/${POSTGRES_DB:brusnika}?options=-c%20TimeZone=Asia/Yekaterinburg
