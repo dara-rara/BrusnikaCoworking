@@ -31,7 +31,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'io.hypersistence:hypersistence-utils-hibernate-63:3.7.3'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'org.postgresql:postgresql'
@@ -42,17 +41,17 @@ dependencies {
 	implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.12.5'
 	implementation group: 'org.glassfish', name: 'javax.servlet', version: '3.1.1'
 	implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.14.0'
-	implementation 'javax.xml.crypto:jsr105-api:1.0.1'
+//	implementation 'javax.xml.crypto:jsr105-api:1.0.1'
 	implementation 'org.springframework.boot:spring-boot-starter-mail:3.4.0'
 	implementation 'org.springframework.kafka:spring-kafka:3.3.0'
 //	implementation 'com.nimbusds:nimbus-jose-jwt:9.31'
 //	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
 //	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
 //	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
-
-	// Для работы с JSON (необходимо для парсинга JWKS)
-	implementation 'net.minidev:json-smart:2.4.8'
-	implementation 'com.auth0:java-jwt:4.0.0'
+//
+//	// Для работы с JSON (необходимо для парсинга JWKS)
+//	implementation 'net.minidev:json-smart:2.4.8'
+//	implementation 'com.auth0:java-jwt:4.0.0'
 }
 
 tasks.named('test') {
