@@ -27,7 +27,7 @@ replay_pid*
 ##############################
 bin/
 build/
-.gradle
+.gradle/
 .gradletasknamecache
 gradle-app.setting
 !gradle-wrapper.jar
@@ -40,3 +40,5 @@ out/
 *.iml
 *.ipr
 *.iws
+.lock
+.bin
