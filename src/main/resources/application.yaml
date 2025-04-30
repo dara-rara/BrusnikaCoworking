@@ -34,7 +34,7 @@ spring:
 
   datasource:
 #    url: jdbc:postgresql://${PGHOST:localhost}:${PGPORT:6432}/${POSTGRES_DB:brusnika}?options=-c%20TimeZone=Asia/Yekaterinburg
-    url: jdbc:${postgresql://postgres:tyusbkMxurSnwPBsdgnCguaGThvtMNhy@postgres.railway.internal:5432/railway}?options=-c%20TimeZone=Asia/Yekaterinburg
+    url: jdbc:${URL}?options=-c%20TimeZone=Asia/Yekaterinburg
     username: ${POSTGRES_USER:postgres}
     password: ${POSTGRES_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
