@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.452s</div>
+<div class="counter">0.466s</div>
 <p>duration</p>
 </div>
 </td>
@@ -82,7 +82,7 @@
 </thead>
 <tr>
 <td class="success">contextLoads()</td>
-<td class="success">0.452s</td>
+<td class="success">0.466s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -90,8 +90,8 @@
 <div id="tab1" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>22:50:20.169 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.example.BrusnikaCoworking.BrusnikaCoworkingApplicationTests]: BrusnikaCoworkingApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-22:50:20.301 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.example.BrusnikaCoworking.BrusnikaCoworkingApplication for test class com.example.BrusnikaCoworking.BrusnikaCoworkingApplicationTests
+<pre>00:33:14.020 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.example.BrusnikaCoworking.BrusnikaCoworkingApplicationTests]: BrusnikaCoworkingApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+00:33:14.155 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.example.BrusnikaCoworking.BrusnikaCoworkingApplication for test class com.example.BrusnikaCoworking.BrusnikaCoworkingApplicationTests
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -102,23 +102,199 @@
 
  :: Spring Boot ::                (v3.3.4)
 
-2025-01-10T22:50:20.746+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] c.e.B.BrusnikaCoworkingApplicationTests  : Starting BrusnikaCoworkingApplicationTests using Java 21 with PID 15380 (started by Daria in C:\WORK\Programming\Spring\BrusnikaCoworking)
-2025-01-10T22:50:20.748+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] c.e.B.BrusnikaCoworkingApplicationTests  : No active profile set, falling back to 1 default profile: &quot;default&quot;
-2025-01-10T22:50:21.326+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-01-10T22:50:21.375+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 42 ms. Found 6 JPA repository interfaces.
-2025-01-10T22:50:22.277+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-01-10T22:50:22.336+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
-2025-01-10T22:50:22.368+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-01-10T22:50:22.468+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-01-10T22:50:22.720+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@69b37f5c
-2025-01-10T22:50:22.722+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-01-10T22:50:23.007+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-01-10T22:50:23.887+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-01-10T22:50:23.988+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-01-10T22:50:24.268+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-01-10T22:50:24.681+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
-2025-01-10T22:50:24.683+05:00  WARN 15380 --- [BrusnikaCoworking] [    Test worker] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used for username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider.
-2025-01-10T22:50:25.831+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
+2025-05-01T00:33:14.675+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] c.e.B.BrusnikaCoworkingApplicationTests  : Starting BrusnikaCoworkingApplicationTests using Java 21 with PID 13544 (started by Daria in C:\WORK\Programming\Spring\BrusnikaCoworking)
+2025-05-01T00:33:14.677+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] c.e.B.BrusnikaCoworkingApplicationTests  : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2025-05-01T00:33:15.320+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-01T00:33:15.375+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 48 ms. Found 6 JPA repository interfaces.
+2025-05-01T00:33:16.430+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-01T00:33:16.522+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2025-05-01T00:33:16.590+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-05-01T00:33:16.687+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration boolean -&gt; org.hibernate.type.BasicTypeReference@41582899
+2025-05-01T00:33:16.687+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration boolean -&gt; org.hibernate.type.BasicTypeReference@41582899
+2025-05-01T00:33:16.687+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.lang.Boolean -&gt; org.hibernate.type.BasicTypeReference@41582899
+2025-05-01T00:33:16.687+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration numeric_boolean -&gt; org.hibernate.type.BasicTypeReference@595814a1
+2025-05-01T00:33:16.687+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration org.hibernate.type.NumericBooleanConverter -&gt; org.hibernate.type.BasicTypeReference@595814a1
+2025-05-01T00:33:16.687+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration true_false -&gt; org.hibernate.type.BasicTypeReference@7de5871d
+2025-05-01T00:33:16.687+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration org.hibernate.type.TrueFalseConverter -&gt; org.hibernate.type.BasicTypeReference@7de5871d
+2025-05-01T00:33:16.688+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration yes_no -&gt; org.hibernate.type.BasicTypeReference@49d42faf
+2025-05-01T00:33:16.688+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration org.hibernate.type.YesNoConverter -&gt; org.hibernate.type.BasicTypeReference@49d42faf
+2025-05-01T00:33:16.688+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration byte -&gt; org.hibernate.type.BasicTypeReference@4948daec
+2025-05-01T00:33:16.688+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration byte -&gt; org.hibernate.type.BasicTypeReference@4948daec
+2025-05-01T00:33:16.688+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.lang.Byte -&gt; org.hibernate.type.BasicTypeReference@4948daec
+2025-05-01T00:33:16.688+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration binary -&gt; org.hibernate.type.BasicTypeReference@502c2278
+2025-05-01T00:33:16.688+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration byte[] -&gt; org.hibernate.type.BasicTypeReference@502c2278
+2025-05-01T00:33:16.689+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration [B -&gt; org.hibernate.type.BasicTypeReference@502c2278
+2025-05-01T00:33:16.689+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration binary_wrapper -&gt; org.hibernate.type.BasicTypeReference@1209a0f
+2025-05-01T00:33:16.689+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration wrapper-binary -&gt; org.hibernate.type.BasicTypeReference@1209a0f
+2025-05-01T00:33:16.689+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration image -&gt; org.hibernate.type.BasicTypeReference@696174d3
+2025-05-01T00:33:16.689+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration blob -&gt; org.hibernate.type.BasicTypeReference@66715ca9
+2025-05-01T00:33:16.689+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.sql.Blob -&gt; org.hibernate.type.BasicTypeReference@66715ca9
+2025-05-01T00:33:16.689+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration materialized_blob -&gt; org.hibernate.type.BasicTypeReference@577f9dfd
+2025-05-01T00:33:16.689+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration materialized_blob_wrapper -&gt; org.hibernate.type.BasicTypeReference@520a95ff
+2025-05-01T00:33:16.689+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration short -&gt; org.hibernate.type.BasicTypeReference@30afb481
+2025-05-01T00:33:16.689+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration short -&gt; org.hibernate.type.BasicTypeReference@30afb481
+2025-05-01T00:33:16.689+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.lang.Short -&gt; org.hibernate.type.BasicTypeReference@30afb481
+2025-05-01T00:33:16.690+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration integer -&gt; org.hibernate.type.BasicTypeReference@5c573229
+2025-05-01T00:33:16.690+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration int -&gt; org.hibernate.type.BasicTypeReference@5c573229
+2025-05-01T00:33:16.690+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.lang.Integer -&gt; org.hibernate.type.BasicTypeReference@5c573229
+2025-05-01T00:33:16.690+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration long -&gt; org.hibernate.type.BasicTypeReference@77ecdc2b
+2025-05-01T00:33:16.690+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration long -&gt; org.hibernate.type.BasicTypeReference@77ecdc2b
+2025-05-01T00:33:16.690+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.lang.Long -&gt; org.hibernate.type.BasicTypeReference@77ecdc2b
+2025-05-01T00:33:16.690+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration float -&gt; org.hibernate.type.BasicTypeReference@714f1a44
+2025-05-01T00:33:16.690+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration float -&gt; org.hibernate.type.BasicTypeReference@714f1a44
+2025-05-01T00:33:16.691+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.lang.Float -&gt; org.hibernate.type.BasicTypeReference@714f1a44
+2025-05-01T00:33:16.691+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration double -&gt; org.hibernate.type.BasicTypeReference@3c09a350
+2025-05-01T00:33:16.691+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration double -&gt; org.hibernate.type.BasicTypeReference@3c09a350
+2025-05-01T00:33:16.691+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.lang.Double -&gt; org.hibernate.type.BasicTypeReference@3c09a350
+2025-05-01T00:33:16.691+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration big_integer -&gt; org.hibernate.type.BasicTypeReference@592a1882
+2025-05-01T00:33:16.691+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.math.BigInteger -&gt; org.hibernate.type.BasicTypeReference@592a1882
+2025-05-01T00:33:16.692+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration big_decimal -&gt; org.hibernate.type.BasicTypeReference@48368a08
+2025-05-01T00:33:16.692+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.math.BigDecimal -&gt; org.hibernate.type.BasicTypeReference@48368a08
+2025-05-01T00:33:16.692+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration character -&gt; org.hibernate.type.BasicTypeReference@41a23470
+2025-05-01T00:33:16.692+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration char -&gt; org.hibernate.type.BasicTypeReference@41a23470
+2025-05-01T00:33:16.692+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.lang.Character -&gt; org.hibernate.type.BasicTypeReference@41a23470
+2025-05-01T00:33:16.692+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration character_nchar -&gt; org.hibernate.type.BasicTypeReference@30c01c37
+2025-05-01T00:33:16.692+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration string -&gt; org.hibernate.type.BasicTypeReference@39a7eca5
+2025-05-01T00:33:16.692+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.lang.String -&gt; org.hibernate.type.BasicTypeReference@39a7eca5
+2025-05-01T00:33:16.693+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration nstring -&gt; org.hibernate.type.BasicTypeReference@45bd4753
+2025-05-01T00:33:16.693+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration characters -&gt; org.hibernate.type.BasicTypeReference@156cfa20
+2025-05-01T00:33:16.693+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration char[] -&gt; org.hibernate.type.BasicTypeReference@156cfa20
+2025-05-01T00:33:16.693+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration [C -&gt; org.hibernate.type.BasicTypeReference@156cfa20
+2025-05-01T00:33:16.693+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration wrapper-characters -&gt; org.hibernate.type.BasicTypeReference@25fd6d1e
+2025-05-01T00:33:16.693+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration text -&gt; org.hibernate.type.BasicTypeReference@23396fc0
+2025-05-01T00:33:16.693+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration ntext -&gt; org.hibernate.type.BasicTypeReference@c11332b
+2025-05-01T00:33:16.694+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration clob -&gt; org.hibernate.type.BasicTypeReference@7e5e6573
+2025-05-01T00:33:16.694+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.sql.Clob -&gt; org.hibernate.type.BasicTypeReference@7e5e6573
+2025-05-01T00:33:16.694+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration nclob -&gt; org.hibernate.type.BasicTypeReference@3005623b
+2025-05-01T00:33:16.694+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.sql.NClob -&gt; org.hibernate.type.BasicTypeReference@3005623b
+2025-05-01T00:33:16.694+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration materialized_clob -&gt; org.hibernate.type.BasicTypeReference@58aa5c94
+2025-05-01T00:33:16.694+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration materialized_clob_char_array -&gt; org.hibernate.type.BasicTypeReference@5d27b4c1
+2025-05-01T00:33:16.694+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration materialized_clob_character_array -&gt; org.hibernate.type.BasicTypeReference@50df37eb
+2025-05-01T00:33:16.694+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration materialized_nclob -&gt; org.hibernate.type.BasicTypeReference@4b508371
+2025-05-01T00:33:16.695+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration materialized_nclob_character_array -&gt; org.hibernate.type.BasicTypeReference@41143873
+2025-05-01T00:33:16.695+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration materialized_nclob_char_array -&gt; org.hibernate.type.BasicTypeReference@21f50d2c
+2025-05-01T00:33:16.695+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration Duration -&gt; org.hibernate.type.BasicTypeReference@8bc0696
+2025-05-01T00:33:16.695+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.time.Duration -&gt; org.hibernate.type.BasicTypeReference@8bc0696
+2025-05-01T00:33:16.695+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration LocalDateTime -&gt; org.hibernate.type.BasicTypeReference@473847fb
+2025-05-01T00:33:16.695+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.time.LocalDateTime -&gt; org.hibernate.type.BasicTypeReference@473847fb
+2025-05-01T00:33:16.695+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration LocalDate -&gt; org.hibernate.type.BasicTypeReference@270f28cf
+2025-05-01T00:33:16.696+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.time.LocalDate -&gt; org.hibernate.type.BasicTypeReference@270f28cf
+2025-05-01T00:33:16.696+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration LocalTime -&gt; org.hibernate.type.BasicTypeReference@2e1add6f
+2025-05-01T00:33:16.696+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.time.LocalTime -&gt; org.hibernate.type.BasicTypeReference@2e1add6f
+2025-05-01T00:33:16.696+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration OffsetDateTime -&gt; org.hibernate.type.BasicTypeReference@467af68c
+2025-05-01T00:33:16.696+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.time.OffsetDateTime -&gt; org.hibernate.type.BasicTypeReference@467af68c
+2025-05-01T00:33:16.696+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration OffsetDateTimeWithTimezone -&gt; org.hibernate.type.BasicTypeReference@43786627
+2025-05-01T00:33:16.696+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration OffsetDateTimeWithoutTimezone -&gt; org.hibernate.type.BasicTypeReference@1d6f77d7
+2025-05-01T00:33:16.697+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration OffsetTime -&gt; org.hibernate.type.BasicTypeReference@65e620b0
+2025-05-01T00:33:16.697+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.time.OffsetTime -&gt; org.hibernate.type.BasicTypeReference@65e620b0
+2025-05-01T00:33:16.697+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration OffsetTimeUtc -&gt; org.hibernate.type.BasicTypeReference@74b97416
+2025-05-01T00:33:16.697+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration OffsetTimeWithTimezone -&gt; org.hibernate.type.BasicTypeReference@74707df8
+2025-05-01T00:33:16.697+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration OffsetTimeWithoutTimezone -&gt; org.hibernate.type.BasicTypeReference@12c76d6e
+2025-05-01T00:33:16.697+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration ZonedDateTime -&gt; org.hibernate.type.BasicTypeReference@46702c26
+2025-05-01T00:33:16.697+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.time.ZonedDateTime -&gt; org.hibernate.type.BasicTypeReference@46702c26
+2025-05-01T00:33:16.698+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration ZonedDateTimeWithTimezone -&gt; org.hibernate.type.BasicTypeReference@7956f93a
+2025-05-01T00:33:16.698+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration ZonedDateTimeWithoutTimezone -&gt; org.hibernate.type.BasicTypeReference@e3ed455
+2025-05-01T00:33:16.698+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration date -&gt; org.hibernate.type.BasicTypeReference@27bb74e1
+2025-05-01T00:33:16.698+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.sql.Date -&gt; org.hibernate.type.BasicTypeReference@27bb74e1
+2025-05-01T00:33:16.698+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration time -&gt; org.hibernate.type.BasicTypeReference@606d6d2c
+2025-05-01T00:33:16.698+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.sql.Time -&gt; org.hibernate.type.BasicTypeReference@606d6d2c
+2025-05-01T00:33:16.699+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration timestamp -&gt; org.hibernate.type.BasicTypeReference@2e3cd732
+2025-05-01T00:33:16.699+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.sql.Timestamp -&gt; org.hibernate.type.BasicTypeReference@2e3cd732
+2025-05-01T00:33:16.699+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.util.Date -&gt; org.hibernate.type.BasicTypeReference@2e3cd732
+2025-05-01T00:33:16.699+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration calendar -&gt; org.hibernate.type.BasicTypeReference@56d822dc
+2025-05-01T00:33:16.699+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.util.Calendar -&gt; org.hibernate.type.BasicTypeReference@56d822dc
+2025-05-01T00:33:16.699+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.util.GregorianCalendar -&gt; org.hibernate.type.BasicTypeReference@56d822dc
+2025-05-01T00:33:16.699+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration calendar_date -&gt; org.hibernate.type.BasicTypeReference@2ab8589a
+2025-05-01T00:33:16.700+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration calendar_time -&gt; org.hibernate.type.BasicTypeReference@21b744ec
+2025-05-01T00:33:16.700+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration instant -&gt; org.hibernate.type.BasicTypeReference@697a92af
+2025-05-01T00:33:16.700+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.time.Instant -&gt; org.hibernate.type.BasicTypeReference@697a92af
+2025-05-01T00:33:16.700+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration uuid -&gt; org.hibernate.type.BasicTypeReference@7ea3839e
+2025-05-01T00:33:16.700+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.util.UUID -&gt; org.hibernate.type.BasicTypeReference@7ea3839e
+2025-05-01T00:33:16.701+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration pg-uuid -&gt; org.hibernate.type.BasicTypeReference@7ea3839e
+2025-05-01T00:33:16.701+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration uuid-binary -&gt; org.hibernate.type.BasicTypeReference@16b76858
+2025-05-01T00:33:16.701+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration uuid-char -&gt; org.hibernate.type.BasicTypeReference@d3cce46
+2025-05-01T00:33:16.701+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration class -&gt; org.hibernate.type.BasicTypeReference@30eedaa4
+2025-05-01T00:33:16.701+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.lang.Class -&gt; org.hibernate.type.BasicTypeReference@30eedaa4
+2025-05-01T00:33:16.701+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration currency -&gt; org.hibernate.type.BasicTypeReference@52b30054
+2025-05-01T00:33:16.701+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration Currency -&gt; org.hibernate.type.BasicTypeReference@52b30054
+2025-05-01T00:33:16.702+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.util.Currency -&gt; org.hibernate.type.BasicTypeReference@52b30054
+2025-05-01T00:33:16.702+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration locale -&gt; org.hibernate.type.BasicTypeReference@7f6b57f2
+2025-05-01T00:33:16.702+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.util.Locale -&gt; org.hibernate.type.BasicTypeReference@7f6b57f2
+2025-05-01T00:33:16.702+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration serializable -&gt; org.hibernate.type.BasicTypeReference@144ee8a7
+2025-05-01T00:33:16.702+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.io.Serializable -&gt; org.hibernate.type.BasicTypeReference@144ee8a7
+2025-05-01T00:33:16.702+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration timezone -&gt; org.hibernate.type.BasicTypeReference@52b32b70
+2025-05-01T00:33:16.702+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.util.TimeZone -&gt; org.hibernate.type.BasicTypeReference@52b32b70
+2025-05-01T00:33:16.702+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration ZoneOffset -&gt; org.hibernate.type.BasicTypeReference@18c820d2
+2025-05-01T00:33:16.703+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.time.ZoneOffset -&gt; org.hibernate.type.BasicTypeReference@18c820d2
+2025-05-01T00:33:16.703+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration url -&gt; org.hibernate.type.BasicTypeReference@3d3930fe
+2025-05-01T00:33:16.703+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.net.URL -&gt; org.hibernate.type.BasicTypeReference@3d3930fe
+2025-05-01T00:33:16.703+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration vector -&gt; org.hibernate.type.BasicTypeReference@5e51ec2e
+2025-05-01T00:33:16.703+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration row_version -&gt; org.hibernate.type.BasicTypeReference@15f2a43f
+2025-05-01T00:33:16.714+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration object -&gt; org.hibernate.type.JavaObjectType@521ba38f
+2025-05-01T00:33:16.714+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.lang.Object -&gt; org.hibernate.type.JavaObjectType@521ba38f
+2025-05-01T00:33:16.716+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration null -&gt; org.hibernate.type.NullType@402d6012
+2025-05-01T00:33:16.717+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration imm_date -&gt; org.hibernate.type.BasicTypeReference@395281c2
+2025-05-01T00:33:16.717+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration imm_time -&gt; org.hibernate.type.BasicTypeReference@3e753289
+2025-05-01T00:33:16.717+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration imm_timestamp -&gt; org.hibernate.type.BasicTypeReference@1573e8a5
+2025-05-01T00:33:16.717+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration imm_calendar -&gt; org.hibernate.type.BasicTypeReference@38022758
+2025-05-01T00:33:16.717+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration imm_calendar_date -&gt; org.hibernate.type.BasicTypeReference@69f9b561
+2025-05-01T00:33:16.717+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration imm_calendar_time -&gt; org.hibernate.type.BasicTypeReference@7e8f23ad
+2025-05-01T00:33:16.718+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration imm_binary -&gt; org.hibernate.type.BasicTypeReference@7433ca19
+2025-05-01T00:33:16.718+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration imm_serializable -&gt; org.hibernate.type.BasicTypeReference@5d221b20
+2025-05-01T00:33:16.762+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-05-01T00:33:16.955+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5dd747c1
+2025-05-01T00:33:16.957+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-05-01T00:33:17.340+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-01T00:33:17.360+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(2003, org.hibernate.type.descriptor.sql.internal.ArrayDdlTypeImpl@c677d7e) replaced previous registration(org.hibernate.type.descriptor.sql.internal.ArrayDdlTypeImpl@215a0264)
+2025-05-01T00:33:17.360+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] o.h.t.d.sql.spi.DdlTypeRegistry          : addDescriptor(6, org.hibernate.type.descriptor.sql.internal.CapacityDependentDdlType@45832b85) replaced previous registration(org.hibernate.type.descriptor.sql.internal.DdlTypeImpl@103478b8)
+2025-05-01T00:33:17.365+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] o.h.t.d.jdbc.spi.JdbcTypeRegistry        : addDescriptor(2004, BlobTypeDescriptor(BLOB_BINDING)) replaced previous registration(BlobTypeDescriptor(DEFAULT))
+2025-05-01T00:33:17.365+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] o.h.t.d.jdbc.spi.JdbcTypeRegistry        : addDescriptor(2005, ClobTypeDescriptor(CLOB_BINDING)) replaced previous registration(ClobTypeDescriptor(DEFAULT))
+2025-05-01T00:33:17.375+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration JAVA_OBJECT -&gt; org.hibernate.type.JavaObjectType@7438c3d5
+2025-05-01T00:33:17.375+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.lang.Object -&gt; org.hibernate.type.JavaObjectType@7438c3d5
+2025-05-01T00:33:17.375+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Type registration key [java.lang.Object] overrode previous entry : `org.hibernate.type.JavaObjectType@521ba38f`
+2025-05-01T00:33:17.377+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.time.Duration -&gt; org.hibernate.type.CustomType@23358740
+2025-05-01T00:33:17.378+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.time.Period -&gt; org.hibernate.type.CustomType@66682e8f
+2025-05-01T00:33:17.378+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.util.Map -&gt; org.hibernate.type.CustomType@4d0abb23
+2025-05-01T00:33:17.378+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration io.hypersistence.utils.hibernate.type.basic.Inet -&gt; org.hibernate.type.CustomType@5d8fd077
+2025-05-01T00:33:17.378+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration io.hypersistence.utils.hibernate.type.range.Range -&gt; org.hibernate.type.CustomType@55fe9c2f
+2025-05-01T00:33:17.379+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.lang.Character -&gt; org.hibernate.type.CustomType@5ac0bf84
+2025-05-01T00:33:17.379+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.time.Month -&gt; org.hibernate.type.CustomType@68f79b7c
+2025-05-01T00:33:17.382+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration org.hibernate.type.DurationType -&gt; basicType@1(java.time.Duration,3015)
+2025-05-01T00:33:17.382+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration Duration -&gt; basicType@1(java.time.Duration,3015)
+2025-05-01T00:33:17.382+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.time.Duration -&gt; basicType@1(java.time.Duration,3015)
+2025-05-01T00:33:17.383+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Type registration key [java.time.Duration] overrode previous entry : `org.hibernate.type.CustomType@23358740`
+2025-05-01T00:33:17.384+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.time.Duration -&gt; org.hibernate.type.CustomType@23358740
+2025-05-01T00:33:17.385+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Type registration key [java.time.Duration] overrode previous entry : `basicType@1(java.time.Duration,3015)`
+2025-05-01T00:33:17.385+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.time.Period -&gt; org.hibernate.type.CustomType@66682e8f
+2025-05-01T00:33:17.386+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Type registration key [java.time.Period] overrode previous entry : `org.hibernate.type.CustomType@66682e8f`
+2025-05-01T00:33:17.386+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.util.Map -&gt; org.hibernate.type.CustomType@4d0abb23
+2025-05-01T00:33:17.386+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Type registration key [java.util.Map] overrode previous entry : `org.hibernate.type.CustomType@4d0abb23`
+2025-05-01T00:33:17.386+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration io.hypersistence.utils.hibernate.type.basic.Inet -&gt; org.hibernate.type.CustomType@5d8fd077
+2025-05-01T00:33:17.386+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Type registration key [io.hypersistence.utils.hibernate.type.basic.Inet] overrode previous entry : `org.hibernate.type.CustomType@5d8fd077`
+2025-05-01T00:33:17.386+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration io.hypersistence.utils.hibernate.type.range.Range -&gt; org.hibernate.type.CustomType@55fe9c2f
+2025-05-01T00:33:17.386+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Type registration key [io.hypersistence.utils.hibernate.type.range.Range] overrode previous entry : `org.hibernate.type.CustomType@55fe9c2f`
+2025-05-01T00:33:17.386+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.lang.Character -&gt; org.hibernate.type.CustomType@5ac0bf84
+2025-05-01T00:33:17.386+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Type registration key [java.lang.Character] overrode previous entry : `org.hibernate.type.CustomType@5ac0bf84`
+2025-05-01T00:33:17.386+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.time.Month -&gt; org.hibernate.type.CustomType@68f79b7c
+2025-05-01T00:33:17.386+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Type registration key [java.time.Month] overrode previous entry : `org.hibernate.type.CustomType@68f79b7c`
+2025-05-01T00:33:17.389+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration org.hibernate.type.OffsetDateTimeType -&gt; basicType@2(java.time.OffsetDateTime,3003)
+2025-05-01T00:33:17.389+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration OffsetDateTime -&gt; basicType@2(java.time.OffsetDateTime,3003)
+2025-05-01T00:33:17.389+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.time.OffsetDateTime -&gt; basicType@2(java.time.OffsetDateTime,3003)
+2025-05-01T00:33:17.389+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration org.hibernate.type.ZonedDateTimeType -&gt; basicType@3(java.time.ZonedDateTime,3003)
+2025-05-01T00:33:17.389+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration ZonedDateTime -&gt; basicType@3(java.time.ZonedDateTime,3003)
+2025-05-01T00:33:17.389+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.time.ZonedDateTime -&gt; basicType@3(java.time.ZonedDateTime,3003)
+2025-05-01T00:33:17.391+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration org.hibernate.type.OffsetTimeType -&gt; basicType@4(java.time.OffsetTime,3007)
+2025-05-01T00:33:17.391+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration OffsetTime -&gt; basicType@4(java.time.OffsetTime,3007)
+2025-05-01T00:33:17.391+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.type.BasicTypeRegistry     : Adding type registration java.time.OffsetTime -&gt; basicType@4(java.time.OffsetTime,3007)
+2025-05-01T00:33:17.393+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] o.h.type.spi.TypeConfiguration$Scope     : Scoping TypeConfiguration [org.hibernate.type.spi.TypeConfiguration@674e4c82] to MetadataBuildingContext [org.hibernate.boot.internal.MetadataBuildingContextRootImpl@572b4072]
+2025-05-01T00:33:18.359+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-01T00:33:18.359+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] o.h.type.spi.TypeConfiguration$Scope     : Scoping TypeConfiguration [org.hibernate.type.spi.TypeConfiguration@674e4c82] to SessionFactoryImplementor [org.hibernate.internal.SessionFactoryImpl@535b4dbf]
+2025-05-01T00:33:18.397+05:00 TRACE 13544 --- [BrusnikaCoworking] [    Test worker] o.h.type.spi.TypeConfiguration$Scope     : Handling #sessionFactoryCreated from [org.hibernate.internal.SessionFactoryImpl@535b4dbf] for TypeConfiguration
+2025-05-01T00:33:18.397+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-01T00:33:18.743+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-05-01T00:33:19.227+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2025-05-01T00:33:19.228+05:00  WARN 13544 --- [BrusnikaCoworking] [    Test worker] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used for username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider.
+2025-05-01T00:33:20.547+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
 	allow.auto.create.topics = true
 	auto.commit.interval.ms = 5000
 	auto.include.jmx.reporter = true
@@ -216,13 +392,13 @@
 	ssl.truststore.type = JKS
 	value.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
 
-2025-01-10T22:50:25.871+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] o.a.k.c.t.i.KafkaMetricsCollector        : initializing Kafka metrics collector
-2025-01-10T22:50:26.033+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] o.a.k.clients.consumer.ConsumerConfig    : These configurations '[spring.json.add.type.headers]' were supplied but are not used yet.
-2025-01-10T22:50:26.034+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.7.1
-2025-01-10T22:50:26.034+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: e2494e6ffb89f828
-2025-01-10T22:50:26.034+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1736531426033
-2025-01-10T22:50:26.038+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] o.a.k.c.c.internals.LegacyKafkaConsumer  : [Consumer clientId=consumer-some-1, groupId=some] Subscribed to topic(s): email_message_reserval_group
-2025-01-10T22:50:26.050+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
+2025-05-01T00:33:20.600+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] o.a.k.c.t.i.KafkaMetricsCollector        : initializing Kafka metrics collector
+2025-05-01T00:33:20.793+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] o.a.k.clients.consumer.ConsumerConfig    : These configurations '[spring.json.add.type.headers]' were supplied but are not used yet.
+2025-05-01T00:33:20.795+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.7.1
+2025-05-01T00:33:20.796+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: e2494e6ffb89f828
+2025-05-01T00:33:20.796+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1746041600794
+2025-05-01T00:33:20.802+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] o.a.k.c.c.internals.LegacyKafkaConsumer  : [Consumer clientId=consumer-some-1, groupId=some] Subscribed to topic(s): email_message_reserval_group
+2025-05-01T00:33:20.811+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
 	allow.auto.create.topics = true
 	auto.commit.interval.ms = 5000
 	auto.include.jmx.reporter = true
@@ -320,13 +496,13 @@
 	ssl.truststore.type = JKS
 	value.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
 
-2025-01-10T22:50:26.052+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] o.a.k.c.t.i.KafkaMetricsCollector        : initializing Kafka metrics collector
-2025-01-10T22:50:26.063+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] o.a.k.clients.consumer.ConsumerConfig    : These configurations '[spring.json.add.type.headers]' were supplied but are not used yet.
-2025-01-10T22:50:26.063+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.7.1
-2025-01-10T22:50:26.063+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: e2494e6ffb89f828
-2025-01-10T22:50:26.063+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1736531426063
-2025-01-10T22:50:26.064+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] o.a.k.c.c.internals.LegacyKafkaConsumer  : [Consumer clientId=consumer-some-2, groupId=some] Subscribed to topic(s): email_message_reserval
-2025-01-10T22:50:26.065+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
+2025-05-01T00:33:20.813+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] o.a.k.c.t.i.KafkaMetricsCollector        : initializing Kafka metrics collector
+2025-05-01T00:33:20.823+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] o.a.k.clients.consumer.ConsumerConfig    : These configurations '[spring.json.add.type.headers]' were supplied but are not used yet.
+2025-05-01T00:33:20.823+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.7.1
+2025-05-01T00:33:20.823+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: e2494e6ffb89f828
+2025-05-01T00:33:20.823+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1746041600823
+2025-05-01T00:33:20.824+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] o.a.k.c.c.internals.LegacyKafkaConsumer  : [Consumer clientId=consumer-some-2, groupId=some] Subscribed to topic(s): email_message_reserval
+2025-05-01T00:33:20.826+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
 	allow.auto.create.topics = true
 	auto.commit.interval.ms = 5000
 	auto.include.jmx.reporter = true
@@ -424,13 +600,13 @@
 	ssl.truststore.type = JKS
 	value.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
 
-2025-01-10T22:50:26.068+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] o.a.k.c.t.i.KafkaMetricsCollector        : initializing Kafka metrics collector
-2025-01-10T22:50:26.077+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] o.a.k.clients.consumer.ConsumerConfig    : These configurations '[spring.json.add.type.headers]' were supplied but are not used yet.
-2025-01-10T22:50:26.078+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.7.1
-2025-01-10T22:50:26.078+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: e2494e6ffb89f828
-2025-01-10T22:50:26.078+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1736531426078
-2025-01-10T22:50:26.079+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] o.a.k.c.c.internals.LegacyKafkaConsumer  : [Consumer clientId=consumer-some-3, groupId=some] Subscribed to topic(s): email_message_password
-2025-01-10T22:50:26.081+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
+2025-05-01T00:33:20.827+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] o.a.k.c.t.i.KafkaMetricsCollector        : initializing Kafka metrics collector
+2025-05-01T00:33:20.838+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] o.a.k.clients.consumer.ConsumerConfig    : These configurations '[spring.json.add.type.headers]' were supplied but are not used yet.
+2025-05-01T00:33:20.839+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.7.1
+2025-05-01T00:33:20.839+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: e2494e6ffb89f828
+2025-05-01T00:33:20.839+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1746041600839
+2025-05-01T00:33:20.840+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] o.a.k.c.c.internals.LegacyKafkaConsumer  : [Consumer clientId=consumer-some-3, groupId=some] Subscribed to topic(s): email_message_password
+2025-05-01T00:33:20.842+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
 	allow.auto.create.topics = true
 	auto.commit.interval.ms = 5000
 	auto.include.jmx.reporter = true
@@ -528,61 +704,38 @@
 	ssl.truststore.type = JKS
 	value.deserializer = class org.apache.kafka.common.serialization.ByteArrayDeserializer
 
-2025-01-10T22:50:26.082+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] o.a.k.c.t.i.KafkaMetricsCollector        : initializing Kafka metrics collector
-2025-01-10T22:50:26.092+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] o.a.k.clients.consumer.ConsumerConfig    : These configurations '[spring.json.add.type.headers]' were supplied but are not used yet.
-2025-01-10T22:50:26.092+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.7.1
-2025-01-10T22:50:26.093+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: e2494e6ffb89f828
-2025-01-10T22:50:26.093+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1736531426092
-2025-01-10T22:50:26.094+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] o.a.k.c.c.internals.LegacyKafkaConsumer  : [Consumer clientId=consumer-some-4, groupId=some] Subscribed to topic(s): email_message_registration
-2025-01-10T22:50:26.110+05:00  INFO 15380 --- [BrusnikaCoworking] [    Test worker] c.e.B.BrusnikaCoworkingApplicationTests  : Started BrusnikaCoworkingApplicationTests in 5.649 seconds (process running for 6.793)
-2025-01-10T22:50:26.468+05:00  INFO 15380 --- [BrusnikaCoworking] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-4, groupId=some] Node -1 disconnected.
-2025-01-10T22:50:26.468+05:00  INFO 15380 --- [BrusnikaCoworking] [ntainer#3-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-2, groupId=some] Node -1 disconnected.
-2025-01-10T22:50:26.468+05:00  INFO 15380 --- [BrusnikaCoworking] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-1, groupId=some] Node -1 disconnected.
-2025-01-10T22:50:26.468+05:00  INFO 15380 --- [BrusnikaCoworking] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-3, groupId=some] Node -1 disconnected.
-2025-01-10T22:50:26.473+05:00  WARN 15380 --- [BrusnikaCoworking] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-1, groupId=some] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Node may not be available.
-2025-01-10T22:50:26.473+05:00  WARN 15380 --- [BrusnikaCoworking] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-4, groupId=some] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Node may not be available.
-2025-01-10T22:50:26.473+05:00  WARN 15380 --- [BrusnikaCoworking] [ntainer#3-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-2, groupId=some] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Node may not be available.
-2025-01-10T22:50:26.473+05:00  WARN 15380 --- [BrusnikaCoworking] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-3, groupId=some] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Node may not be available.
-2025-01-10T22:50:26.473+05:00  WARN 15380 --- [BrusnikaCoworking] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-4, groupId=some] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
-2025-01-10T22:50:26.474+05:00  WARN 15380 --- [BrusnikaCoworking] [ntainer#3-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-2, groupId=some] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
-2025-01-10T22:50:26.473+05:00  WARN 15380 --- [BrusnikaCoworking] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-1, groupId=some] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
-2025-01-10T22:50:26.474+05:00  WARN 15380 --- [BrusnikaCoworking] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-3, groupId=some] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
-2025-01-10T22:50:26.569+05:00  INFO 15380 --- [BrusnikaCoworking] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-1, groupId=some] Node -1 disconnected.
-2025-01-10T22:50:26.570+05:00  WARN 15380 --- [BrusnikaCoworking] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-1, groupId=some] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Node may not be available.
-2025-01-10T22:50:26.570+05:00  WARN 15380 --- [BrusnikaCoworking] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-1, groupId=some] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
-2025-01-10T22:50:26.574+05:00  INFO 15380 --- [BrusnikaCoworking] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-3, groupId=some] Node -1 disconnected.
-2025-01-10T22:50:26.574+05:00  WARN 15380 --- [BrusnikaCoworking] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-3, groupId=some] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Node may not be available.
-2025-01-10T22:50:26.574+05:00  WARN 15380 --- [BrusnikaCoworking] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-3, groupId=some] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
-2025-01-10T22:50:26.587+05:00  INFO 15380 --- [BrusnikaCoworking] [ntainer#3-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-2, groupId=some] Node -1 disconnected.
-2025-01-10T22:50:26.587+05:00  WARN 15380 --- [BrusnikaCoworking] [ntainer#3-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-2, groupId=some] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Node may not be available.
-2025-01-10T22:50:26.587+05:00  WARN 15380 --- [BrusnikaCoworking] [ntainer#3-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-2, groupId=some] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
-2025-01-10T22:50:26.599+05:00  INFO 15380 --- [BrusnikaCoworking] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-4, groupId=some] Node -1 disconnected.
-2025-01-10T22:50:26.599+05:00  WARN 15380 --- [BrusnikaCoworking] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-4, groupId=some] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Node may not be available.
-2025-01-10T22:50:26.599+05:00  WARN 15380 --- [BrusnikaCoworking] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-4, groupId=some] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
-2025-01-10T22:50:26.672+05:00  INFO 15380 --- [BrusnikaCoworking] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-1, groupId=some] Node -1 disconnected.
-2025-01-10T22:50:26.672+05:00  WARN 15380 --- [BrusnikaCoworking] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-1, groupId=some] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Node may not be available.
-2025-01-10T22:50:26.673+05:00  WARN 15380 --- [BrusnikaCoworking] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-1, groupId=some] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
-2025-01-10T22:50:26.688+05:00  INFO 15380 --- [BrusnikaCoworking] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-3, groupId=some] Node -1 disconnected.
-2025-01-10T22:50:26.689+05:00  WARN 15380 --- [BrusnikaCoworking] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-3, groupId=some] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Node may not be available.
-2025-01-10T22:50:26.689+05:00  WARN 15380 --- [BrusnikaCoworking] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-3, groupId=some] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
-2025-01-10T22:50:26.721+05:00  INFO 15380 --- [BrusnikaCoworking] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-4, groupId=some] Node -1 disconnected.
-2025-01-10T22:50:26.721+05:00  WARN 15380 --- [BrusnikaCoworking] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-4, groupId=some] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Node may not be available.
-2025-01-10T22:50:26.721+05:00  WARN 15380 --- [BrusnikaCoworking] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-4, groupId=some] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
-2025-01-10T22:50:26.766+05:00  INFO 15380 --- [BrusnikaCoworking] [ntainer#3-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-2, groupId=some] Node -1 disconnected.
-2025-01-10T22:50:26.766+05:00  WARN 15380 --- [BrusnikaCoworking] [ntainer#3-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-2, groupId=some] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Node may not be available.
-2025-01-10T22:50:26.766+05:00  WARN 15380 --- [BrusnikaCoworking] [ntainer#3-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-2, groupId=some] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
-2025-01-10T22:50:26.875+05:00  INFO 15380 --- [BrusnikaCoworking] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-3, groupId=some] Node -1 disconnected.
-2025-01-10T22:50:26.876+05:00  WARN 15380 --- [BrusnikaCoworking] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-3, groupId=some] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Node may not be available.
-2025-01-10T22:50:26.876+05:00  WARN 15380 --- [BrusnikaCoworking] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-3, groupId=some] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
-2025-01-10T22:50:26.922+05:00  INFO 15380 --- [BrusnikaCoworking] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-1, groupId=some] Node -1 disconnected.
-2025-01-10T22:50:26.923+05:00  WARN 15380 --- [BrusnikaCoworking] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-1, groupId=some] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Node may not be available.
-2025-01-10T22:50:26.923+05:00  WARN 15380 --- [BrusnikaCoworking] [ntainer#2-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-1, groupId=some] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
-2025-01-10T22:50:26.939+05:00  INFO 15380 --- [BrusnikaCoworking] [ntainer#3-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-2, groupId=some] Node -1 disconnected.
-2025-01-10T22:50:26.940+05:00  WARN 15380 --- [BrusnikaCoworking] [ntainer#3-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-2, groupId=some] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Node may not be available.
-2025-01-10T22:50:26.940+05:00  WARN 15380 --- [BrusnikaCoworking] [ntainer#3-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-2, groupId=some] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
-2025-01-10T22:50:26.971+05:00  INFO 15380 --- [BrusnikaCoworking] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-4, groupId=some] Node -1 disconnected.
-2025-01-10T22:50:26.971+05:00  WARN 15380 --- [BrusnikaCoworking] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-4, groupId=some] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Node may not be available.
-2025-01-10T22:50:26.971+05:00  WARN 15380 --- [BrusnikaCoworking] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-some-4, groupId=some] Bootstrap broker localhost:9092 (id: -1 rack: null) disconnected
+2025-05-01T00:33:20.844+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] o.a.k.c.t.i.KafkaMetricsCollector        : initializing Kafka metrics collector
+2025-05-01T00:33:20.854+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] o.a.k.clients.consumer.ConsumerConfig    : These configurations '[spring.json.add.type.headers]' were supplied but are not used yet.
+2025-05-01T00:33:20.854+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.7.1
+2025-05-01T00:33:20.855+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: e2494e6ffb89f828
+2025-05-01T00:33:20.855+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1746041600854
+2025-05-01T00:33:20.855+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] o.a.k.c.c.internals.LegacyKafkaConsumer  : [Consumer clientId=consumer-some-4, groupId=some] Subscribed to topic(s): email_message_registration
+2025-05-01T00:33:20.875+05:00  INFO 13544 --- [BrusnikaCoworking] [    Test worker] c.e.B.BrusnikaCoworkingApplicationTests  : Started BrusnikaCoworkingApplicationTests in 6.517 seconds (process running for 7.878)
+2025-05-01T00:33:21.172+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    AsyncTask-1] org.hibernate.SQL                        : select te1_0.id_task,te1_0.id_reserval,te1_0.send_time,te1_0.type from task te1_0 where te1_0.send_time&lt;=? and te1_0.type=?
+2025-05-01T00:33:21.172+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.SQL                        : select ue1_0.id_user,ue1_0.count_block,ue1_0.password,ue1_0.realname,ue1_0.role,ue1_0.username from users ue1_0 where ue1_0.username=?
+2025-05-01T00:33:21.213+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.SQL                        : select ue1_0.id_user,ue1_0.count_block,ue1_0.password,ue1_0.realname,ue1_0.role,ue1_0.username from users ue1_0 where ue1_0.username=?
+2025-05-01T00:33:21.482+05:00  INFO 13544 --- [BrusnikaCoworking] [ntainer#2-0-C-1] org.apache.kafka.clients.Metadata        : [Consumer clientId=consumer-some-1, groupId=some] Cluster ID: knmi4icVS1GlaX0KUlZ97Q
+2025-05-01T00:33:21.482+05:00  INFO 13544 --- [BrusnikaCoworking] [ntainer#1-0-C-1] org.apache.kafka.clients.Metadata        : [Consumer clientId=consumer-some-4, groupId=some] Cluster ID: knmi4icVS1GlaX0KUlZ97Q
+2025-05-01T00:33:21.482+05:00  INFO 13544 --- [BrusnikaCoworking] [ntainer#3-0-C-1] org.apache.kafka.clients.Metadata        : [Consumer clientId=consumer-some-2, groupId=some] Cluster ID: knmi4icVS1GlaX0KUlZ97Q
+2025-05-01T00:33:21.482+05:00  INFO 13544 --- [BrusnikaCoworking] [ntainer#0-0-C-1] org.apache.kafka.clients.Metadata        : [Consumer clientId=consumer-some-3, groupId=some] Cluster ID: knmi4icVS1GlaX0KUlZ97Q
+2025-05-01T00:33:21.483+05:00  INFO 13544 --- [BrusnikaCoworking] [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-some-4, groupId=some] Discovered group coordinator localhost:9092 (id: 2147483646 rack: null)
+2025-05-01T00:33:21.483+05:00  INFO 13544 --- [BrusnikaCoworking] [ntainer#3-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-some-2, groupId=some] Discovered group coordinator localhost:9092 (id: 2147483646 rack: null)
+2025-05-01T00:33:21.483+05:00  INFO 13544 --- [BrusnikaCoworking] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-some-3, groupId=some] Discovered group coordinator localhost:9092 (id: 2147483646 rack: null)
+2025-05-01T00:33:21.483+05:00  INFO 13544 --- [BrusnikaCoworking] [ntainer#2-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-some-1, groupId=some] Discovered group coordinator localhost:9092 (id: 2147483646 rack: null)
+2025-05-01T00:33:21.487+05:00  INFO 13544 --- [BrusnikaCoworking] [ntainer#2-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-some-1, groupId=some] (Re-)joining group
+2025-05-01T00:33:21.488+05:00  INFO 13544 --- [BrusnikaCoworking] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-some-3, groupId=some] (Re-)joining group
+2025-05-01T00:33:21.487+05:00  INFO 13544 --- [BrusnikaCoworking] [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-some-4, groupId=some] (Re-)joining group
+2025-05-01T00:33:21.487+05:00  INFO 13544 --- [BrusnikaCoworking] [ntainer#3-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-some-2, groupId=some] (Re-)joining group
+2025-05-01T00:33:21.521+05:00  INFO 13544 --- [BrusnikaCoworking] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-some-3, groupId=some] Request joining group due to: need to re-join with the given member-id: consumer-some-3-8d054137-0c3e-442e-9d46-7b2241e5483b
+2025-05-01T00:33:21.521+05:00  INFO 13544 --- [BrusnikaCoworking] [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-some-4, groupId=some] Request joining group due to: need to re-join with the given member-id: consumer-some-4-a3d99475-247b-418f-9db7-1bb6dde28013
+2025-05-01T00:33:21.521+05:00  INFO 13544 --- [BrusnikaCoworking] [ntainer#2-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-some-1, groupId=some] Request joining group due to: need to re-join with the given member-id: consumer-some-1-6e86407d-1d38-4332-8795-3c3ec9a310cc
+2025-05-01T00:33:21.521+05:00  INFO 13544 --- [BrusnikaCoworking] [ntainer#3-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-some-2, groupId=some] Request joining group due to: need to re-join with the given member-id: consumer-some-2-cbdea3dc-1711-4fbd-ae61-92e3381b1e6a
+2025-05-01T00:33:21.521+05:00  INFO 13544 --- [BrusnikaCoworking] [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-some-4, groupId=some] (Re-)joining group
+2025-05-01T00:33:21.521+05:00  INFO 13544 --- [BrusnikaCoworking] [ntainer#2-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-some-1, groupId=some] (Re-)joining group
+2025-05-01T00:33:21.521+05:00  INFO 13544 --- [BrusnikaCoworking] [ntainer#3-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-some-2, groupId=some] (Re-)joining group
+2025-05-01T00:33:21.521+05:00  INFO 13544 --- [BrusnikaCoworking] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-some-3, groupId=some] (Re-)joining group
+2025-05-01T00:33:21.630+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.SQL                        : select count(*) from coworking ce1_0
+2025-05-01T00:33:21.655+05:00 DEBUG 13544 --- [BrusnikaCoworking] [    Test worker] org.hibernate.SQL                        : insert into code (code,send_time) values (?,?) returning id_code
 </pre>
 </span>
 </div>
@@ -604,7 +757,7 @@ WARNING: Dynamic loading of agents will be disallowed by default in a future rel
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 8.10.2</a> at 10 янв. 2025 г., 22:50:27</p>
+<a href="http://www.gradle.org">Gradle 8.10.2</a> at 1 мая 2025 г., 00:33:24</p>
 </div>
 </div>
 </body>
