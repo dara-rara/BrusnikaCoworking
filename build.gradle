@@ -45,6 +45,14 @@ dependencies {
 	implementation 'javax.xml.crypto:jsr105-api:1.0.1'
 	implementation 'org.springframework.boot:spring-boot-starter-mail:3.4.0'
 	implementation 'org.springframework.kafka:spring-kafka:3.3.0'
+//	implementation 'com.nimbusds:nimbus-jose-jwt:9.31'
+//	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+//	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+//	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+	// Для работы с JSON (необходимо для парсинга JWKS)
+	implementation 'net.minidev:json-smart:2.4.8'
+	implementation 'com.auth0:java-jwt:4.0.0'
 }
 
 tasks.named('test') {

@@ -1,6 +1,5 @@
 package com.example.BrusnikaCoworking.adapter.web.user;
 
-import com.example.BrusnikaCoworking.adapter.web.auth.dto.MessageResponse;
 import com.example.BrusnikaCoworking.adapter.web.auth.dto.StatusResponse;
 import com.example.BrusnikaCoworking.adapter.web.user.dto.profile.EditPassword;
 import com.example.BrusnikaCoworking.adapter.web.user.dto.profile.EditRealname;
@@ -101,9 +100,9 @@ public class UserController {
         return ResponseEntity.ok(new StatusResponse(user.getRole()));
     }
 
-//    @GetMapping("/test")
-//    public ResponseEntity<?> test() {
-//        return ResponseEntity.ok("test");
-//    }
+    @GetMapping("/test")
+    public ResponseEntity<?> test() {
+        return ResponseEntity.ok("test");
+    }
 
 }

@@ -9,8 +9,8 @@ token:
     #timeRefresh: 300000 #5 минут
 
 spring:
-  profiles:
-    active: dev
+#  profiles:
+#    active: dev
   application:
     name: BrusnikaCoworking
   jpa:
@@ -25,15 +25,15 @@ spring:
           unique_constraint_strategy: RECREATE_QUIETLY
   jackson:
     time-zone: Asia/Yekaterinburg
-#
-#  datasource:
-#    url: jdbc:postgresql://${PGHOST:localhost}:${PGPORT:6432}/${POSTGRES_DB:brusnika}?options=-c%20TimeZone=Asia/Yekaterinburg
-#    username: ${POSTGRES_USER:postgres}
-#    password: ${POSTGRES_PASSWORD:postgres}
-#    driver-class-name: org.postgresql.Driver
-#    database-platform: org.hibernate.dialect.PostgreSQLDialect
-#    initialization-mode: always
-#    continue-on-error: true
+
+  datasource:
+    url: jdbc:postgresql://${PGHOST:localhost}:${PGPORT:6432}/${POSTGRES_DB:brusnika}?options=-c%20TimeZone=Asia/Yekaterinburg
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    initialization-mode: always
+    continue-on-error: true
 
   mail:
     host: smtp.gmail.com
