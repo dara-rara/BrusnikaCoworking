@@ -13,7 +13,7 @@ logging:
     org.hibernate.SQL: DEBUG
     org.hibernate.type: TRACE
     org.springframework.transaction: DEBUG
-    
+
 spring:
 #  profiles:
 #    active: dev
@@ -33,7 +33,8 @@ spring:
     time-zone: Asia/Yekaterinburg
 
   datasource:
-    url: jdbc:postgresql://${PGHOST:localhost}:${PGPORT:6432}/${POSTGRES_DB:brusnika}?options=-c%20TimeZone=Asia/Yekaterinburg
+#    url: jdbc:postgresql://${PGHOST:localhost}:${PGPORT:6432}/${POSTGRES_DB:brusnika}?options=-c%20TimeZone=Asia/Yekaterinburg
+    url: jdbc:${postgresql://postgres:tyusbkMxurSnwPBsdgnCguaGThvtMNhy@postgres.railway.internal:5432/railway}?options=-c%20TimeZone=Asia/Yekaterinburg
     username: ${POSTGRES_USER:postgres}
     password: ${POSTGRES_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
