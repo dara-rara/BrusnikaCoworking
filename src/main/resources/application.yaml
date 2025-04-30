@@ -21,8 +21,8 @@ spring:
       hibernate:
         jdbc:
           time_zone: Asia/Yekaterinburg
-#  jackson:
-#    time-zone: Asia/Yekaterinburg
+  jackson:
+    time-zone: Asia/Yekaterinburg
 
   datasource:
     url: jdbc:postgresql://${PGHOST:localhost}:${PGPORT:6432}/${POSTGRES_DB:brusnika}?options=-c%20TimeZone=Asia/Yekaterinburg

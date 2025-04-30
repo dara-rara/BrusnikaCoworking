@@ -92,7 +92,6 @@ public class UserService implements UserDetailsService{
         var newUser = new UserEntity();
         newUser.setUsername(registrationRequest.getUsername());
         newUser.setRealname(registrationRequest.getRealname());
-        newUser.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
         newUser.setCountBlock(0);
         newUser.setRole(Role.USER);
         try {

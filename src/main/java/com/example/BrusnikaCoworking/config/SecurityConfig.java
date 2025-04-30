@@ -1,7 +1,7 @@
 package com.example.BrusnikaCoworking.config;
 
 import com.example.BrusnikaCoworking.config.jwt.AuthEntryPointJwt;
-import com.example.BrusnikaCoworking.config.jwt.JwtAuthenticationFilter;
+import com.example.BrusnikaCoworking.config.jwt.KeylockTokenFilter;
 import com.example.BrusnikaCoworking.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -33,7 +33,8 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+//    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final KeylockTokenFilter keylockTokenFilter;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final AuthEntryPointJwt unauthorizedHandler;
@@ -49,7 +50,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider())
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(keylockTokenFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

@@ -31,7 +31,7 @@ public class UserEntity implements UserDetails {
     @Column(name = "realname", nullable = false)
     private String realname;
     @Column(name = "password", nullable = false)
-    private String password;
+    private String password = "keylock";
     @Column(name = "count_block", nullable = false)
     private Integer countBlock;
 //    @Enumerated(EnumType.STRING)

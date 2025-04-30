@@ -10,13 +10,11 @@ import java.time.LocalDateTime;
 public class LogupUser {
     private String username;
     private String realname;
-    private String password;
     private LocalDateTime time = LocalDateTime.now();
 
 
-    public LogupUser(String username, String realname, String password) {
+    public LogupUser(String username, String realname) {
         this.username = username;
         this.realname = realname;
-        this.password = password;
     }
 }
