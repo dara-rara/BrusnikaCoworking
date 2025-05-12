@@ -1,7 +1,9 @@
 package com.example.BrusnikaCoworking.config;
 
 import com.example.BrusnikaCoworking.adapter.repository.CoworkingRepository;
+import com.example.BrusnikaCoworking.adapter.repository.UserRepository;
 import com.example.BrusnikaCoworking.domain.reserval.CoworkingEntity;
+import com.example.BrusnikaCoworking.domain.user.Role;
 import com.example.BrusnikaCoworking.service.CodingService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -17,18 +19,16 @@ import org.springframework.transaction.annotation.Transactional;
 public class AdminCommandLineRunner implements CommandLineRunner {
     private final CoworkingRepository coworkingRepository;
     private final CodingService codingService;
+    private final UserRepository userRepository;
 
     @Override
     public void run(String... args) {
-//        if (userRepository.findByUsername("admin@urfu.me").isEmpty()) {
-//            var user = new UserEntity();
-//            user.setUsername("admin@urfu.me");
-//            user.setRealname("admin");
-//            user.setPassword(passwordEncoder.encode("111111"));
-//            user.setRole(Role.ADMIN);
-//            user.setCountBlock(0);
-//            userRepository.save(user);
-//        }
+        var user = userRepository.findByUsername("Diana.Sufianova@urfu.me");
+        if (user.isPresent()) {
+            var ent = user.get();
+            ent.setRole(Role.ADMIN);
+            userRepository.save(ent);
+        }
 //        if (userRepository.findByUsername("user@urfu.me").isEmpty()) {
 //            var user = new UserEntity();
 //            user.setUsername("user@urfu.me");
