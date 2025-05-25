@@ -41,7 +41,7 @@ public class NotificationScheduler {
 
     @Async("taskExecutor")
     @Transactional(rollbackFor = Exception.class, timeout = 30) // Тайм-аут 30 секунд
-    @Scheduled(fixedRate = 60000 * 5) // Запуск каждые 5 минут
+    @Scheduled(fixedRate = 60000 * 3) // Запуск каждые 3 минут
     public void createNotificationsCode() {
         try {
             var now = LocalDateTime.now();
@@ -105,7 +105,7 @@ public class NotificationScheduler {
 
     @Async("taskExecutor")
     @Transactional(rollbackFor = Exception.class, timeout = 30) // Тайм-аут 30 секунд
-    @Scheduled(cron = "0 0 */3 * * *") // Запуск каждые 3 часов
+    @Scheduled(cron = "0 0 */1 * * *") // Запуск каждые 1 часов
     public void checkReservationsCreated24HoursAgoWithStateGroupTrue() {
         try {
             var twentyFourHoursAgo = LocalDateTime.now().minusHours(24);
@@ -135,15 +135,21 @@ public class NotificationScheduler {
             var unconfirmedReservals =
                     reservalRepository.findByStateReservalAndDateBeforeAndStateGroup(now.toLocalDate());
             List<ReservalEntity> reservals = new ArrayList<>();
+            List<NotificationEntity> notifications = new ArrayList<>();
             for (var reserval : unconfirmedReservals) {
                 var user = reserval.getUser();
                 user.setCountBlock(user.getCountBlock() + 1);
                 userRepository.save(user);
                 reserval.setStateReserval(State.UNCONFIRMED);
                 reservals.add(reserval);
+                var notification = new NotificationEntity();
+                notification.setSendTime(now);
+                notification.setReserval(reserval);
+                notification.setUser(user);
+                notification.setType(Type.FINE);
+                notification.setState(State.FALSE);
+                notifications.add(notification);
             }
-            // Пакетное сохранение
-            reservalRepository.saveAll(reservals);
 
             //Проверка ложных приглашений других людей
             var unconfirmedGroup =  reservalRepository.findByStateGroup(State.UNCONFIRMED);
@@ -156,6 +162,7 @@ public class NotificationScheduler {
             }
             // Пакетное сохранение
             reservalRepository.saveAll(reservals);
+            notificationRepository.saveAll(notifications);
 
         } catch (Exception e) {
             // Логирование исключения
@@ -182,15 +189,12 @@ public class NotificationScheduler {
     @Scheduled(cron = "0 0 1 ? */5 SAT") // Запуск в 05:00 каждый месяц по субботам
     public void deleteOldReservalsAndNotifications() {
         try {
-            var MonthAgo = LocalDateTime.now().minusMonths(1); // Дата 5 месяцев назад
-            List<ReservalEntity> oldReservals = reservalRepository.findByDateBefore(MonthAgo.toLocalDate());
+            var MonthAgo = LocalDateTime.now().minusMonths(6); // Дата 6 месяцев назад
+            List<ReservalEntity> oldReservals = reservalRepository.findByDateBeforeAndStateReservalNot(
+                    MonthAgo.toLocalDate(), State.UNCONFIRMED);
             //при реальном использовании лучше делать через каскадное удалени,
             //но там есть вопросы с конкуретным доступом к ReservalEntity, так как при создании уведомления,
             //нужно менять сущность ReservalEntity(сохранять NotificationEntity в список ReservalEntity)
-            for (var reserval : oldReservals) {
-                // Удаляем связанные уведомления
-                notificationRepository.deleteByReserval(reserval);
-            }
             reservalRepository.deleteAll(oldReservals);
             notificationRepository.deleteBySendTimeBefore(MonthAgo);
             codeRepository.deleteBySendTimeBefore(MonthAgo);

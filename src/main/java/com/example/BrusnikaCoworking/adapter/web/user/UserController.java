@@ -35,12 +35,18 @@ public class UserController {
         return ResponseEntity.ok(profileNotificationService.getProfile(user));
     }
 
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
-    @PostMapping("/updatePassword")
-    public ResponseEntity<?> updatePassword(@AuthenticationPrincipal UserEntity user,
-                                            @RequestBody EditPassword editPassword) {
-        return ResponseEntity.ok(userService.updatePasswordProfile(user, editPassword));
+    @PreAuthorize("hasAuthority('USER')")
+    @GetMapping("/countNotification")
+    public ResponseEntity<?> getCountNotification(@AuthenticationPrincipal UserEntity user) {
+        return ResponseEntity.ok(profileNotificationService.getNotificationCount(user));
     }
+//
+//    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+//    @PostMapping("/updatePassword")
+//    public ResponseEntity<?> updatePassword(@AuthenticationPrincipal UserEntity user,
+//                                            @RequestBody EditPassword editPassword) {
+//        return ResponseEntity.ok(userService.updatePasswordProfile(user, editPassword));
+//    }
 
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
     @PostMapping("/updateRealname")
@@ -75,10 +81,22 @@ public class UserController {
         return ResponseEntity.ok(userService.getUsers(prefix, user.getId_user()));
     }
 
+//    @PreAuthorize("hasAuthority('USER')")
+//    @GetMapping("/notifications")
+//    public ResponseEntity<?> getAllNotification(@AuthenticationPrincipal UserEntity user) {
+//        return ResponseEntity.ok(profileNotificationService.getListsNotificationAndReserval(user));
+//    }
+
     @PreAuthorize("hasAuthority('USER')")
-    @GetMapping("/notifications")
+    @GetMapping("/notificationsSort")
     public ResponseEntity<?> getAllNotification(@AuthenticationPrincipal UserEntity user) {
-        return ResponseEntity.ok(profileNotificationService.getListsNotificationAndReserval(user));
+        return ResponseEntity.ok(profileNotificationService.allNotification(user));
+    }
+
+    @PreAuthorize("hasAuthority('USER')")
+    @GetMapping("/reservalsSort")
+    public ResponseEntity<?> getAllReserval(@AuthenticationPrincipal UserEntity user) {
+        return ResponseEntity.ok(reservalService.reservalsAllUser(user));
     }
 
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")

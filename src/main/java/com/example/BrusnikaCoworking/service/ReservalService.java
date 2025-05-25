@@ -9,10 +9,9 @@ import com.example.BrusnikaCoworking.adapter.web.admin.dto.reserval.ReservalActi
 import com.example.BrusnikaCoworking.adapter.web.admin.dto.reserval.ReservalAdminForm;
 import com.example.BrusnikaCoworking.adapter.web.auth.dto.MessageResponse;
 import com.example.BrusnikaCoworking.adapter.web.auth.dto.mail.KafkaMailMessage;
-import com.example.BrusnikaCoworking.adapter.web.user.dto.reserval.Code;
-import com.example.BrusnikaCoworking.adapter.web.user.dto.reserval.DateAndTime;
+import com.example.BrusnikaCoworking.adapter.web.user.dto.notification.NotificationAndReserval;
+import com.example.BrusnikaCoworking.adapter.web.user.dto.reserval.*;
 import com.example.BrusnikaCoworking.adapter.web.user.dto.notification.ReservalActive;
-import com.example.BrusnikaCoworking.adapter.web.user.dto.reserval.ReservalForm;
 import com.example.BrusnikaCoworking.config.kafka.KafkaProducer;
 import com.example.BrusnikaCoworking.domain.notification.NotificationEntity;
 import com.example.BrusnikaCoworking.domain.notification.Type;
@@ -40,7 +39,9 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -59,6 +60,73 @@ public class ReservalService {
     private static final DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     private static final DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("HH:mm");
 
+    public ReservalDateCategories reservalsAllUser(UserEntity user) {
+        var now = LocalDateTime.now();
+        LocalDate today = now.toLocalDate();
+        LocalTime currentTime = now.toLocalTime();
+        List<ReservalEntity> reservalsNew = reservalRepository.findByUserAndStateReservalOrderByDateDescTimeStartDesc(user, State.TRUE);
+
+        Map<String, List<Reserval>> categorizedReservals = new HashMap<>();
+        categorizedReservals.put("today", new ArrayList<>());
+        categorizedReservals.put("last7Days", new ArrayList<>());
+        categorizedReservals.put("lastMonth", new ArrayList<>());
+
+        for (var reserval : reservalsNew) {
+            String invitUsername = reserval.getInvit() != null ? reserval.getInvit().getUsername() : "";
+
+            State state = reserval.getDate().equals(today)
+                    && currentTime.isAfter(reserval.getTimeStart())
+                    && currentTime.isBefore(reserval.getTimeEnd())
+                    && reserval.getStateGroup().equals(State.FALSE) ? State.EXPECTATION : reserval.getStateReserval();
+
+            Reserval form = new Reserval(
+                    reserval.getId_reserval(),
+                    DateTimeFormatter.ofPattern("dd.MM.yyyy").format(reserval.getDate()),
+                    DateTimeFormatter.ofPattern("HH:mm").format(reserval.getTimeStart()),
+                    DateTimeFormatter.ofPattern("HH:mm").format(reserval.getTimeEnd()),
+                    DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm").format(reserval.getSendTime()),
+                    reserval.getTable().getNumber(),
+                    state,
+                    reserval.getStateGroup(),
+                    invitUsername
+            );
+
+            if (reserval.getSendTime().toLocalDate().isEqual(now.toLocalDate())) {
+                categorizedReservals.get("today").add(form);
+            } else if (reserval.getSendTime().isAfter(now.minusDays(7))) {
+                categorizedReservals.get("last7Days").add(form);
+            } else {
+                categorizedReservals.get("lastMonth").add(form);
+            }
+        }
+
+        List<Reserval> categoriesOld = new ArrayList<>();
+        List<ReservalEntity> reservalsOld = reservalRepository.findByUserAndStateReservalNotOrderByDateDescTimeStartDesc(user, State.TRUE);
+        for (var reserval : reservalsOld) {
+            if (!reserval.getStateReserval().equals(State.VERIFIED)) {
+                String invitUsername = reserval.getInvit() != null ? reserval.getInvit().getUsername() : "";
+
+                Reserval form = new Reserval(
+                        reserval.getId_reserval(),
+                        DateTimeFormatter.ofPattern("dd.MM.yyyy").format(reserval.getDate()),
+                        DateTimeFormatter.ofPattern("HH:mm").format(reserval.getTimeStart()),
+                        DateTimeFormatter.ofPattern("HH:mm").format(reserval.getTimeEnd()),
+                        DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm").format(reserval.getSendTime()),
+                        reserval.getTable().getNumber(),
+                        reserval.getStateReserval(),
+                        reserval.getStateGroup(),
+                        invitUsername
+                );
+
+                categoriesOld.add(form);
+            }
+        }
+        return new ReservalDateCategories(categorizedReservals.get("today"),
+                categorizedReservals.get("last7Days"),
+                categorizedReservals.get("lastMonth"),
+                categoriesOld);
+    }
+
     public MessageResponse cancelReserval(Long id, UserEntity user) {
         var optional = reservalRepository.findById(id);
         if (optional.isEmpty()) throw new ReservalException("reserval not found");
@@ -72,6 +140,14 @@ public class ReservalService {
                 || reserval.getDate().isBefore(currentDate))
             throw new ReservalException("it is not possible to cancel during or after reserval");
         reserval.setStateReserval(State.FALSE);
+        reservalRepository.save(reserval);
+        var notification = new NotificationEntity();
+        notification.setSendTime(LocalDateTime.now());
+        notification.setReserval(reserval);
+        notification.setUser(user);
+        notification.setType(Type.CANCEL);
+        notification.setState(State.FALSE);
+        notificationRepository.save(notification);
         return new MessageResponse("reserval cancelled");
     }
 
@@ -164,6 +240,13 @@ public class ReservalService {
         if (reserval.getStateGroup().equals(State.TRUE)) {
             reserval.setStateGroup(State.CONFIRMED);
             reservalRepository.save(reserval);
+            var notification = new NotificationEntity();
+            notification.setSendTime(LocalDateTime.now());
+            notification.setReserval(reserval);
+            notification.setUser(reserval.getUser());
+            notification.setType(Type.CREATE);
+            notification.setState(State.FALSE);
+            notificationRepository.save(notification);
             return new MessageResponse("reserval confirmed");
         }
         else if (reserval.getStateGroup().equals(State.CONFIRMED))
@@ -239,6 +322,13 @@ public class ReservalService {
                     if (user.getUsername().equals(form.usernames().get(i))) {
                         reserval.setStateGroup(State.FALSE);
                         reservalRepository.save(reserval);
+                        var notification = new NotificationEntity();
+                        notification.setSendTime(now);
+                        notification.setReserval(reserval);
+                        notification.setUser(userReserval);
+                        notification.setType(Type.CREATE);
+                        notification.setState(State.FALSE);
+                        notificationRepository.save(notification);
                     } else {
                         reserval.setStateGroup(State.TRUE);
                         reserval.setInvit(user);
@@ -248,12 +338,20 @@ public class ReservalService {
                         notification.setReserval(reserval);
                         notification.setUser(userReserval);
                         notification.setType(Type.GROUP);
+                        notification.setState(State.FALSE);
                         notificationRepository.save(notification);
                         reservalGroupNotification(reserval);
                     }
                 } else {
                     reserval.setStateGroup(State.FALSE);
                     reservalRepository.save(reserval);
+                    var notification = new NotificationEntity();
+                    notification.setSendTime(now);
+                    notification.setReserval(reserval);
+                    notification.setUser(userReserval);
+                    notification.setType(Type.CREATE);
+                    notification.setState(State.FALSE);
+                    notificationRepository.save(notification);
                 }
                 taskService.scheduleNotificationCode(reserval,
                         LocalDateTime.of(reserval.getDate(), reserval.getTimeStart()));

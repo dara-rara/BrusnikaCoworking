@@ -41,7 +41,10 @@ public interface ReservalRepository extends JpaRepository<ReservalEntity,Long> {
             nativeQuery = true)
     List<ReservalEntity> findByStateReservalAndDateBeforeAndStateGroup(
             @Param("date") LocalDate date);
-    List<ReservalEntity> findByDateBefore(LocalDate date);
+    List<ReservalEntity> findByDateBeforeAndStateReservalNot(
+            LocalDate date,
+            State stateReserval
+    );
     List<ReservalEntity> findBySendTimeBeforeAndStateGroup(LocalDateTime sendTime, State stateGroup);
 
     @Query(value = "SELECT r.id_reserval FROM Reservals r\n" +
@@ -56,6 +59,16 @@ public interface ReservalRepository extends JpaRepository<ReservalEntity,Long> {
                                                      @Param("time1") Date time1,
                                                      @Param("time2") Date time2,
                                                      @Param("user") Long user);
+
+    List<ReservalEntity> findByUserAndStateReservalOrderByDateDescTimeStartDesc(
+            UserEntity user,
+            State stateReserval
+    );
+
+    List<ReservalEntity> findByUserAndStateReservalNotOrderByDateDescTimeStartDesc(
+            UserEntity user,
+            State stateReserval
+    );
 
 }
 
