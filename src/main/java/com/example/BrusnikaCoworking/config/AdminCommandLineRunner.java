@@ -23,7 +23,7 @@ public class AdminCommandLineRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        var user = userRepository.findByUsername("Diana.Sufianova@urfu.me");
+        var user = userRepository.findByUsername("dianasuf13@gmail.com");
         if (user.isPresent()) {
             var ent = user.get();
             ent.setRole(Role.ADMIN);
