@@ -20,7 +20,7 @@ public class TaskService {
     private final TaskRepository taskRepository;
 
     public void scheduleNotificationCode(ReservalEntity reserval, LocalDateTime reservalTime) {
-        var sendTime = reservalTime.minusMinutes(30); // Уведомление за 30 минут до бронирования
+        var sendTime = reservalTime.minusHours(2); // Уведомление за 2 часа до бронирования
         var task = new TaskEntity();
         task.setReserval(reserval);
         task.setSendTime(sendTime);

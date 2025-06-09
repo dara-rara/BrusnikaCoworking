@@ -64,19 +64,13 @@ public class ProfileNotificationService {
 
         var notificationsEntity = notificationRepository.findByUserOrderBySendTimeDesc(user);
         for(var item : notificationsEntity) {
-            var reserval = item.getReserval();
-            var invit = "";
             if (item.getState().equals(State.FALSE)) {
                 var form = new NotificationForm(
                         item.getId_notif(),
-                        DateTimeFormatter.ofPattern("dd.MM.YYYY").format(reserval.getDate()),
-                        DateTimeFormatter.ofPattern("HH:mm").format(reserval.getTimeStart()),
-                        DateTimeFormatter.ofPattern("HH:mm").format(reserval.getTimeEnd()),
-                        reserval.getTable().getNumber(),
                         DateTimeFormatter.ofPattern("dd.MM.YYYY HH:mm").format(item.getSendTime()),
-                        item.getType(),
-                        item.getState(),
-                        invit
+                        item.getTitle(),
+                        item.getText(),
+                        item.getState()
                 );
                 notificationsFalse.add(form);
                 item.setState(State.TRUE);
@@ -84,14 +78,10 @@ public class ProfileNotificationService {
             } else {
                 var form = new NotificationForm(
                         item.getId_notif(),
-                        DateTimeFormatter.ofPattern("dd.MM.YYYY").format(reserval.getDate()),
-                        DateTimeFormatter.ofPattern("HH:mm").format(reserval.getTimeStart()),
-                        DateTimeFormatter.ofPattern("HH:mm").format(reserval.getTimeEnd()),
-                        reserval.getTable().getNumber(),
                         DateTimeFormatter.ofPattern("dd.MM.YYYY HH:mm").format(item.getSendTime()),
-                        item.getType(),
-                        item.getState(),
-                        invit
+                        item.getTitle(),
+                        item.getText(),
+                        item.getState()
                 );
                 notificationsTrue.add(form);
             }

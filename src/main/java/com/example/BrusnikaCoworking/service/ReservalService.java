@@ -147,6 +147,9 @@ public class ReservalService {
         notification.setUser(user);
         notification.setType(Type.CANCEL);
         notification.setState(State.FALSE);
+        notification.setTitle("Отмена бронирования");
+        notification.setText("Вы отменили бронирование на " + reserval.getDate()
+                .format(DateTimeFormatter.ofPattern("dd.MM.yy")) + ".");
         notificationRepository.save(notification);
         return new MessageResponse("reserval cancelled");
     }
@@ -226,6 +229,15 @@ public class ReservalService {
                 if (code.equals(response.code())) {
                     reserval.setStateReserval(State.CONFIRMED);
                     reservalRepository.save(reserval);
+                    var notification = new NotificationEntity();
+                    notification.setSendTime(LocalDateTime.now());
+                    notification.setReserval(reserval);
+                    notification.setUser(reserval.getUser());
+                    notification.setType(Type.CODE);
+                    notification.setState(State.FALSE);
+                    notification.setTitle("Подтверждение присутствия");
+                    notification.setText("Мы рады, что Вы пришли! Ваше бронирование подтверждено.");
+                    notificationRepository.save(notification);
                     return new MessageResponse("reserval confirmed");
                 }
                 throw new ResourceException("the code is incorrect");
@@ -246,7 +258,21 @@ public class ReservalService {
             notification.setUser(reserval.getUser());
             notification.setType(Type.CREATE);
             notification.setState(State.FALSE);
+            notification.setTitle("Бронирование");
+            notification.setText("Вы забронировали коворкинг на " + reserval.getDate().format(DateTimeFormatter.ofPattern("dd.MM.yy")) +
+                    " с " + reserval.getTimeStart().format(DateTimeFormatter.ofPattern("HH:mm")) +
+                    " до " + reserval.getTimeEnd().format(DateTimeFormatter.ofPattern("HH:mm")) + "! Место №" +
+                    reserval.getTable().getNumber().toString());
             notificationRepository.save(notification);
+            var notificationInvit = new NotificationEntity();
+            notificationInvit.setSendTime(LocalDateTime.now());
+            notificationInvit.setReserval(reserval);
+            notificationInvit.setUser(reserval.getInvit());
+            notificationInvit.setType(Type.GROUP);
+            notificationInvit.setState(State.FALSE);
+            notificationInvit.setTitle("Подтверждение приглашения");
+            notificationInvit.setText("Пользователь " + reserval.getUser().getUsername() + " принял Ваше приглашение.");
+            notificationRepository.save(notificationInvit);
             return new MessageResponse("reserval confirmed");
         }
         else if (reserval.getStateGroup().equals(State.CONFIRMED))
@@ -325,9 +351,14 @@ public class ReservalService {
                         var notification = new NotificationEntity();
                         notification.setSendTime(now);
                         notification.setReserval(reserval);
-                        notification.setUser(userReserval);
+                        notification.setUser(user);
                         notification.setType(Type.CREATE);
                         notification.setState(State.FALSE);
+                        notification.setTitle("Бронирование");
+                        notification.setText("Вы забронировали коворкинг на " + reserval.getDate().format(DateTimeFormatter.ofPattern("dd.MM.yy")) +
+                                " с " + reserval.getTimeStart().format(DateTimeFormatter.ofPattern("HH:mm")) +
+                                " до " + reserval.getTimeEnd().format(DateTimeFormatter.ofPattern("HH:mm")) + "! Место №" +
+                                reserval.getTable().getNumber().toString());
                         notificationRepository.save(notification);
                     } else {
                         reserval.setStateGroup(State.TRUE);
@@ -339,7 +370,22 @@ public class ReservalService {
                         notification.setUser(userReserval);
                         notification.setType(Type.GROUP);
                         notification.setState(State.FALSE);
+                        notification.setTitle("Приглашение");
+                        notification.setText("Пользователь " + user.getUsername() + " забронировал для Вас место №" +
+                                reserval.getTable().getNumber().toString() + " в коворкинге на " +
+                                reserval.getDate().format(DateTimeFormatter.ofPattern("dd.MM.yy")) +
+                                ". Подтвердите в разделе «Бронирования» в течение суток.");
                         notificationRepository.save(notification);
+                        var notificationInvit = new NotificationEntity();
+                        notificationInvit.setSendTime(now);
+                        notificationInvit.setReserval(reserval);
+                        notificationInvit.setUser(user);
+                        notificationInvit.setType(Type.GROUP);
+                        notificationInvit.setState(State.FALSE);
+                        notificationInvit.setTitle("Отправка приглашения");
+                        notificationInvit.setText("Вы отправили приглашение пользователю " +
+                                userReserval.getUsername() + ".");
+                        notificationRepository.save(notificationInvit);
                         reservalGroupNotification(reserval);
                     }
                 } else {
@@ -351,6 +397,11 @@ public class ReservalService {
                     notification.setUser(userReserval);
                     notification.setType(Type.CREATE);
                     notification.setState(State.FALSE);
+                    notification.setTitle("Бронирование");
+                    notification.setText("Вы забронировали коворкинг на " + reserval.getDate().format(DateTimeFormatter.ofPattern("dd.MM.yy")) +
+                            " с " + reserval.getTimeStart().format(DateTimeFormatter.ofPattern("HH:mm")) +
+                            " до " + reserval.getTimeEnd().format(DateTimeFormatter.ofPattern("HH:mm")) + "! Место №" +
+                            reserval.getTable().getNumber().toString() + ".");
                     notificationRepository.save(notification);
                 }
                 taskService.scheduleNotificationCode(reserval,

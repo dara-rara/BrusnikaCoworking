@@ -41,7 +41,7 @@ public class NotificationScheduler {
 
     @Async("taskExecutor")
     @Transactional(rollbackFor = Exception.class, timeout = 30) // Тайм-аут 30 секунд
-    @Scheduled(fixedRate = 60000 * 3) // Запуск каждые 3 минут
+    @Scheduled(fixedRate = 60000 * 20) // Запуск каждые 20 минут
     public void createNotificationsCode() {
         try {
             var now = LocalDateTime.now();
@@ -57,7 +57,14 @@ public class NotificationScheduler {
                     notification.setSendTime(task.getSendTime());
                     notification.setReserval(reserval);
                     notification.setUser(reserval.getUser());
+                    notification.setState(State.FALSE);
                     notification.setType(Type.CODE);
+                    notification.setTitle("Напоминание о бронировании");
+                    notification.setText("А вы придете? Мы Вас ждем! " +
+                            "Вы забронировали коворкинг на " + reserval.getDate().format(DateTimeFormatter.ofPattern("dd.MM.yy")) +
+                            "с " + reserval.getTimeStart().format(DateTimeFormatter.ofPattern("HH:mm")) + " до " +
+                            reserval.getTimeEnd().format(DateTimeFormatter.ofPattern("HH:mm")) + "! Место №" +
+                            reserval.getTable().getNumber().toString() + ". Не забудьте подтвердить бронирование!");
                     notifications.add(notification);
                 }
                 taskIdsToDelete.add(task.getId_task()); // Добавляем задачу для удаления
@@ -84,6 +91,7 @@ public class NotificationScheduler {
             var tasks = taskRepository.findBySendTimeLessThanEqualAndType(now, Type.MEMENTO); // Получаем задачи с типом NOTIFICATION
 
             List<Long> taskIdsToDelete = new ArrayList<>();
+
             var formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
             for (var task : tasks) {
@@ -94,6 +102,7 @@ public class NotificationScheduler {
                 }
                 taskIdsToDelete.add(task.getId_task()); // Добавляем задачу для удаления
             }
+
             // Пакетное удаление
             taskRepository.deleteAllById(taskIdsToDelete);
         } catch (Exception e) {
@@ -148,6 +157,8 @@ public class NotificationScheduler {
                 notification.setUser(user);
                 notification.setType(Type.FINE);
                 notification.setState(State.FALSE);
+                notification.setTitle("Пропуск бронирования");
+                notification.setText("Жаль, что вы не пришли! Вам начислен 1 штрафной балл.");
                 notifications.add(notification);
             }
 
