@@ -17,6 +17,7 @@ import com.example.BrusnikaCoworking.domain.notification.NotificationEntity;
 import com.example.BrusnikaCoworking.domain.notification.Type;
 import com.example.BrusnikaCoworking.domain.reserval.ReservalEntity;
 import com.example.BrusnikaCoworking.domain.reserval.State;
+import com.example.BrusnikaCoworking.domain.reserval.TypeDesing;
 import com.example.BrusnikaCoworking.domain.user.Role;
 import com.example.BrusnikaCoworking.domain.user.UserEntity;
 import com.example.BrusnikaCoworking.exception.EmailException;
@@ -74,10 +75,18 @@ public class ReservalService {
         for (var reserval : reservalsNew) {
             String invitUsername = reserval.getInvit() != null ? reserval.getInvit().getUsername() : "";
 
-            State state = reserval.getDate().equals(today)
-                    && currentTime.isAfter(reserval.getTimeStart())
-                    && currentTime.isBefore(reserval.getTimeEnd())
-                    && reserval.getStateGroup().equals(State.FALSE) ? State.EXPECTATION : reserval.getStateReserval();
+//            State state = reserval.getDate().equals(today)
+//                    && currentTime.isAfter(reserval.getTimeStart())
+//                    && currentTime.isBefore(reserval.getTimeEnd())
+//                    && reserval.getStateGroup().equals(State.FALSE) ? State.EXPECTATION : reserval.getStateReserval();
+
+            TypeDesing typeDesing;
+            if (reserval.getStateGroup().equals(State.TRUE)) typeDesing = TypeDesing.GROUP;
+            else if (reserval.getDate().equals(today) && currentTime.isAfter(reserval.getTimeStart().minusHours(2))
+            && currentTime.isBefore(reserval.getTimeStart())) typeDesing = TypeDesing.ACTIVE_TWO_HOUR;
+            else if (reserval.getDate().equals(today) && currentTime.isAfter(reserval.getTimeStart())
+            && currentTime.isBefore(reserval.getTimeEnd())) typeDesing = TypeDesing.EXPECTATION_CODE;
+            else typeDesing = TypeDesing.ACTIVE;
 
             Reserval form = new Reserval(
                     reserval.getId_reserval(),
@@ -86,8 +95,7 @@ public class ReservalService {
                     DateTimeFormatter.ofPattern("HH:mm").format(reserval.getTimeEnd()),
                     DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm").format(reserval.getSendTime()),
                     reserval.getTable().getNumber(),
-                    state,
-                    reserval.getStateGroup(),
+                    typeDesing,
                     invitUsername
             );
 
@@ -105,6 +113,9 @@ public class ReservalService {
         for (var reserval : reservalsOld) {
             if (!reserval.getStateReserval().equals(State.VERIFIED)) {
                 String invitUsername = reserval.getInvit() != null ? reserval.getInvit().getUsername() : "";
+                TypeDesing typeDesing;
+                if (reserval.getStateReserval().equals(State.CONFIRMED)) typeDesing = TypeDesing.CONFIRMED;
+                else typeDesing = TypeDesing.UNCONFIRMED;
 
                 Reserval form = new Reserval(
                         reserval.getId_reserval(),
@@ -113,8 +124,7 @@ public class ReservalService {
                         DateTimeFormatter.ofPattern("HH:mm").format(reserval.getTimeEnd()),
                         DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm").format(reserval.getSendTime()),
                         reserval.getTable().getNumber(),
-                        reserval.getStateReserval(),
-                        reserval.getStateGroup(),
+                        typeDesing,
                         invitUsername
                 );
 
@@ -248,8 +258,20 @@ public class ReservalService {
         throw new ResourceException("the reserval was cancelled");
     }
 
-    public MessageResponse updateStateGroup(ReservalEntity reserval) {
-        if (reserval.getStateGroup().equals(State.TRUE)) {
+    public MessageResponse confirmGroupReserval(Long id) {
+        var reserval = reservalRepository.findById(id)
+                .orElseThrow(() -> new ResourceException("reserval not found"));
+        return updateStateGroup(reserval, State.CONFIRMED);
+    }
+
+    public MessageResponse unconfirmGroupReserval(Long id) {
+        var reserval = reservalRepository.findById(id)
+                .orElseThrow(() -> new ResourceException("reserval not found"));
+        return updateStateGroup(reserval, State.UNCONFIRMED);
+    }
+
+    public MessageResponse updateStateGroup(ReservalEntity reserval, State state) {
+        if (reserval.getStateGroup().equals(State.TRUE) && state.equals(State.CONFIRMED)) {
             reserval.setStateGroup(State.CONFIRMED);
             reservalRepository.save(reserval);
             var notification = new NotificationEntity();
@@ -275,8 +297,25 @@ public class ReservalService {
             notificationRepository.save(notificationInvit);
             return new MessageResponse("reserval confirmed");
         }
+        else if (reserval.getStateGroup().equals(State.TRUE) && state.equals(State.UNCONFIRMED)) {
+            reserval.setStateGroup(State.UNCONFIRMED);
+            reserval.setStateReserval(State.FALSE);
+            reservalRepository.save(reserval);
+            var notificationInvit = new NotificationEntity();
+            notificationInvit.setSendTime(LocalDateTime.now());
+            notificationInvit.setReserval(reserval);
+            notificationInvit.setUser(reserval.getInvit());
+            notificationInvit.setType(Type.GROUP);
+            notificationInvit.setState(State.FALSE);
+            notificationInvit.setTitle("Подтверждение приглашения");
+            notificationInvit.setText("Пользователь " + reserval.getUser().getUsername() + " не принял Ваше приглашение.");
+            notificationRepository.save(notificationInvit);
+            return new MessageResponse("reserval unconfirmed");
+        }
         else if (reserval.getStateGroup().equals(State.CONFIRMED))
             throw new ResourceException("the reserval has already been confirmed");
+        else if (reserval.getStateGroup().equals(State.UNCONFIRMED))
+            throw new ResourceException("the reserval has already been unconfirmed");
         else throw new ResourceException("the reserval is not group");
     }
 

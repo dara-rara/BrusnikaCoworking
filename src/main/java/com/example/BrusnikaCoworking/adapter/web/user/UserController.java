@@ -56,10 +56,16 @@ public class UserController {
         return ResponseEntity.ok(profileNotificationService.getProfile(user));
     }
 
-    @PreAuthorize("hasAuthority('USER')")
-    @GetMapping("/groupReserval/{id}")
+//    @PreAuthorize("hasAuthority('USER')")
+    @GetMapping("/groupReservalConfirm/{id}")
     public ResponseEntity<?> confirmGroupReserval(@PathVariable Long id) {
-        return ResponseEntity.ok(profileNotificationService.confirmGroupReserval(id));
+        return ResponseEntity.ok(reservalService.confirmGroupReserval(id));
+    }
+
+//    @PreAuthorize("hasAuthority('USER')")
+    @GetMapping("/groupReservalUnconfirm/{id}")
+    public ResponseEntity<?> unconfirmGroupReserval(@PathVariable Long id) {
+        return ResponseEntity.ok(reservalService.unconfirmGroupReserval(id));
     }
 
     @PreAuthorize("hasAuthority('USER')")

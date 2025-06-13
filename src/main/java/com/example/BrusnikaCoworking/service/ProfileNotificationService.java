@@ -43,19 +43,13 @@ public class ProfileNotificationService {
     }
 
     public Profile getProfile(UserEntity user) {
-         return new Profile(user.getUsername(), user.getRealname());
+         return new Profile(user.getUsername(), user.getRealname(), user.getCountBlock());
     }
     public ProfileAdmin getProfileAdmin(UserEntity user) {
         var opt = codeRepository.findTopByOrderBySendTimeDesc();
         String code = null;
         if (opt.isPresent()) code = opt.get().getCode();
         return new ProfileAdmin(user.getUsername(), user.getRealname(), code);
-    }
-
-    public MessageResponse confirmGroupReserval(Long id) {
-        var notification = notificationRepository.findById(id)
-                .orElseThrow(() -> new ResourceException("notification not found"));
-        return reservalService.updateStateGroup(notification.getReserval());
     }
 
     public Notification allNotification (UserEntity user) {
@@ -69,8 +63,7 @@ public class ProfileNotificationService {
                         item.getId_notif(),
                         DateTimeFormatter.ofPattern("dd.MM.YYYY HH:mm").format(item.getSendTime()),
                         item.getTitle(),
-                        item.getText(),
-                        item.getState()
+                        item.getText()
                 );
                 notificationsFalse.add(form);
                 item.setState(State.TRUE);
@@ -80,8 +73,7 @@ public class ProfileNotificationService {
                         item.getId_notif(),
                         DateTimeFormatter.ofPattern("dd.MM.YYYY HH:mm").format(item.getSendTime()),
                         item.getTitle(),
-                        item.getText(),
-                        item.getState()
+                        item.getText()
                 );
                 notificationsTrue.add(form);
             }

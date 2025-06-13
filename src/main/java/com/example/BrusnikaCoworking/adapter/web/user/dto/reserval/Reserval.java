@@ -1,6 +1,6 @@
 package com.example.BrusnikaCoworking.adapter.web.user.dto.reserval;
 
-import com.example.BrusnikaCoworking.domain.reserval.State;
+import com.example.BrusnikaCoworking.domain.reserval.TypeDesing;
 
 public record Reserval(Long id,
                        String dateReserval,
@@ -8,7 +8,6 @@ public record Reserval(Long id,
                        String timeEndReserval,
                        String sendTime,
                        Integer table,
-                       State stateReserval,
-                       State stateGroup,
+                       TypeDesing type,
                        String invit) {
 }
