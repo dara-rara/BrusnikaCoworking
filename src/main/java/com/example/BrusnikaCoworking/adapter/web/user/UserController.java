@@ -1,7 +1,6 @@
 package com.example.BrusnikaCoworking.adapter.web.user;
 
 import com.example.BrusnikaCoworking.adapter.web.auth.dto.StatusResponse;
-import com.example.BrusnikaCoworking.adapter.web.user.dto.profile.EditPassword;
 import com.example.BrusnikaCoworking.adapter.web.user.dto.profile.EditRealname;
 import com.example.BrusnikaCoworking.adapter.web.user.dto.reserval.Code;
 import com.example.BrusnikaCoworking.adapter.web.user.dto.reserval.DateAndTime;
@@ -38,7 +37,7 @@ public class UserController {
     @PreAuthorize("hasAuthority('USER')")
     @GetMapping("/countNotification")
     public ResponseEntity<?> getCountNotification(@AuthenticationPrincipal UserEntity user) {
-        return ResponseEntity.ok(profileNotificationService.getNotificationCount(user));
+        return ResponseEntity.ok(profileNotificationService.getNotificationAndReservalCount(user));
     }
 //
 //    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")

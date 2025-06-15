@@ -161,6 +161,18 @@ public class ReservalService {
         notification.setText("Вы отменили бронирование на " + reserval.getDate()
                 .format(DateTimeFormatter.ofPattern("dd.MM.yy")) + ".");
         notificationRepository.save(notification);
+        if (reserval.getStateGroup().equals(State.CONFIRMED)) {
+            var notificationInvit = new NotificationEntity();
+            notificationInvit.setSendTime(LocalDateTime.now());
+            notificationInvit.setReserval(reserval);
+            notificationInvit.setUser(reserval.getInvit());
+            notificationInvit.setType(Type.CANCEL);
+            notificationInvit.setState(State.FALSE);
+            notificationInvit.setTitle("Отмена бронирования");
+            notificationInvit.setText("Пользователь " + user.getUsername() + " отменил бронирование на " + reserval.getDate()
+                    .format(DateTimeFormatter.ofPattern("dd.MM.yy")) + ".");
+            notificationRepository.save(notificationInvit);
+        }
         return new MessageResponse("reserval cancelled");
     }
 
@@ -413,7 +425,7 @@ public class ReservalService {
                         notification.setText("Пользователь " + user.getUsername() + " забронировал для Вас место №" +
                                 reserval.getTable().getNumber().toString() + " в коворкинге на " +
                                 reserval.getDate().format(DateTimeFormatter.ofPattern("dd.MM.yy")) +
-                                ". Подтвердите в разделе «Бронирования» в течение суток.");
+                                ". Подтвердите в разделе Бронирования в течение суток.");
                         notificationRepository.save(notification);
                         var notificationInvit = new NotificationEntity();
                         notificationInvit.setSendTime(now);

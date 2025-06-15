@@ -70,5 +70,15 @@ public interface ReservalRepository extends JpaRepository<ReservalEntity,Long> {
             State stateReserval
     );
 
+    @Query(value = "SELECT COUNT(r) FROM Reservals r WHERE " +
+            "r.id_user = :userId AND " +
+            "r.date = :today AND " +
+            ":currentTime > r.time_start AND " +
+            ":currentTime < r.time_end", nativeQuery = true)
+    int countActiveReservationsForUser(
+            @Param("userId") Long userId,
+            @Param("today") LocalDate today,
+            @Param("currentTime") LocalTime currentTime);
 }
+
 

@@ -2,14 +2,14 @@ package com.example.BrusnikaCoworking.service;
 
 import com.example.BrusnikaCoworking.adapter.repository.CodeRepository;
 import com.example.BrusnikaCoworking.adapter.repository.NotificationRepository;
+import com.example.BrusnikaCoworking.adapter.repository.ReservalRepository;
 import com.example.BrusnikaCoworking.adapter.web.admin.dto.profile.ProfileAdmin;
 import com.example.BrusnikaCoworking.adapter.web.auth.dto.MessageResponse;
-import com.example.BrusnikaCoworking.adapter.web.user.dto.notification.CountNotification;
+import com.example.BrusnikaCoworking.adapter.web.user.dto.notification.CountNotificationReserval;
 import com.example.BrusnikaCoworking.adapter.web.user.dto.notification.Notification;
 import com.example.BrusnikaCoworking.adapter.web.user.dto.notification.NotificationForm;
 import com.example.BrusnikaCoworking.adapter.web.user.dto.profile.Profile;
 import com.example.BrusnikaCoworking.adapter.web.user.dto.reserval.Code;
-import com.example.BrusnikaCoworking.domain.notification.Type;
 import com.example.BrusnikaCoworking.domain.reserval.State;
 import com.example.BrusnikaCoworking.domain.user.UserEntity;
 import com.example.BrusnikaCoworking.exception.ResourceException;
@@ -19,6 +19,8 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,7 @@ public class ProfileNotificationService {
     private final NotificationRepository notificationRepository;
     private final ReservalService reservalService;
     private final CodeRepository codeRepository;
+    private final ReservalRepository reservalRepository;
 
     public MessageResponse confirmReservalCode(Long id, Code response) {
         var notification = notificationRepository.findById(id)
@@ -38,8 +41,12 @@ public class ProfileNotificationService {
         return reservalService.updateStateCode(notification.getReserval(), response);
     }
 
-    public CountNotification getNotificationCount(UserEntity user) {
-        return new CountNotification(notificationRepository.countByUserAndState(user, State.FALSE));
+    public CountNotificationReserval getNotificationAndReservalCount(UserEntity user) {
+        LocalDate today = LocalDate.now();
+        LocalTime currentTime = LocalTime.now();
+
+        return new CountNotificationReserval(notificationRepository.countByUserAndState(user, State.FALSE),
+                reservalRepository.countActiveReservationsForUser(user.getId_user(), today, currentTime));
     }
 
     public Profile getProfile(UserEntity user) {
