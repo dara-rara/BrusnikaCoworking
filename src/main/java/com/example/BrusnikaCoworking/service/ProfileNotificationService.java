@@ -46,7 +46,9 @@ public class ProfileNotificationService {
         LocalTime currentTime = LocalTime.now();
 
         return new CountNotificationReserval(notificationRepository.countByUserAndState(user, State.FALSE),
-                reservalRepository.countActiveReservationsForUser(user.getId_user(), today, currentTime));
+                reservalRepository.countActiveReservalForUser(user.getId_user(), today, currentTime)
+                + reservalRepository.countByUserAndStateGroup(user, State.TRUE)
+        );
     }
 
     public Profile getProfile(UserEntity user) {
