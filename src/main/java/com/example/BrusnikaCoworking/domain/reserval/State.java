@@ -5,6 +5,8 @@ public enum State {
     FALSE,
     CONFIRMED,
     UNCONFIRMED,
+
+    EXPECTATION,
     VERIFIED,
     ADMIN
 }

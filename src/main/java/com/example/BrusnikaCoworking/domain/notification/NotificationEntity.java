@@ -1,6 +1,7 @@
 package com.example.BrusnikaCoworking.domain.notification;
 
 import com.example.BrusnikaCoworking.domain.reserval.ReservalEntity;
+import com.example.BrusnikaCoworking.domain.reserval.State;
 import com.example.BrusnikaCoworking.domain.user.UserEntity;
 import com.example.BrusnikaCoworking.service.UserService;
 import jakarta.persistence.*;
@@ -36,4 +37,11 @@ public class NotificationEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
     private Type type;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "state", nullable = false)
+    private State state;//прочитано, непрочитано
+    @Column(name = "title", nullable = false)
+    private String title;
+    @Column(name = "text", nullable = false)
+    private String text;
 }
